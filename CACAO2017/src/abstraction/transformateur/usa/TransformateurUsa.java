@@ -94,16 +94,16 @@ public class TransformateurUsa implements transformateur,Acteur{
 
 	public double getprixMin(){
 		if (finis.getStockChocolat()<uniteventechocolat){
-			//journal.ajouter("Prix min="+bornesmax+1);
+			journal.ajouter("Prix min="+bornesmax+1);
 			return bornesmax+1;
 		}
 		else if (finis.getStockChocolat()<200*uniteventechocolat){
 			double prix= bornesmax-((finis.getStockChocolat()-10*uniteventechocolat)/(190*uniteventechocolat)*(bornesmin-bornesmax));
-			//journal.ajouter("Prix min="+prix);
+			journal.ajouter("Prix min="+prix);
 			return prix;
 		}
 		else{
-			//journal.ajouter("Prix min="+bornesmin);
+			journal.ajouter("Prix min="+bornesmin);
 			return bornesmin;
 		}
 	}
