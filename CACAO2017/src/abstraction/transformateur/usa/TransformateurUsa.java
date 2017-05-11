@@ -49,6 +49,12 @@ public class TransformateurUsa implements transformateur,Acteur{
 		Transfo =new TransfoChocolat(premiere,finis);
 		this.venteChocolat=0;
 		this.achatCacao=0;
+		this.achats= new Indicateur("5_TRAN_USA_achats",this,0.0);
+		Monde.LE_MONDE.ajouterIndicateur(this.achats);
+		this.ventes= new Indicateur("5_TRAN_USA_ventes",this,0.0);
+		Monde.LE_MONDE.ajouterIndicateur(this.ventes);
+		this.solde=new Indicateur("5_TRAN_USA_solde",this,0.0);
+		Monde.LE_MONDE.ajouterIndicateur(this.solde);
 	}
 	
 	public TransformateurUsa(Monde mo){
@@ -61,9 +67,9 @@ public class TransformateurUsa implements transformateur,Acteur{
 	public void next(){
 		produirechocolat();
 		achetermatièrepremière();
-		/*this.achats.setValeur(this, this.getAchatCacao());
+		this.achats.setValeur(this, this.getAchatCacao());
 		this.ventes.setValeur(this, this.getVenteChocolat());
-		this.solde.setValeur(this, this.tresorie.getCompteCourant());*/
+		this.solde.setValeur(this, this.tresorie.getCompteCourant());
 	}
 	//souchu
 	public void achetermatièrepremière(){

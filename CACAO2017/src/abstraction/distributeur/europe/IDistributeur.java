@@ -6,4 +6,6 @@ import abstraction.fourni.*;
 public interface IDistributeur extends Acteur{
 	public double getPrixMax();
 	public void notif(Vente vente);
+	public Indicateur getIndicateurStock();
+	public Indicateur getSolde();
 }

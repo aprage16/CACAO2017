@@ -59,7 +59,7 @@ public class Marche implements Acteur{
 		return indice_min;		
 	}
 	
-	public void next(){
+	public void Echanges(){
 		
 	
        // Définition des tests vérifiant si la boucle doit s'arrêter ou non 
@@ -76,25 +76,23 @@ public class Marche implements Acteur{
 		
 		// On vérifie qu'une transaction soit possible
 		
-		 boolean testPrix= true;
-				
-		 for (int i=0; i<this.transformateur.size(); i++){
-			 if ( Math.max(distributeur.get(1).getPrixMax(), distributeur.get(2).getPrixMax()) < Math.max(transformateur.get(1).getprixMin(), transformateur.get(2).getprixMin())){
-				 testPrix = false;
-			 }
-		 }
+		
+		int prioDistri=0;
+		int prioTransfo=0;
+		
+		prioDistri = this.indiceMaximum();
+		prioTransfo = this.indiceMinimum();
+					
+		 boolean testPrix = (distributeur.get(prioDistri).getPrixMax()<transformateur.get(prioTransfo).getprixMin()) ? false : true;
 		 
 			// Initialisation des deux variables définissant l'indice du distributeur et transformateur prioritaires
-			
-			int prioDistri=0;
-			int prioTransfo=0;
+
 			
 		 	if ((testFourchettePrix(test_t)||testFourchettePrix(test_d)) && testPrix){
 			
 			// Recherche de minimum & maximum
 			
-			prioDistri = this.indiceMaximum();
-			prioTransfo = this.indiceMinimum();
+
 			}
 			
 			// Définition du prix
@@ -111,6 +109,9 @@ public class Marche implements Acteur{
 			distributeur.get(autreDistri).notif(new Vente(prix, 0));
 			transformateur.get(prioTransfo).notificationAchat(unite, prix);
 			transformateur.get(autreTransfo).notificationAchat(0, prix);
+			distributeur.get(prioDistri).getIndicateurStock().setValeur(distributeur.get(prioDistri), prix*unite);
+			distributeur.get(autreDistri).getIndicateurStock().setValeur(distributeur.get(prioDistri), prix*unite);
+			
 			
 			
 		}
@@ -118,6 +119,10 @@ public class Marche implements Acteur{
 	@Override
 	public String getNom() {
 		return "Marche Distributeur / Transformateur";
+	}
+	
+	public void next(){
+		this.Echanges();
 	}
 
 	
