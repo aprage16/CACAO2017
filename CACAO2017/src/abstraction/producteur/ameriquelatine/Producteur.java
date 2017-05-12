@@ -2,7 +2,7 @@
 package abstraction.producteur.ameriquelatine;
 //26/04 Adrien
 
-import abstraction.fourni.Monde;
+import abstraction.distributeur.europe.MondeV1;
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 
@@ -14,8 +14,10 @@ public class Producteur implements IProducteur, Acteur {
 	private double qtevendue;
 	private Stock stock ;
 	private Recolte recolte ;
-//	private Indicateur quantiteVendue;
-	//private Indicateur solde;
+	private Indicateur quantiteVendue;
+	private Indicateur solde; //Trésorerie
+	private Indicateur stockind ;
+
 	
 	public Producteur(){
 		this.nom="Producteur AmeriqueLatine" ;
@@ -24,7 +26,12 @@ public class Producteur implements IProducteur, Acteur {
 		this.ventes=new GestionVentes(stock) ;
 		stock.setGestionVente(ventes) ;
 		this.treso=new Tresorerie(stock);
-		//this.quantiteVendue=new Indicateur("Quantite de feves vendues de"+this.nom, this, qtevendue);
+		this.quantiteVendue=new Indicateur("4_PROD_AMER_quantiteVendue", this,0.0);
+		MondeV1.LE_MONDE.ajouterIndicateur(this.quantiteVendue) ;
+		this.solde=new Indicateur("4_PROD_AMER_solde", this,0.0) ;
+		MondeV1.LE_MONDE.ajouterIndicateur(this.solde);
+		this.stockind=new Indicateur("4_PROD_AMER_stock", this,0.0) ;
+		MondeV1.LE_MONDE.ajouterIndicateur(this.stockind);
 	}
 	
 	public String getNom(){
@@ -45,12 +52,15 @@ public class Producteur implements IProducteur, Acteur {
 	public double getQteVendue(){
 		return this.qtevendue;
 	}
-
+	
 
 	public void notificationVente(double quantite, double coursActuel) {
-		this.treso.setTresorerie(this.treso.getTresorerie()+coursActuel*quantite-treso.coût());
+		this.treso.setTresorerie(this.treso.getTresorerie()+coursActuel*quantite-treso.cout());
 		this.setCoursActuel(coursActuel);
 		this.ventes.setQuantiteVendue(quantite);
+		this.quantiteVendue.setValeur(this, quantite);
+		this.solde.setValeur(this, this.treso.getTresorerie());
+		this.stockind.setValeur(this, this.stock.getInitial());
 	}
 	
 	public double quantiteMiseEnvente() {
@@ -60,5 +70,6 @@ public class Producteur implements IProducteur, Acteur {
 	public void next() {
 		stock.miseAJourStock() ; //mise à jour du stock
 		recolte.miseAJourIndice(); //mise à jour de l'indice de recolte
+		
 	}
 }
