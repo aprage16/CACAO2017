@@ -9,6 +9,9 @@ public class Distributeur implements Acteur,IDistributeur{
 	private Vente derniereVente; // derniere vente effectuee sur le marche
 	private double stock;
 	private double qteDemandee;
+	private Indicateur solde;
+	private Indicateur achats;
+	private String nom;
 	
 	public Distributeur(Vente vente, double stock, double qteDemandee){ // penser à redocoder en enlevant les arguments du constructeur
 		this.derniereVente = vente;
@@ -17,11 +20,27 @@ public class Distributeur implements Acteur,IDistributeur{
 	}
 	
 	public Distributeur(){
-		this.derniereVente = new Vente(1000,1000);
-		this.stock = 1000;
+		this.nom = "Distributeur europe";
+		this.derniereVente = new Vente(10,1000);
+		this.stock = 10000;
 		this.qteDemandee = 100;
+		
+		
+		this.achats = new Indicateur("Achats de "+this.nom, this, 0.0);
+		this.solde = new Indicateur("Solde de "+this.nom, this, 1000000.0);
+		
+    	Monde.LE_MONDE.ajouterIndicateur( this.achats );
+    	Monde.LE_MONDE.ajouterIndicateur( this.solde );
+        
 	}
 	
+	public Indicateur getIndicateurStock(){
+		return this.achats;
+	}
+	
+	public Indicateur getSolde(){
+		return this.solde;
+	}
 	public double getStock() {
 		return this.stock;
 	}
