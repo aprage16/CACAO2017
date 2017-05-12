@@ -55,7 +55,7 @@ public class Producteur implements IProducteur, Acteur {
 	
 
 	public void notificationVente(double quantite, double coursActuel) {
-		this.treso.setTresorerie(this.treso.getTresorerie()+coursActuel*quantite-treso.cout());
+		this.treso.setTresorerie(this.treso.getTresorerie()+coursActuel*quantite-treso.cout()); //dans le next?
 		this.setCoursActuel(coursActuel);
 		this.ventes.setQuantiteVendue(quantite);
 		this.quantiteVendue.setValeur(this, quantite);
@@ -68,7 +68,7 @@ public class Producteur implements IProducteur, Acteur {
 	}
 	
 	public void next() {
-		stock.miseAJourStock() ; //mise à jour du stock
+		stock.miseAJourStock() ; //mise à jour du stock à mettre dans notif? 
 		recolte.miseAJourIndice(); //mise à jour de l'indice de recolte
 		
 	}
