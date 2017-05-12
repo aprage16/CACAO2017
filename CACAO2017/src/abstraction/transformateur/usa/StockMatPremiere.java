@@ -33,6 +33,25 @@ public class StockMatPremiere {
 	public double getLecitine(){
 		return this.Lecitine;
 	}
+	
+	public void setIngredient(int i,double quantite){
+		switch(i){
+		case 0:this.setCacao(quantite);
+		case 1:this.setLait(quantite);
+		case 2:this.setSucre(quantite);
+		case 3:this.setLecitine(quantite);		
+		}
+	}
+	
+	public double getIngredient(int i){
+		switch(i){
+		case 0:return this.getCacao();
+		case 1:return this.getLait();
+		case 2:return this.getSucre();
+		case 3:return this.getLecitine();		
+		}
+		return 0;
+	}
 
 	
 	public void setCacao(double cacao){
