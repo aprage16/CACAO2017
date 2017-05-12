@@ -11,8 +11,9 @@ package abstraction.producteur.ameriquelatine;
 
 public class Tresorerie {
 //private double ca; //chiffres d'affaires de la période
-	public final static int CHARGESPROD=100000;// ($) charges fixes (hors coût de stock)
-	public final static double COUTSTOCK=0.3;
+
+	public final static int CHARGESPROD=10000000;// ($) charges fixes (hors coût de stock)
+	public final static double COUTSTOCK=100;
 	private double resultat; 
 	private double tresorerie; // argent en banque
 	private Stock stock;
@@ -31,7 +32,7 @@ public class Tresorerie {
 		 return this.tresorerie ;
 	}
 	
-	public double coût(){
+	public double cout(){
 		return CHARGESPROD + stock.getInitial()*COUTSTOCK; //on paye le cout du stock le mois d'après !!!
 	}
 	
