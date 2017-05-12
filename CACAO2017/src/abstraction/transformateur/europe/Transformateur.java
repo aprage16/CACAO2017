@@ -19,7 +19,7 @@ public class Transformateur implements transformateur, Acteur  {
 	public Transformateur (Stock s, Tresorerie compte){
 		this.s=s;
 		this.compte=compte;
-		this.stockchocolat=new Indicateur("3_TRAN_EU_stock",this,this.s.getstockchocolat());
+		this.stockchocolat=new Indicateur("3_TRAN_EU_stock",this,this.s.getStockChocolat());
 		this.tresorerie=new Indicateur("3_TRAN_EU_solde",this,this.compte.getCompte());
 		Monde.LE_MONDE.ajouterIndicateur( this.stockchocolat );
 		Monde.LE_MONDE.ajouterIndicateur( this.tresorerie );
@@ -31,7 +31,7 @@ public class Transformateur implements transformateur, Acteur  {
 	
 	public double getprixMin() {
 		double a = 1000*Math.random();
-		double stockchocolat=this.s.getstockchocolat();
+		double stockchocolat=this.s.getStockChocolat();
 		if (stockchocolat<100){
 			return 10000;
 		}
@@ -44,7 +44,7 @@ public class Transformateur implements transformateur, Acteur  {
 	
 	public void notif(double prix, double quantité) {
 		// TODO Auto-generated method stub
-		this.s.setstockchocolat(this.s.getstockchocolat()-quantité);
+		this.s.setstockchocolat(this.s.getStockChocolat()-quantité);
 		double chiffre_daffaire=prix*quantité;
 		this.compte.ajoutChiffredaffaire(chiffre_daffaire);
 		this.tresorerie.setValeur(this, this.compte.getCompte());
@@ -63,22 +63,22 @@ public class Transformateur implements transformateur, Acteur  {
 	}
 	
 	public double QteSouhaite(){
-		double stockCacao=this.s.getstockcacao();
+		double stockCacao=this.s.getStockCacao();
 		double stockMax=this.s.getStockMax();
 		return stockMax-stockCacao; //test
 		
 	}
 	
 	public void Transformation(){
-		this.s.setstockchocolat(this.s.getstockcacao()*0.6);
+		this.s.setstockchocolat(this.s.getStockCacao()*0.6);
 		this.s.setstockcacao(0);
 	}
 	
 	public void notificationAchat(double prix, double quantite){
-		this.s.setstockcacao(this.s.getstockcacao()+quantite);
+		this.s.setstockcacao(quantite);
 		double achat = prix*quantite;
 		this.compte.retraitAchat(achat);
-		this.stockchocolat.setValeur(this, this.s.getstockchocolat());
+		this.stockchocolat.setValeur(this, this.s.getStockChocolat());
 		this.tresorerie.setValeur(this, this.compte.getCompte());
 	}
 		
