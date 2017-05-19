@@ -36,7 +36,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 		this.quantiteAchetableGlobale=0.0;
 		this.quantiteVoulueGlobale=0.0;
 		this.coursActuel=3000;
-		this.journal= new Journal ("Le journal du"+this.getNom());
+		this.journal= new Journal ("Le journal du "+this.getNom());
 		Monde.LE_MONDE.ajouterJournal(this.journal);
 	}
 	
@@ -62,7 +62,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 		this.quantiteVoulueGlobale=quantite;
 	}
 	public String getNom() {
-		return "Marché du cacao entre producteur et transformateur";
+		return "Marché entre producteur et transformateur";
 	}
 	public void EvolutionDuCours () {
 		// La bourse va faire évoluer le coursActuel en fonction de l'offre et de la demande bornée entre coursMin et coursMax
