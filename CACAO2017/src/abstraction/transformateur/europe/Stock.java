@@ -2,34 +2,40 @@ package abstraction.transformateur.europe;
 
 public class Stock {
 
-	private double stockcacao;
-	private double stockchocolat;
-	private double stockMax;
+	private double stockCacao;
+	private double stockChocolat;
+	public static final int STOCK_MAX_CACAO = 50000;
+	public static final int STOCK_MAX_CHOCOLAT = 70000;
+	
 	
 	public Stock(){
-		this.stockcacao=10;
-		this.stockchocolat=10;
-		this.stockMax=100;
+		this.stockCacao=10;
+		this.stockChocolat=10;
 	}
 	
 	public double getStockCacao(){
-		return this.stockcacao;
+		return this.stockCacao;
 	}
 	
 	public double getStockChocolat(){
-		return this.stockchocolat;
+		return this.stockChocolat;
 	}
 	
-	public double getStockMax(){
-		return this.stockMax;
+	
+	public void ajoutCacao(double cacao){
+		this.stockCacao+=cacao;
 	}
 	
-	public void setstockcacao(double cacao){
-		this.stockcacao=this.getStockCacao()+cacao;
+	public void retraitCacao(double cacao){
+		this.stockCacao-=cacao;
 	}
 	
-	public void setstockchocolat(double choco){
-		this.stockchocolat=this.getStockChocolat()+choco;
+	public void ajoutChocolat(double chocolat){
+		this.stockChocolat+=chocolat;
+	}
+	
+	public void retraitChocolat(double chocolat){
+		this.stockChocolat-=chocolat;
 	}
 	
 	public String toString(){
