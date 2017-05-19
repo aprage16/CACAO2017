@@ -4,13 +4,13 @@ public class Test {
 	public static void main (String[] args) {
 		MarcheProd marche= new MarcheProd();
 		System.out.println(marche.getCoursActuel());
-		marche.setQuantiteAchetableGlob(2000);
-		marche.setQuantiteVoulueGlob(3000);
-		marche.Bourse();
+		marche.setQuantiteAchetableGlobale(2000);
+		marche.setQuantiteVoulueGlobale(3000);
+		marche.EvolutionDuCours();
 		System.out.println(marche.getCoursActuel());
-		marche.setQuantiteAchetableGlob(3000);
-		marche.setQuantiteVoulueGlob(2000);
-		marche.Bourse();
+		marche.setQuantiteAchetableGlobale(3000);
+		marche.setQuantiteVoulueGlobale(2000);
+		marche.EvolutionDuCours();
 		System.out.println(marche.getCoursActuel());
 		
 		ProductionCoteDIvoire prod= new ProductionCoteDIvoire(); 
