@@ -7,8 +7,9 @@ public class DemandeMonde {
 	public static double augPaques;// 4% des ventes de chocolat au total
 	public static double augHalloween; //10%
 	public static double augNoel; // 8% des ventes de chocolat au total
-	public static double commandesAnneeTotale=6;
-	public static double pourcentagefixe=0.40;
+	public static double commandesAnneeTotales=6000;
+	public static double commandesStepFixe=(commandesAnneeTotales-commandesAnneeTotales*(augStVal+augPaques+augHalloween+augNoel))/26;
+	public static double pourcentageFixe=0.40;
 	public static double pourcentageFluctuantUS;
 	public static double pourcentageFluctuantEU;
 	
@@ -21,9 +22,11 @@ public class DemandeMonde {
 	}
 	
 	public double getDemandeUS(){
+		this.calculDemandes();
 		return this.demandeUS;
 	}
 	public double getDemandeEU(){
+		this.calculDemandes();
 		return this.demandeEU;
 	}
 	
@@ -57,7 +60,9 @@ public class DemandeMonde {
 			augSaisonniere=augNoel;
 		}
 		
-		//double commandesTotalesMois=
+		double commandesTotalesStep=(commandesStepFixe+augSaisonniere*commandesAnneeTotales)*coefaleatoire;
+		this.setDemandeUS(commandesTotalesStep*(pourcentageFixe+pourcentageFluctuantUS));
+		this.setDemandeEU(commandesTotalesStep*(pourcentageFixe+pourcentageFluctuantEU));
 	}
 	
 }
