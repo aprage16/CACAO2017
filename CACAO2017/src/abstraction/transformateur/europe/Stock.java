@@ -1,5 +1,7 @@
 package abstraction.transformateur.europe;
 
+import abstraction.fourni.Journal;
+
 public class Stock {
 
 	private double stockCacao;
@@ -7,11 +9,13 @@ public class Stock {
 	public static final int DATE_PEREMPTION = 5;
 	public static final int STOCK_MAX_CACAO = 50000;
 	public static final int STOCK_MAX_CHOCOLAT = 70000;
+	private Journal journal;
 	
 	
 	public Stock(){
 		this.stockCacao=0;
 		this.stockChocolat=44000;
+		this.journal=new Journal("Journal Transformateur Europe Stock");
 	}
 	
 	public double getStockCacao(){
@@ -25,19 +29,40 @@ public class Stock {
 	
 	public void ajoutCacao(double cacao){
 		this.stockCacao+=cacao;
+		
 	}
 	
 	public void retraitCacao(double cacao){
-		this.stockCacao-=cacao;
+		if (cacao>=0) {
+			if (this.getStockCacao()-cacao<0) {
+				this.journal.ajouter("T'as pas assez de cacao pour faire ça !!");
+			} else {
+				this.stockCacao-=cacao;
+			}
+		} else {
+			this.journal.ajouter("Tu soustrais du négatif !!");
+		}
 	}
+	
 	
 	public void ajoutChocolat(double chocolat){
 		this.stockChocolat+=chocolat;
+
 	}
 	
+	
 	public void retraitChocolat(double chocolat){
-		this.stockChocolat-=chocolat;
+		if (chocolat>=0) {
+			if (this.getStockChocolat()-chocolat<0) {
+				this.journal.ajouter("T'as pas assez de chocolat pour faire ça !!");
+			} else {
+				this.stockChocolat-=chocolat;
+			}
+		} else {
+			this.journal.ajouter("Tu ajoutes du négatif !!");
+		}
 	}
+	
 	
 	public String toString(){
 		return "Le stock de cacao est de: "+this.getStockCacao()+", celui de chocolat est de: "+this.getStockChocolat();
