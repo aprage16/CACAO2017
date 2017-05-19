@@ -4,14 +4,14 @@ public class Stock {
 
 	private double stockCacao;
 	private double stockChocolat;
+	public static final int DATE_PEREMPTION = 5;
 	public static final int STOCK_MAX_CACAO = 50000;
 	public static final int STOCK_MAX_CHOCOLAT = 70000;
 	
 	
 	public Stock(){
-		this.stockCacao=10;
-		this.stockChocolat=10;
-		this.stockCacao=1000;
+		this.stockCacao=0;
+		this.stockChocolat=44000;
 	}
 	
 	public double getStockCacao(){

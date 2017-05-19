@@ -10,11 +10,13 @@ public class Transformateur implements transformateur, Acteur  {
 	private Stock s;
 	private Tresorerie compte;
 	private double prixmin;
+	private double[] peremption=new double[Stock.DATE_PEREMPTION];
 	public static final int CACAO_NECESSAIRE = 30800; //stock necessaire par mois pour avoir 44000 chocolats
 	public static final int CHOCOLAT_NECESSAIRE = 44000; //stock necessaire par mois à vendre (calculé selon la demande européenne)
 	public static final int STOCK_MIN=5000;
 	public static final double RATIO_CACAO_CHOCO=0.7;
 	public static final int PRIX_MIN=20;
+	
 	
 	private Indicateur stockchocolat;
 	private Indicateur tresorerie;
@@ -37,7 +39,7 @@ public class Transformateur implements transformateur, Acteur  {
 	public double getprixMin() {
 		double stockchocolat=this.s.getStockChocolat();
 		if (stockchocolat<STOCK_MIN){
-			return 50;
+			return 1000000000;
 		}
 		else{
 			this.prixmin=PRIX_MIN+PRIX_MIN*STOCK_MIN/s.getStockChocolat(); //
@@ -57,7 +59,7 @@ public class Transformateur implements transformateur, Acteur  {
 	}
 	
 	public String getNom() {
-		return "Transformateur "+this.nom;
+		return "Transformateur EUROPE";
 	}
 	
 	public Stock getStock(){
@@ -80,8 +82,19 @@ public class Transformateur implements transformateur, Acteur  {
 	}
 	
 	public void transformation(){
-		this.s.ajoutChocolat(this.s.getStockCacao()*0.7);
+		this.s.ajoutChocolat(this.s.getStockCacao()*RATIO_CACAO_CHOCO);
 		this.s.retraitChocolat(this.s.getStockCacao());
+	}
+	
+	public void modifPeremption(){
+		double[] peremp=new double[peremption.length];
+		double estPerime=peremption[5];
+		peremp[0]=this.s.getStockCacao()*RATIO_CACAO_CHOCO;
+		for (int i=0;i<peremp.length-1;i++){
+			peremp[i+1]=peremption[i];
+		}
+		peremption=peremp;
+		this.s.retraitChocolat(estPerime);
 	}
 	
 	public void notificationAchat(double prix, double quantite){
@@ -94,5 +107,6 @@ public class Transformateur implements transformateur, Acteur  {
 		
 	public void next(){
 		transformation();
+		modifPeremption();
 	}
 }

@@ -16,7 +16,7 @@ public class Tresorerie {
 		return this.compte;
 	}
 	
-	public void setCompte(double compte){
+	private void setCompte(double compte){
 		this.compte=compte;
 	}
 	
