@@ -24,6 +24,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 	private Indicateur ventes;
 	private Indicateur solde;
 	private Journal journal;
+	private double i;
 
 	/* Nos indicateurs sont :
 	 * -Compte courant de la Trésorie
@@ -43,6 +44,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 
 
 	public TransformateurUsa(){
+		i=0;
 		journal=new Journal("TransfoUsa");
 		prixmatprem = new ArrayList<Double>();
 		prixmatprem.add(0.000350);//Prix matière première à la tonne en euros.
@@ -63,11 +65,11 @@ public class TransformateurUsa implements transformateur,Acteur{
 	}
 
 	public void next(){
-		this.journal.ajouter("Journal des Transformateur USA");
 		produirechocolat();
+		miseAJourJournal();
 		payerstock();
 		achetermatierepremiere();
-		miseAJourJournal();
+		
 		if(this.achats!=null){
 			this.achats.setValeur(this, this.getAchatCacao());
 			this.ventes.setValeur(this, this.MiseAJourVente());
@@ -79,7 +81,8 @@ public class TransformateurUsa implements transformateur,Acteur{
 	//souchu
 	
 	private void miseAJourJournal(){
-		journal.ajouter("Journal Usa");
+		i++;
+		journal.ajouter("Journal Usa : step "+i);
 		journal.ajouter("");
 		journal.ajouter("");
 	}
