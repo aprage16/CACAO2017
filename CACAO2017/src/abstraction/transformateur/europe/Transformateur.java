@@ -19,8 +19,8 @@ public class Transformateur implements transformateur, Acteur  {
 	public Transformateur (Stock s, Tresorerie compte){
 		this.s=s;
 		this.compte=compte;
-		this.stockchocolat=new Indicateur("stockchocolat",this,this.s.getstockchocolat());
-		this.tresorerie=new Indicateur("tresorerie",this,this.compte.getCompte());
+		this.stockchocolat=new Indicateur("3_TRAN_EU_stock",this,this.s.getstockchocolat());
+		this.tresorerie=new Indicateur("3_TRAN_EU_solde",this,this.compte.getCompte());
 		Monde.LE_MONDE.ajouterIndicateur( this.stockchocolat );
 		Monde.LE_MONDE.ajouterIndicateur( this.tresorerie );
 	}
@@ -47,6 +47,7 @@ public class Transformateur implements transformateur, Acteur  {
 		this.s.setstockchocolat(this.s.getstockchocolat()-quantité);
 		double chiffre_daffaire=prix*quantité;
 		this.compte.ajoutChiffredaffaire(chiffre_daffaire);
+		this.tresorerie.setValeur(this, this.compte.getCompte());
 	}
 	
 	public int hashCode() {
@@ -77,6 +78,8 @@ public class Transformateur implements transformateur, Acteur  {
 		this.s.setstockcacao(this.s.getstockcacao()+quantite);
 		double achat = prix*quantite;
 		this.compte.retraitAchat(achat);
+		this.stockchocolat.setValeur(this, this.s.getstockchocolat());
+		this.tresorerie.setValeur(this, this.compte.getCompte());
 	}
 		
 	public void next(){

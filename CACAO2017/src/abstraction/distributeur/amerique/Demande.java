@@ -9,7 +9,7 @@ public class Demande {
 	static double augPaques;// 4% des ventes de chocolat au total
 	static double augHalloween; //10%
 	static double augNoel; // 8% des ventes de chocolat au total
-	static double demandeTAnnee=7.5*Math.pow(10,6)-augStVal-augPaques-augHalloween-augNoel;
+	static double demandeTAnnee=7.5*Math.pow(10,2)-augStVal-augPaques-augHalloween-augNoel;
 	
 	private double commande;
 	
