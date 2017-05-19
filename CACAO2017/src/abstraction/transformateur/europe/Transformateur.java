@@ -52,7 +52,7 @@ public class Transformateur implements transformateur, Acteur  {
 		double chiffredaffaire=prix*quantite;
 		this.compte.credit(chiffredaffaire);
 		this.tresorerie.setValeur(this, this.compte.getCompte());
-		this.stockCacao.setValeur(this, this.s.getStockCacao());
+		this.stockCacao.setValeur(this, quantite);
 	}
 	
 	public int hashCode() {
