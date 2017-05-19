@@ -5,6 +5,8 @@ package abstraction.producteur.ameriquelatine;
 import abstraction.distributeur.europe.MondeV1;
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
+import abstraction.fourni.Journal;
+import abstraction.fourni.Monde;
 
 public class Producteur implements IProducteur, Acteur {
 	public String nom;
@@ -22,6 +24,7 @@ public class Producteur implements IProducteur, Acteur {
 	private Indicateur cours;
 	private Indicateur qtemiseenvente;
 	private Indicateur recoltee;
+	private Journal journal;
 	
 	public Producteur(){
 		this.nom="Producteur AmeriqueLatine" ;
@@ -46,6 +49,8 @@ public class Producteur implements IProducteur, Acteur {
 		MondeV1.LE_MONDE.ajouterIndicateur(this.qtemiseenvente);
 		this.recoltee=new Indicateur("4_PROD_AMER_recoltee", this,0.0) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.recoltee);
+		this.journal=new Journal("Journal de Prod Amerique Latine");
+		MondeV1.LE_MONDE.ajouterJournal(this.journal);
 		
 	}
 	
@@ -90,6 +95,15 @@ public class Producteur implements IProducteur, Acteur {
 	
 	public void next() {
 		recolte.miseAJourIndice(); //mise à jour de l'indice de recolte
+		String stock=new String(""+this.stock.getInitial());
+		String solde=new String(""+this.treso.getTresorerie());
+		String quantitevendue=new String(""+this.qtevendue);
+		if (this.journal!=null){
+			this.journal.ajouter(" valeur de Stock  =  <font color=\"maroon\">"+stock+"</font> tonnes de fèves au <b>step</b> "+Monde.LE_MONDE.getStep());
+			this.journal.ajouter(" valeur de Stock  =  <font color=\"maroon\">"+solde+"</font> millions d'euros au <b>step</b> "+Monde.LE_MONDE.getStep());
+			this.journal.ajouter(" valeur de Stock  =  <font color=\"maroon\">"+quantitevendue+"</font> tonnes de fèves au <b>step</b> "+Monde.LE_MONDE.getStep());
+			
+			}
 		
 	}
 }
