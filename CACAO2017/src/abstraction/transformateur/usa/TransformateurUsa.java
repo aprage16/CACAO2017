@@ -137,10 +137,10 @@ public class TransformateurUsa implements transformateur,Acteur{
 	public double QteSouhaite(){
 		
 		if (stockdesire-this.premiere.getCacao()>=0){
-			journal.ajouter("Quantite souhaitée "+(stockdesire-this.premiere.getCacao()));
+			journal.ajouter("Quantite souhaitée de Cacao"+(stockdesire-this.premiere.getCacao()));
 			return stockdesire-this.premiere.getCacao();
 		}	
-		journal.ajouter("Quantite souhaitée="+0);
+		journal.ajouter("Quantite souhaitée de Cacao(Renvoie negatif)"+0);
 		return 0;
 	}
 	@Override
