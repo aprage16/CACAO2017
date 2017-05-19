@@ -16,17 +16,19 @@ public class Transformateur implements transformateur, Acteur  {
 	public static final double RATIO_CACAO_CHOCO=0.7;
 	public static final int PRIX_MIN=20;
 	
-	private Indicateur stockchocolat;
+	private Indicateur stockChocolat;
 	private Indicateur tresorerie;
-	
+	private Indicateur stockCacao;
 	
 	
 	public Transformateur (Stock s, Tresorerie compte){
 		this.s=s;
 		this.compte=compte;
-		this.stockchocolat=new Indicateur("3_TRAN_EU_stock",this,this.s.getStockChocolat());
+		this.stockChocolat=new Indicateur("3_TRAN_EU_stock_chocolat",this,this.s.getStockChocolat());
+		this.stockCacao=new Indicateur("3_TRAN_EU_stock_cacao",this,this.s.getStockCacao());
 		this.tresorerie=new Indicateur("3_TRAN_EU_solde",this,this.compte.getCompte());
-		Monde.LE_MONDE.ajouterIndicateur( this.stockchocolat );
+		Monde.LE_MONDE.ajouterIndicateur( this.stockChocolat );
+		Monde.LE_MONDE.ajouterIndicateur( this.stockCacao );
 		Monde.LE_MONDE.ajouterIndicateur( this.tresorerie );
 	}
 	
@@ -50,6 +52,7 @@ public class Transformateur implements transformateur, Acteur  {
 		double chiffredaffaire=prix*quantite;
 		this.compte.credit(chiffredaffaire);
 		this.tresorerie.setValeur(this, this.compte.getCompte());
+		this.stockCacao.setValeur(this, this.s.getStockCacao());
 	}
 	
 	public int hashCode() {
@@ -88,7 +91,7 @@ public class Transformateur implements transformateur, Acteur  {
 		this.s.ajoutCacao(quantite);
 		double achat = prix*quantite;
 		this.compte.debit(achat);
-		this.stockchocolat.setValeur(this, this.s.getStockChocolat());
+		this.stockChocolat.setValeur(this, this.s.getStockChocolat());
 		this.tresorerie.setValeur(this, this.compte.getCompte());
 	}
 		

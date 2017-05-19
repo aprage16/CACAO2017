@@ -27,8 +27,8 @@ public class Stock {
 	
 	
 	public void ajoutCacao(double cacao){
-		if (cacao>0) {
-			if (this.getStockCacao()<0) {
+		if (cacao>=0) {
+			if (this.getStockCacao()<=0) {
 				this.journal.ajouter("Stock de cacao négatif !!");
 			} else {
 				this.stockCacao+=cacao;
@@ -39,8 +39,8 @@ public class Stock {
 	}
 	
 	public void retraitCacao(double cacao){
-		if (cacao>0) {
-			if (this.getStockCacao()-cacao<0) {
+		if (cacao>=0) {
+			if (this.getStockCacao()-cacao<=0) {
 				this.journal.ajouter("T'as pas assez de cacao pour faire ça !!");
 			} else {
 				this.stockCacao-=cacao;
