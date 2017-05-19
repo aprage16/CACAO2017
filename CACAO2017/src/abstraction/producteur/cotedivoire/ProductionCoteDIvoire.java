@@ -2,8 +2,10 @@ package abstraction.producteur.cotedivoire;
 
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
+import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
 import abstraction.producteur.ameriquelatine.IProducteur;
+
 
 
 // by fcadre, comments by antoineroson
@@ -17,6 +19,8 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	private Indicateur stockIndicateur;
 	private Indicateur tresoIndicateur;
 	private Indicateur vente;
+	private Journal journal;
+	
 	//Cf marché
 	public int hashCode() {
 		return this.getNom().hashCode();
@@ -40,6 +44,8 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 		Monde.LE_MONDE.ajouterIndicateur(this.tresoIndicateur);
 		this.vente= new Indicateur("6_PROD_COT_vente",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur(this.vente);
+		this.journal = new Journal("Journal de "+ getNom());
+		Monde.LE_MONDE.ajouterJournal(this.journal);
 		
 	}
 	
@@ -64,6 +70,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 		this.production=(int)prod; // ajout dans la liste de production
 		this.stock.addStock((int)prod);
 		this.productionIndicateur.setValeur(this, (int)prod);
+		this.journal.ajouter(" Valeur Produite: "+getQuantiteProd() +"à l'étape du Monde: "+Monde.LE_MONDE.getStep());
 	}
 	
 	//Accesseur Nom
