@@ -48,7 +48,7 @@ public class Transformateur implements transformateur, Acteur  {
 	public void notif(double prix, double quantite) {
 		this.s.retraitChocolat(quantite);
 		double chiffredaffaire=prix*quantite;
-		this.compte.ajoutChiffredaffaire(chiffredaffaire);
+		this.compte.credit(chiffredaffaire);
 		this.tresorerie.setValeur(this, this.compte.getCompte());
 	}
 	
@@ -79,7 +79,7 @@ public class Transformateur implements transformateur, Acteur  {
 		
 	}
 	
-	public void Transformation(){
+	public void transformation(){
 		this.s.ajoutChocolat(this.s.getStockCacao()*0.7);
 		this.s.retraitChocolat(this.s.getStockCacao());
 	}
@@ -87,12 +87,12 @@ public class Transformateur implements transformateur, Acteur  {
 	public void notificationAchat(double prix, double quantite){
 		this.s.ajoutCacao(quantite);
 		double achat = prix*quantite;
-		this.compte.retraitAchat(achat);
+		this.compte.debit(achat);
 		this.stockchocolat.setValeur(this, this.s.getStockChocolat());
 		this.tresorerie.setValeur(this, this.compte.getCompte());
 	}
 		
 	public void next(){
-		Transformation();
+		transformation();
 	}
 }

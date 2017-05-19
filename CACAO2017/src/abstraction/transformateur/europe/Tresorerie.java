@@ -20,11 +20,16 @@ public class Tresorerie {
 		this.compte=compte;
 	}
 	
-	public void ajoutChiffredaffaire(double chiffre_daffaire){
-		this.setCompte(chiffre_daffaire+this.getCompte());
+	public void credit(double montant){
+		if (montant >=0){
+			this.setCompte(this.getCompte()+montant);
+		}
 	}
+		
 	
-	public void retraitAchat(double achat){
-		this.setCompte(this.getCompte()-achat);
+	public void debit(double montant){
+		if(montant>=0){
+			this.setCompte(this.getCompte()-montant);
+		}
 	}
 }
