@@ -79,7 +79,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 
 	private void payerstock(){
 		double avant=this.tresorie.getCompteCourant();
-		this.tresorie.removeMoney(this.finis.getStockChocolat()*prixstockage);	
+		this.tresorie.removeMoney(this.finis.getStockChocolat()*prixstockage*bornesmin);	
 		for (int i=0;i<3;i++){
 			this.tresorie.removeMoney(this.premiere.getIngredient(i)*prixstockage);	
 		}
