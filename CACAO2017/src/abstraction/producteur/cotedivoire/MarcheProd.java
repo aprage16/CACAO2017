@@ -20,10 +20,6 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 	private double quantiteAchetableGlob ;
 	private double quantiteVoulueGlob ;
 	private double coursActuel;
-	private Indicateur qteprod1;
-	private Indicateur qteprod2;
-	private Indicateur qtetrans1;
-	private Indicateur qtetrans2;
 
 	
 	public MarcheProd(ArrayList<IProducteur> producteurs,ArrayList<transformateur> transformateurs){
@@ -39,16 +35,6 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 		this.quantiteAchetableGlob=0.0;
 		this.quantiteVoulueGlob=0.0;
 		this.coursActuel=3000;
-		this.qteprod1= new Indicateur("prod1",this,0.0);
-		this.qteprod2= new Indicateur("prod2",this,0.0);
-		this.qtetrans1= new Indicateur("trans1",this,0.0);
-		this.qtetrans2= new Indicateur("trans2",this,0.0);
-		Monde.LE_MONDE.ajouterIndicateur(this.qteprod1);
-		Monde.LE_MONDE.ajouterIndicateur(this.qteprod2);
-		Monde.LE_MONDE.ajouterIndicateur(this.qtetrans1);
-		Monde.LE_MONDE.ajouterIndicateur(this.qtetrans2);
-
-
 	}
 	
 	public void addProducteur (IProducteur p) {
@@ -97,9 +83,11 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 		
 		for (int i=0 ; i<this.producteurs.size(); i++) {
 			Prod.put(this.producteurs.get(i), (int)this.producteurs.get(i).quantiteMiseEnvente());
+			System.out.println(" EN VENTE "+(int)this.producteurs.get(i).quantiteMiseEnvente());
 		}
 		for (int i=0 ; i<this.transformateurs.size(); i++) {
 			Trans.put(this.transformateurs.get(i), (int)this.transformateurs.get(i).QteSouhaite());
+			System.out.println(" SOUHAITEE "+(int)this.transformateurs.get(i).QteSouhaite());
 		}
 		// si on réecrit la meme ligne juste en changeant la valeur du integer ca modifie juste sa valeur donc 
 		// c'est un moyen de garder en mémoire la valeur pour chaque prod et transformateurs
@@ -113,27 +101,37 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 			qttSouhaitee+= Trans.get(t);
 		}
 		setQuantiteVoulueGlob(qttSouhaitee);      // On définit la quantite globale voulue sur le marché.
+		System.out.println("SOMME EN VENTE "+qttEnVente);
+		System.out.println("SOMME SOUHAITEE "+qttSouhaitee);
 		if (qttEnVente>=qttSouhaitee) {
 			for (transformateur t : Trans.keySet()){
-				t.notificationAchat(Trans.get(t),this.getCoursActuel());
-			}
-			for (IProducteur p : Prod.keySet()){
-				p.notificationVente(Prod.get(p)-((Prod.get(p)/qttEnVente)*qttSouhaitee),this.getCoursActuel());
+				if (Trans.get(t)>=0){	
+					t.notificationAchat(Trans.get(t),this.getCoursActuel());
+					System.out.println(((Acteur)t).getNom()+" --> "+Trans.get(t));
+					for (IProducteur p : Prod.keySet()){
+						p.notificationVente((((double)Prod.get(p)/qttEnVente)*Trans.get(t)), this.getCoursActuel());
+						System.out.println((double)Prod.get(p)/qttEnVente);
+						System.out.println(((Acteur)p).getNom()+" --> "+(((double)Prod.get(p)/qttEnVente)*Trans.get(t)));
+					}
+				}
+				else {
+					t.notificationAchat(0, this.getCoursActuel());
+					System.out.println(((Acteur)t).getNom()+" --> "+0);
+				}
 			}
 		}
 		else {
-			for (transformateur t : Trans.keySet()){
-				t.notificationAchat((Trans.get(t)/qttSouhaitee)*qttEnVente,this.getCoursActuel());
-			}
 			for (IProducteur p : Prod.keySet()){
 				p.notificationVente(Prod.get(p),this.getCoursActuel());
+				System.out.println(((Acteur)p).getNom()+" --> "+Prod.get(p));
+				for (transformateur t : Trans.keySet()){
+					t.notificationAchat(((double)Trans.get(t)/qttSouhaitee)*qttEnVente,this.getCoursActuel());
+					System.out.println(((Acteur)t).getNom()+" --> "+((double)Trans.get(t)/qttSouhaitee)*qttEnVente);
+				}
+				
 			}
 		}
 		Bourse();
-		this.qteprod1.setValeur(this, Prod.get(this.producteurs.get(0)));
-		this.qteprod2.setValeur(this, Prod.get(this.producteurs.get(1)));
-		this.qtetrans1.setValeur(this, Trans.get(this.transformateurs.get(0)));
-		this.qtetrans2.setValeur(this, Trans.get(this.transformateurs.get(1)));
 
 		
 	}
