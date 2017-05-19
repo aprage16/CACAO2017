@@ -1,26 +1,36 @@
 package abstraction.distributeur.europe;
 
-public class Tresorerie {
-	private int treso;
+public class Tresorerie{
+	private double treso;
 	
-	public Tresorerie(int treso){
+	public Tresorerie(double treso){
 		this.treso = treso;
 	}
 	
-	public int getTreso(){
+	public double getTreso(){
 		return this.treso;
 	}
 	
-	public void setTreso(int p){
+	public void variationTreso(double p){
 		this.treso += p;
 	}
 	
-	public void paiement(int p){
-		setTreso(p);
+	public void paiement(double p){
+		if(p>=0){
+			variationTreso(p);
+		}
 	}
 	
-	public void encaissement(int e){
-		setTreso(-e);
+	public void encaissement(double e){
+		if(e>=0){
+			variationTreso(-e);
+		}
 	}
 
+
+
+	
+	
+	
+		
 }
