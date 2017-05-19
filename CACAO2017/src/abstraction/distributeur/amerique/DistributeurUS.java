@@ -3,6 +3,7 @@
 import abstraction.distributeur.europe.IDistributeur;
 import abstraction.distributeur.europe.Vente;
 import abstraction.fourni.Indicateur;
+import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
 
 public class DistributeurUS implements IDistributeur{
@@ -11,7 +12,7 @@ public class DistributeurUS implements IDistributeur{
 	public static double fondsIni = 5000.0;
 	public static double stockIni = 62.5;
 	public static double prixKg=10;
-	public static double uniteChoc=10000000;
+	public static double uniteChoc=1000;
 	
 	private Gestion gestion;
 	private Demande demande;
@@ -19,12 +20,14 @@ public class DistributeurUS implements IDistributeur{
 	private Indicateur fonds;
 	private Indicateur stock;
 	
+	private Journal journalTest;
 	
-	public DistributeurUS(Gestion gestion, Demande demande, Indicateur fonds, Indicateur stock){
+	public DistributeurUS(Gestion gestion, Demande demande, Indicateur fonds, Indicateur stock, Journal journal){
 		this.gestion=gestion;
 		this.demande=demande;
 		this.fonds=fonds;
 		this.stock=stock;
+		this.journalTest=journal;
 	}
 	
 	
@@ -37,8 +40,12 @@ public class DistributeurUS implements IDistributeur{
 		this.stock = new Indicateur(nomIndicateurStock, this, stockIni);
 		this.fonds = new Indicateur(nomIndicateurFonds, this, fondsIni);
 		
-    		Monde.LE_MONDE.ajouterIndicateur( this.stock );
-    		Monde.LE_MONDE.ajouterIndicateur( this.fonds );
+		this.journalTest=new Journal("journalTest");
+		
+    	Monde.LE_MONDE.ajouterIndicateur( this.stock );
+    	Monde.LE_MONDE.ajouterIndicateur( this.fonds );
+    	Monde.LE_MONDE.ajouterJournal(this.getJournal());
+    	
 
 	}
 	
@@ -88,8 +95,8 @@ public class DistributeurUS implements IDistributeur{
 	public void notif(Vente vente){
 		this.getGestion().setStock(this.getGestion().getStock()+vente.getQuantite());
 		this.getGestion().setFonds(this.getGestion().getFonds()-vente.getPrix());
-		System.out.println(vente.getQuantite());
-		System.out.println(vente.getPrix());
+		this.getJournal().ajouter("quantitee achetee : "+vente.getQuantite());
+		this.getJournal().ajouter("prix obtenu : "+vente.getPrix());
 	}
 
 	public String getNom() {
@@ -122,4 +129,7 @@ public class DistributeurUS implements IDistributeur{
 		return prixmax;
 	}
 	
+	public Journal getJournal(){
+		return this.journalTest;
+	}
 }
