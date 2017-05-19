@@ -140,7 +140,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 			journal.ajouter("Quantite souhaitée de Cacao"+(stockdesire-this.premiere.getCacao()));
 			return stockdesire-this.premiere.getCacao();
 		}	
-		journal.ajouter("Quantite souhaitée de Cacao(Renvoi negatif)"+0);
+		journal.ajouter("Quantite souhaitée de Cacao(Renvoie negatif)"+0);
 		return 0;
 	}
 	@Override
