@@ -27,7 +27,7 @@ public class Stock {
 	
 	
 	public void ajoutCacao(double cacao){
-		if (cacao>0) {
+		if (cacao>=0) {
 			if (this.getStockCacao()<0) {
 				this.journal.ajouter("Stock de cacao négatif !!");
 			} else {
@@ -39,7 +39,7 @@ public class Stock {
 	}
 	
 	public void retraitCacao(double cacao){
-		if (cacao>0) {
+		if (cacao>=0) {
 			if (this.getStockCacao()-cacao<0) {
 				this.journal.ajouter("T'as pas assez de cacao pour faire ça !!");
 			} else {
@@ -52,7 +52,7 @@ public class Stock {
 	
 	
 	public void ajoutChocolat(double chocolat){
-		if (chocolat>0) {
+		if (chocolat>=0) {
 			if (this.getStockChocolat()<0) {
 				this.journal.ajouter("Stock de chocolat négatif !!");
 			} else {
@@ -65,7 +65,7 @@ public class Stock {
 	
 	
 	public void retraitChocolat(double chocolat){
-		if (chocolat>0) {
+		if (chocolat>=0) {
 			if (this.getStockChocolat()-chocolat<0) {
 				this.journal.ajouter("T'as pas assez de chocolat pour faire ça !!");
 			} else {
