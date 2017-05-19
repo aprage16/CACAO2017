@@ -60,6 +60,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	// Méthode varitation random de la production
 	public void variationProduction(){
 		//Création d'une enveloppe (prod_min->prod_max)
+		int periode = Monde.LE_MONDE.getStep(); 
 		double prod_min = PRODUCTIONMOYENNE - (double)(PRODUCTIONMOYENNE*VARIATIONALEATOIREPRODUCTION); 
 		double prod_max = PRODUCTIONMOYENNE + (double)(PRODUCTIONMOYENNE*VARIATIONALEATOIREPRODUCTION);
 		double prod = prod_min + (double)Math.random()*(prod_max - prod_min); // Production random entre prod_min et prod_max
