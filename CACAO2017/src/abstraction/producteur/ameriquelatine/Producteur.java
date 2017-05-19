@@ -20,7 +20,8 @@ public class Producteur implements IProducteur, Acteur {
 	private Indicateur stockInt;
 	private Indicateur cout;
 	private Indicateur cours;
-
+	private Indicateur qtemiseenvente;
+	private Indicateur recoltee;
 	
 	public Producteur(){
 		this.nom="Producteur AmeriqueLatine" ;
@@ -31,7 +32,7 @@ public class Producteur implements IProducteur, Acteur {
 		this.treso=new Tresorerie(stock);
 		this.quantiteVendue=new Indicateur("4_PROD_AMER_quantiteVendue", this,0.0);
 		MondeV1.LE_MONDE.ajouterIndicateur(this.quantiteVendue) ;
-		this.solde=new Indicateur("4_PROD_AMER_solde", this,0.0) ;
+		this.solde=new Indicateur("4_PROD_AMER_solde", this, treso.getTresorerie()) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.solde);
 		this.stockind=new Indicateur("4_PROD_AMER_stock", this,0.0) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.stockind);
@@ -41,6 +42,11 @@ public class Producteur implements IProducteur, Acteur {
 		MondeV1.LE_MONDE.ajouterIndicateur(this.cout);
 		this.cours=new Indicateur("4_PROD_AMER_cours", this,0.0) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.cours);
+		this.qtemiseenvente=new Indicateur("4_PROD_AMER_qtemiseenvente", this,0.0) ;
+		MondeV1.LE_MONDE.ajouterIndicateur(this.qtemiseenvente);
+		this.recoltee=new Indicateur("4_PROD_AMER_recoltee", this,0.0) ;
+		MondeV1.LE_MONDE.ajouterIndicateur(this.recoltee);
+		
 	}
 	
 	public String getNom(){
@@ -74,6 +80,8 @@ public class Producteur implements IProducteur, Acteur {
 		this.stockInt.setValeur(this, this.stock.stockintermediaire());
 		this.cout.setValeur(this, this.treso.cout());
 		this.cours.setValeur(this, coursActuel);
+		this.recoltee.setValeur(this, this.recolte.getQterecoltee());
+		this.qtemiseenvente.setValeur(this, this.quantiteMiseEnvente());
 	}
 	
 	public double quantiteMiseEnvente() {
