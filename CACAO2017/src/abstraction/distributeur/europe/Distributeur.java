@@ -9,9 +9,11 @@ public class Distributeur implements Acteur,IDistributeur{
 	private Vente derniereVente; // derniere vente effectuee sur le marche
 	private double stock;
 	private double qteDemandee;
-	private Indicateur solde;
-	private Indicateur achats;
+	private Indicateur stockI;
+	private Indicateur fondsI;
 	private String nom;
+	private double fonds;
+	private Journal journal;
 	
 	public Distributeur(Vente vente, double stock, double qteDemandee){ // penser à redocoder en enlevant les arguments du constructeur
 		this.derniereVente = vente;
@@ -21,25 +23,27 @@ public class Distributeur implements Acteur,IDistributeur{
 	
 	public Distributeur(){
 		this.nom = "Distributeur europe";
-		this.derniereVente = new Vente(10,1000);
-		this.stock = 10000;
+		this.derniereVente = new Vente(10,10);
+		this.stock = 0.1;
 		this.qteDemandee = 100;
+		this.fonds = 100;
+ 	    this.journal = new Journal("Journal de "+this.nom);
+ 	    Monde.LE_MONDE.ajouterJournal(this.journal);
 		
+		this.fondsI = new Indicateur("2_DISTR_EU_stock", this, 100);
+		this.stockI = new Indicateur("2_DISTR_EU_fonds", this, 0.1);
 		
-		this.achats = new Indicateur("Achats de "+this.nom, this, 0.0);
-		this.solde = new Indicateur("Solde de "+this.nom, this, 1000000.0);
-		
-    	Monde.LE_MONDE.ajouterIndicateur( this.achats );
-    	Monde.LE_MONDE.ajouterIndicateur( this.solde );
+    	Monde.LE_MONDE.ajouterIndicateur( this.fondsI );
+    	Monde.LE_MONDE.ajouterIndicateur( this.stockI );
         
 	}
 	
 	public Indicateur getIndicateurStock(){
-		return this.achats;
+		return this.fondsI;
 	}
 	
 	public Indicateur getSolde(){
-		return this.solde;
+		return this.stockI;
 	}
 	public double getStock() {
 		return this.stock;
@@ -70,6 +74,9 @@ public class Distributeur implements Acteur,IDistributeur{
 		this.derniereVente = vente;
 	}
 
+	public Journal getJournal(){
+		return this.journal;
+	}
 	
 	public double getPrixMax(){
 		double prixTransfo;
@@ -81,7 +88,11 @@ public class Distributeur implements Acteur,IDistributeur{
 	
 	public void notif(Vente vente){
 		this.setVente(vente);
-		this.setStock(this.stock-vente.getQuantite());
+		if (this.stock-vente.getQuantite()>0){
+			this.setStock(this.stock-vente.getQuantite());
+		}
+		this.fondsI.setValeur(this, this.fonds+vente.getPrix()*vente.getQuantite());
+		this.stockI.setValeur(this, this.stock);
 	}
 	
 	public void next(){}

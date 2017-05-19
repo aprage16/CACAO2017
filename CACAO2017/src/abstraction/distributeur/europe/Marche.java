@@ -9,13 +9,13 @@ public class Marche implements Acteur{
 	private ArrayList<IDistributeur> distributeur;
 	private ArrayList<transformateur> transformateur;
 	
-	double prixVenteMin=20;
-	double prixVenteMax=400000000;
+	static final double PRIXVENTEMIN=20;
+	static final double PRIXVENTEMAX=400000000;
 	
-	double prixAchatMin=20;
-	double prixAchatMax=400000000;
+	static final double PRIXACHATMIN=20;
+	static final double PRIXACHATMAX=400000000;
 	
-	double unite=1000;
+	static final double UNITE=10000;
 	
 	public Marche(ArrayList<IDistributeur> distributeur, ArrayList<transformateur> transformateur){
 		this.distributeur=distributeur;
@@ -69,8 +69,8 @@ public class Marche implements Acteur{
 		boolean[] test_t = new boolean[this.transformateur.size()];
 		boolean[] test_d = new boolean[this.transformateur.size()];
 		for (int i=0; i<this.transformateur.size(); i++){
-			test_t[i] = (transformateur.get(i).getprixMin()>=prixVenteMin) &&	(transformateur.get(i).getprixMin()<=prixVenteMax);
-			test_d[i] = (distributeur.get(i).getPrixMax()>=prixAchatMin) &&  (distributeur.get(i).getPrixMax()<=prixAchatMax);
+			test_t[i] = (transformateur.get(i).getprixMin()>=PRIXVENTEMIN) &&	(transformateur.get(i).getprixMin()<=PRIXVENTEMAX);
+			test_d[i] = (distributeur.get(i).getPrixMax()>=PRIXACHATMIN) &&  (distributeur.get(i).getPrixMax()<=PRIXACHATMAX);
 		}
 
 		
@@ -87,8 +87,10 @@ public class Marche implements Acteur{
 		 
 			// Initialisation des deux variables définissant l'indice du distributeur et transformateur prioritaires
 
-			
-		 	while ((testFourchettePrix(test_t)||testFourchettePrix(test_d)) && !testPrix){
+			System.out.println(testPrix);
+			System.out.println(distributeur.get(prioDistri).getPrixMax());
+			System.out.println(transformateur.get(prioTransfo).getprixMin());
+		 	while ((testFourchettePrix(test_t)||testFourchettePrix(test_d)) && testPrix){
 			
 			// Recherche de minimum & maximum
 			
@@ -102,15 +104,16 @@ public class Marche implements Acteur{
 			int autreDistri=Math.abs(prioDistri-1);
 			int autreTransfo=Math.abs(prioTransfo-1);
 			
-			
+			System.out.println(prix);
+			System.out.println(distributeur.get(prioDistri).getPrixMax());
+			System.out.println(transformateur.get(prioTransfo).getprixMin());
 			// Actualisation des prix d'achat et de vente
 			
-			distributeur.get(prioDistri).notif(new Vente(prix, unite));
+			distributeur.get(prioDistri).notif(new Vente(prix, UNITE));
 			distributeur.get(autreDistri).notif(new Vente(prix, 0));
-			transformateur.get(prioTransfo).notificationAchat(unite, prix);
+			transformateur.get(prioTransfo).notificationAchat(UNITE, prix);
 			transformateur.get(autreTransfo).notificationAchat(0, prix);
-			distributeur.get(prioDistri).getIndicateurStock().setValeur(distributeur.get(prioDistri), prix*unite);
-			distributeur.get(autreDistri).getIndicateurStock().setValeur(distributeur.get(prioDistri), prix*unite);
+
 			
 		 	}
 			
