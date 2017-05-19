@@ -14,7 +14,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 	private Tresorerie tresorie=new Tresorerie(5);
 	private static final int uniteventechocolat=1000;//1000 tonnes
 	private static final double bornesmax=0.008;//Une unité d'argent =1 million d'euro
-	private static final double bornesmin=0.004;
+	private static final double bornesmin=0.004;//Ce sont les bornes de prix du chocolat pour un tonne en unité d'argent
 	private static final double stockdesire=2000*uniteventechocolat;
 	private static final double prixstockage=0.25*bornesmin/(24*1000);//Le prix du stokage par an est de 25% de la valeur des marchandises stockées
 	private ArrayList<Double> prixmatprem;
