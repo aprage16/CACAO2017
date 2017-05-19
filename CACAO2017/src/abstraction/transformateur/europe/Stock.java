@@ -11,6 +11,7 @@ public class Stock {
 	public Stock(){
 		this.stockCacao=10;
 		this.stockChocolat=10;
+		this.stockCacao=1000;
 	}
 	
 	public double getStockCacao(){

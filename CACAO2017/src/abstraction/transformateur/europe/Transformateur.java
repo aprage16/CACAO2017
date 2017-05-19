@@ -9,9 +9,13 @@ public class Transformateur implements transformateur, Acteur  {
 	private String nom;
 	private Stock s;
 	private Tresorerie compte;
-	private double prixmin=4000;
+	private double prixmin;
 	public static final int CACAO_NECESSAIRE = 30800; //stock necessaire par mois pour avoir 44000 chocolats
 	public static final int CHOCOLAT_NECESSAIRE = 44000; //stock necessaire par mois à vendre (calculé selon la demande européenne)
+	public static final int STOCK_MIN=5000;
+	public static final double RATIO_CACAO_CHOCO=0.7;
+	public static final int PRIX_MIN=20;
+	
 	private Indicateur stockchocolat;
 	private Indicateur tresorerie;
 	
@@ -31,23 +35,20 @@ public class Transformateur implements transformateur, Acteur  {
 	}
 	
 	public double getprixMin() {
-		double a = 1000*Math.random();
 		double stockchocolat=this.s.getStockChocolat();
-		if (stockchocolat<100){
-			return 10000;
+		if (stockchocolat<STOCK_MIN){
+			return 50;
 		}
 		else{
-			this.prixmin+=a;
+			this.prixmin=PRIX_MIN+PRIX_MIN*STOCK_MIN/s.getStockChocolat(); //
 			return this.prixmin;
 		}
-		// TODO Auto-generated method stub
 	}
 	
-	public void notif(double prix, double quantité) {
-		// TODO Auto-generated method stub
-		this.s.retraitChocolat(quantité);
-		double chiffre_daffaire=prix*quantité;
-		this.compte.ajoutChiffredaffaire(chiffre_daffaire);
+	public void notif(double prix, double quantite) {
+		this.s.retraitChocolat(quantite);
+		double chiffredaffaire=prix*quantite;
+		this.compte.ajoutChiffredaffaire(chiffredaffaire);
 		this.tresorerie.setValeur(this, this.compte.getCompte());
 	}
 	
@@ -67,10 +68,10 @@ public class Transformateur implements transformateur, Acteur  {
 		double stockCacao=this.s.getStockCacao();
 		double stockChocolat=this.s.getStockChocolat();
 		if (stockChocolat<=CHOCOLAT_NECESSAIRE && stockChocolat < Stock.STOCK_MAX_CHOCOLAT){ //on vérifie si notre stock de chocolat est inférieur a la qte qu'on vend par mois
-			if (stockCacao>=(CHOCOLAT_NECESSAIRE-stockChocolat)*0.7){ //On vérifie si le cacao nécessaire pour atteindre notre objectif de chocolat est présent ou non, s'il l'est on achète rien
+			if (stockCacao>=(CHOCOLAT_NECESSAIRE-stockChocolat)*RATIO_CACAO_CHOCO){ //On vérifie si le cacao nécessaire pour atteindre notre objectif de chocolat est présent ou non, s'il l'est on achète rien
 				return 0;
 			}else{
-				return ((CHOCOLAT_NECESSAIRE-stockChocolat)*0.7)-stockCacao; //on achète ce qui est suffisant pour produire CHOCOLAT_NECESSAIRE tonnes de chocolat
+				return ((CHOCOLAT_NECESSAIRE-stockChocolat)*RATIO_CACAO_CHOCO)-stockCacao; //on achète ce qui est suffisant pour produire CHOCOLAT_NECESSAIRE tonnes de chocolat
 			}
 		}else{
 			return 0; //on achète rien si on a trop de chocolat par rapport à ce que l'on vend
