@@ -62,7 +62,6 @@ public class Producteur implements IProducteur, Acteur {
 		return this.getNom().hashCode() ;
 	}
 
-
 	public void setCoursActuel(double coursActuel){
 		this.coursActuel=coursActuel;
 	}
@@ -72,17 +71,23 @@ public class Producteur implements IProducteur, Acteur {
 	public double getQteVendue(){
 		return this.qtevendue;
 	}
-	
+	public int stockintermediaire(){
+		return this.stock.getInitial()+this.recolte.getQterecoltee();
+	}
+	public void miseAJourStock(){
+		this.stock.miseAJourStock((int)(this.stockintermediaire()-this.qtevendue));
+	}
 
 	public void notificationVente(double quantite, double coursActuel) {
-		this.treso.setTresorerie(this.treso.getTresorerie()+coursActuel*quantite-treso.cout()); //dans le next?
+		this.coursActuel=coursActuel;
+		this.qtevendue=quantite;
 		this.setCoursActuel(coursActuel);
 		this.ventes.setQuantiteVendue(quantite);
 		this.quantiteVendue.setValeur(this, quantite);
-		stock.miseAJourStock() ; 
+		miseAJourStock() ; 
 		this.solde.setValeur(this, this.treso.getTresorerie());
 		this.stockind.setValeur(this, this.stock.getInitial());
-		this.stockInt.setValeur(this, this.stock.stockintermediaire());
+		this.stockInt.setValeur(this, this.stockintermediaire());
 		this.cout.setValeur(this, this.treso.cout());
 		this.cours.setValeur(this, coursActuel);
 		this.recoltee.setValeur(this, this.recolte.getQterecoltee());
@@ -90,10 +95,11 @@ public class Producteur implements IProducteur, Acteur {
 	}
 	
 	public double quantiteMiseEnvente() {
-		return this.ventes.getQuantiteMiseEnVente();
+		return (int)(0.8*this.stockintermediaire());
 	}
 	
 	public void next() {
+		this.treso.setTresorerie(this.treso.getTresorerie()+coursActuel*qtevendue-treso.cout());
 		recolte.miseAJourIndice(); //mise à jour de l'indice de recolte
 		String stock=new String(""+this.stock.getInitial());
 		String solde=new String(""+this.treso.getTresorerie());

@@ -20,11 +20,8 @@ public class Stock {
 		this.vente=vente;
 	} // Pq modifier gestion Vente?
 	
-	public void miseAJourStock() {
-		this.initial=(int)(this.initial+recolte.getQterecoltee()-this.vente.getQuantiteVendue());
-	}
-	public int stockintermediaire(){
-		return this.initial+recolte.getQterecoltee();
+	public void miseAJourStock(int stock) {
+		this.initial=stock;
 	}
 	
 	public int getInitial(){
