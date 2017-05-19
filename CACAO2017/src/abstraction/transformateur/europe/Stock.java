@@ -28,13 +28,14 @@ public class Stock {
 	
 	
 	public void ajoutCacao(double cacao){
+
 		this.stockCacao+=cacao;
 		
 	}
 	
 	public void retraitCacao(double cacao){
 		if (cacao>=0) {
-			if (this.getStockCacao()-cacao<0) {
+			if (this.getStockCacao()-cacao<=0) {
 				this.journal.ajouter("T'as pas assez de cacao pour faire ça !!");
 			} else {
 				this.stockCacao-=cacao;
