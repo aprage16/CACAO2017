@@ -15,15 +15,12 @@ public class Test {
 		
 		ProductionCoteDIvoire prod= new ProductionCoteDIvoire(); 
 		System.out.println(prod.quantiteMiseEnvente());
-		System.out.println(prod.getProductions());
 		System.out.println(prod.getQuantiteProd());
 		prod.variationProduction();
 		System.out.println(prod.quantiteMiseEnvente());
-		System.out.println(prod.getProductions());
 		System.out.println(prod.getQuantiteProd());
 		prod.variationProduction();
 		System.out.println(prod.quantiteMiseEnvente());
-		System.out.println(prod.getProductions());
 		System.out.println(prod.getQuantiteProd());
 	}
 }

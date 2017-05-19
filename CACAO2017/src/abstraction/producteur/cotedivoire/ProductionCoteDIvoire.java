@@ -9,7 +9,7 @@ import abstraction.producteur.ameriquelatine.IProducteur;
 // by fcadre, comments by antoineroson
 
 public class ProductionCoteDIvoire implements Acteur, IProducteur{
-	public static final int  productionmoyenne = 1650000; // Production moyenne de la cote d'ivoire en tonnes
+	public static final int  productionmoyenne = 1650000/26; // Production moyenne de la cote d'ivoire en tonnes
 	private int  production; //Liste des productions par périodes
 	private Stock stock;          // Represente notre stock 
 	private Treso tresorerie;     // Représente notre trésorerie
@@ -48,14 +48,9 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 		return productionmoyenne; 
 	}
 	
-	//Accesseur liste de production
-	public int getProductions(){
-		return this.production; 
-	}
-	
 	//Accesseur quantité produite
 	public int getQuantiteProd(){ 
-		return this.getProductions();   
+		return this.production;   
 		// Récupére la dernière production sur la période
 	}
 
@@ -77,7 +72,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	}
 
 	public double quantiteMiseEnvente() {   // correspond a la quantité mise en vente//
-		return this.getQuantiteProd()+this.stock.getStock(); 
+		return this.stock.getStock(); 
 	}
 
 

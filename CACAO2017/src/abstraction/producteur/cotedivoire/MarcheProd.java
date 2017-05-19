@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import abstraction.fourni.Acteur;
+import abstraction.fourni.Indicateur;
+import abstraction.fourni.Monde;
 import abstraction.producteur.ameriquelatine.IProducteur;
 import abstraction.transformateur.usa.interfacemarche.transformateur;
 
@@ -18,6 +20,11 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 	private double quantiteAchetableGlob ;
 	private double quantiteVoulueGlob ;
 	private double coursActuel;
+	private Indicateur qteprod1;
+	private Indicateur qteprod2;
+	private Indicateur qtetrans1;
+	private Indicateur qtetrans2;
+
 	
 	public MarcheProd(ArrayList<IProducteur> producteurs,ArrayList<transformateur> transformateurs){
 		this.producteurs=producteurs;
@@ -32,6 +39,16 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 		this.quantiteAchetableGlob=0.0;
 		this.quantiteVoulueGlob=0.0;
 		this.coursActuel=3000;
+		this.qteprod1= new Indicateur("prod1",this,0.0);
+		this.qteprod2= new Indicateur("prod2",this,0.0);
+		this.qtetrans1= new Indicateur("trans1",this,0.0);
+		this.qtetrans2= new Indicateur("trans2",this,0.0);
+		Monde.LE_MONDE.ajouterIndicateur(this.qteprod1);
+		Monde.LE_MONDE.ajouterIndicateur(this.qteprod2);
+		Monde.LE_MONDE.ajouterIndicateur(this.qtetrans1);
+		Monde.LE_MONDE.ajouterIndicateur(this.qtetrans2);
+
+
 	}
 	
 	public void addProducteur (IProducteur p) {
@@ -113,6 +130,11 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 			}
 		}
 		Bourse();
+		this.qteprod1.setValeur(this, Prod.get(this.producteurs.get(0)));
+		this.qteprod2.setValeur(this, Prod.get(this.producteurs.get(1)));
+		this.qtetrans1.setValeur(this, Trans.get(this.transformateurs.get(0)));
+		this.qtetrans2.setValeur(this, Trans.get(this.transformateurs.get(1)));
+
 		
 	}
 }

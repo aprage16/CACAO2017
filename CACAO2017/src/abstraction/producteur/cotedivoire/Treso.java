@@ -5,7 +5,6 @@ public class Treso {
 	//modifie by @antoineroson
 	//by fcadre
 	private ArrayList<Integer> benefmensuel;
-	private Stock stock; //Stock appartenant au producteur
 	private double ca; // Chiffre d'affaire sur la période d'un next
 	private double coutdeprod; //Cout de production au kilo
 	private double coutacheminement; //Cout d acheminement
@@ -13,15 +12,11 @@ public class Treso {
 	private double benefice;  
 	
 	public Treso(){
-		this.stock = new Stock (0); 
 		this.ca = 0; 
 		this.coutdeprod = 0; 
 		this.coutacheminement = 0;
 		this.coutmaindoeuvre = 0; 
 		this.benefice = 0; 
-	}
-	public double getStock(){ 
-		return this.stock.getStock(); 
 	}
 	
 	public double getCa(){ 
