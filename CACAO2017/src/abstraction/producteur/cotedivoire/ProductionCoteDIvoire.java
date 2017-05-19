@@ -9,8 +9,10 @@ import abstraction.producteur.ameriquelatine.IProducteur;
 // by fcadre, comments by antoineroson
 
 public class ProductionCoteDIvoire implements Acteur, IProducteur{
-	public static final int  productionmoyenne = 1650000/26; // Production moyenne de la cote d'ivoire en tonnes
-	private int  production; //Liste des productions par périodes
+	public static final int  PRODUCTIONMOYENNE = 1650000/26; // Production moyenne de la cote d'ivoire en tonnes
+	public static final double VARIATIONALEATOIREPRODUCTION = 0.01; 
+	
+	private int  production; 
 	private Stock stock;          // Represente notre stock 
 	private Treso tresorerie;     // Représente notre trésorerie
 	private Indicateur productionIndicateur;
@@ -42,12 +44,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 		Monde.LE_MONDE.ajouterIndicateur(this.vente);
 		
 	}
-	
-	//Accesseur Production moyenne
-	public int getProductionmoyenne(){ 
-		return productionmoyenne; 
-	}
-	
+
 	//Accesseur quantité produite
 	public int getQuantiteProd(){ 
 		return this.production;   
@@ -56,10 +53,9 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 
 	// Méthode varitation random de la production
 	public void variationProduction(){
-		double variation = 0.10;  //Variation de +- 10% 
 		//Création d'une enveloppe (prod_min->prod_max)
-		double prod_min = this.getProductionmoyenne() - (double)(this.getProductionmoyenne()*variation); 
-		double prod_max = this.getProductionmoyenne() + (double)(this.getProductionmoyenne()*variation);
+		double prod_min = PRODUCTIONMOYENNE - (double)(PRODUCTIONMOYENNE*VARIATIONALEATOIREPRODUCTION); 
+		double prod_max = PRODUCTIONMOYENNE + (double)(PRODUCTIONMOYENNE*VARIATIONALEATOIREPRODUCTION);
 		double prod = prod_min + (double)Math.random()*(prod_max - prod_min); // Production random entre prod_min et prod_max
 		this.production=(int)prod; // ajout dans la liste de production
 		this.stock.addStock((int)prod);
@@ -79,7 +75,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	public void notificationVente(double quantite, double coursActuel) {	// grace a la notification de vente on met a jour // 
 		this.vente.setValeur(this,quantite);
 		this.stock.addStock(-quantite);
-		this.tresorerie.addBenef(quantite*coursActuel - this.stock.getStock()*tresorerie.couts);   
+		this.tresorerie.addBenef(quantite*coursActuel - this.stock.getStock()*Treso.COUTS);   
 	}
 	
 	//NEXT "Centre du programme -> Passage à la période suivante" 

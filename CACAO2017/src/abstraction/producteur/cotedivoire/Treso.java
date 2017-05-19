@@ -7,7 +7,7 @@ public class Treso {
 	private ArrayList<Integer> benefmensuel;
 	private double ca; // Chiffre d'affaire sur la période d'un next
 	private double benefice;  
-	public static final int couts = 47400; 
+	public static final int COUTS = 474; 
 	
 	public Treso(){
 		this.ca = 0;  
