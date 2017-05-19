@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sequence-diagram version="1.2.0" icons="true" generate-combined-fragments="true">  
+  <object id="1" language="java" name="abstraction.distributeur.europe.MondeV1" project="CACAO2017" 
+    file="/CACAO2017/src/abstraction/distributeur/europe/MondeV1.java" binary="false" label="mondeV1" type="class" 
+    autoSize="true">    
+    <position height="-1" width="-1" x="139" y="0"/>    
+    <execution id="2">      
+      <position height="72" width="0" x="0" y="89"/>    
+    </execution>    
+    <execution id="5">      
+      <position height="72" width="0" x="0" y="182"/>    
+    </execution>    
+    <execution id="8">      
+      <position height="72" width="0" x="0" y="263"/>    
+    </execution>    
+    <execution id="11">      
+      <position height="72" width="0" x="0" y="337"/>    
+    </execution>    
+    <execution id="14">      
+      <position height="72" width="0" x="0" y="414"/>    
+    </execution>  
+  </object>  
+  <object id="17" language="java" name="abstraction.transformateur.usa.TransformateurUsa" project="CACAO2017" 
+    file="/CACAO2017/src/abstraction/transformateur/usa/TransformateurUsa.java" binary="false" label="transformateurUsa" 
+    type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="13">      
+      <position height="24" width="0" x="0" y="361"/>    
+    </execution>    
+    <execution id="18">      
+      <position height="24" width="175" x="183" y="760"/>    
+    </execution>    
+    <execution id="19">      
+      <position height="24" width="175" x="183" y="1223"/>    
+    </execution>  
+  </object>  
+  <object id="20" language="java" name="abstraction.transformateur.europe.Transformateur" project="CACAO2017" 
+    file="/CACAO2017/src/abstraction/transformateur/europe/Transformateur.java" binary="false" label="transformateur" 
+    type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="10">      
+      <position height="24" width="0" x="0" y="287"/>    
+    </execution>    
+    <execution id="21">      
+      <position height="24" width="193" x="362" y="676"/>    
+    </execution>    
+    <execution id="22">      
+      <position height="24" width="193" x="362" y="1134"/>    
+    </execution>  
+  </object>  
+  <object id="23" language="java" name="abstraction.distributeur.europe.Distributeur" project="CACAO2017" 
+    file="/CACAO2017/src/abstraction/distributeur/europe/Distributeur.java" binary="false" label="distributeur" 
+    type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="7">      
+      <position height="24" width="0" x="0" y="206"/>    
+    </execution>    
+    <execution id="24">      
+      <position height="24" width="174" x="559" y="587"/>    
+    </execution>    
+    <execution id="25">      
+      <position height="24" width="174" x="559" y="1053"/>    
+    </execution>  
+  </object>  
+  <object id="26" language="java" name="abstraction.distributeur.amerique.DistributeurUS" project="CACAO2017" 
+    file="/CACAO2017/src/abstraction/distributeur/amerique/DistributeurUS.java" binary="false" label="distributeurUS" 
+    type="class" autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="4">      
+      <position height="24" width="0" x="0" y="113"/>    
+    </execution>    
+    <execution id="27">      
+      <position height="24" width="188" x="737" y="497"/>    
+    </execution>    
+    <execution id="28">      
+      <position height="24" width="188" x="737" y="961"/>    
+    </execution>  
+  </object>  
+  <object id="29" language="java" name="abstraction.distributeur.europe.Marche" project="CACAO2017" 
+    file="/CACAO2017/src/abstraction/distributeur/europe/Marche.java" binary="false" label="marche" type="class" 
+    autoSize="true">    
+    <position height="0" width="0" x="0" y="0"/>    
+    <execution id="16">      
+      <position height="24" width="0" x="0" y="438"/>    
+    </execution>    
+    <execution id="30">      
+      <position height="72" width="174" x="929" y="473"/>    
+    </execution>    
+    <execution id="32">      
+      <position height="72" width="174" x="929" y="563"/>    
+    </execution>    
+    <execution id="34">      
+      <position height="72" width="174" x="929" y="652"/>    
+    </execution>    
+    <execution id="36">      
+      <position height="72" width="174" x="929" y="736"/>    
+    </execution>    
+    <execution id="38">      
+      <position height="96" width="0" x="0" y="816"/>    
+    </execution>    
+    <execution id="40">      
+      <position height="24" width="7" x="1013" y="864"/>    
+    </execution>    
+    <execution id="41">      
+      <position height="72" width="174" x="929" y="1110"/>    
+    </execution>    
+    <execution id="43">      
+      <position height="72" width="174" x="929" y="1199"/>    
+    </execution>    
+    <execution id="45">      
+      <position height="72" width="174" x="929" y="1029"/>    
+    </execution>    
+    <execution id="47">      
+      <position height="72" width="174" x="929" y="937"/>    
+    </execution>  
+  </object>  
+  <message id="3" operation="next():void" asynchronous="false">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="4"/>  
+  </message>  
+  <message id="6" operation="next():void" asynchronous="false">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="7"/>  
+  </message>  
+  <message id="9" operation="next():void" asynchronous="false">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="10"/>  
+  </message>  
+  <message id="12" operation="next():void" asynchronous="false">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="13"/>  
+  </message>  
+  <message id="15" operation="next():void" asynchronous="false">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="16"/>  
+  </message>  
+  <message id="31" operation="getPrixMax():double" asynchronous="false">    
+    <end type="SOURCE" refId="30"/>    
+    <end type="TARGET" refId="27"/>  
+  </message>  
+  <message id="33" operation="getPrixMax():double" asynchronous="false">    
+    <end type="SOURCE" refId="32"/>    
+    <end type="TARGET" refId="24"/>  
+  </message>  
+  <message id="35" operation="getprixMin():double" asynchronous="false">    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="21"/>  
+  </message>  
+  <message id="37" operation="getprixMin():double" asynchronous="false">    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="18"/>  
+  </message>  
+  <message id="39" operation="Echanges():void" asynchronous="false">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="40"/>  
+  </message>  
+  <message id="42" operation="notif(double,double):void" asynchronous="false">    
+    <end type="SOURCE" refId="41"/>    
+    <end type="TARGET" refId="22"/>  
+  </message>  
+  <message id="44" operation="notif(double,double):void" asynchronous="false">    
+    <end type="SOURCE" refId="43"/>    
+    <end type="TARGET" refId="19"/>  
+  </message>  
+  <message id="46" operation="notif(abstraction.distributeur.europe.Vente):void" asynchronous="false">    
+    <end type="SOURCE" refId="45"/>    
+    <end type="TARGET" refId="25"/>  
+  </message>  
+  <message id="48" operation="notif(abstraction.distributeur.europe.Vente):void" asynchronous="false">    
+    <end type="SOURCE" refId="47"/>    
+    <end type="TARGET" refId="28"/>  
+  </message>
+</sequence-diagram>
