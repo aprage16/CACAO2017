@@ -13,30 +13,25 @@ public class Tresorerie {
 //private double ca; //chiffres d'affaires de la période
 
 	public final static int CHARGESPROD=10000000;// ($) charges fixes (hors coût de stock)
-	public final static double COUTSTOCK=1000;// comptés 2x
+	public final static double COUTSTOCK=1000;
 	private double resultat; 
 	private double tresorerie; // argent en banque
 	private Stock stock;
 
-//Méthode qui renvoie un chiffre d'affaire;
-//Méthode qui calcule les charges totales;
-//Méthode qui actualise la trésorerie;
-//qté vendue et cours actuel depuis producteur;
-	
 	public Tresorerie(Stock stock){
 		this.stock = stock ;
 		this.tresorerie = 10000 ;
 	}
-
 	public double getTresorerie(){
 		 return this.tresorerie ;
 	}
-	
 	public double cout(){
-		return CHARGESPROD + stock.getInitial()*COUTSTOCK; //on paye le cout du stock le mois d'après !!!
+		return CHARGESPROD + stock.getStock()*COUTSTOCK; //on paye le cout du stock le mois d'après !!!
 	}
-	
-	public void setTresorerie(double tresorerie){
-		this.tresorerie = tresorerie ;
+	public void encaissement(double a){
+		this.tresorerie+=a;
+	}
+	public void decaissement(double a){
+		this.tresorerie-=a;
 	}
 }
