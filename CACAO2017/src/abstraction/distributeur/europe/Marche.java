@@ -10,10 +10,10 @@ public class Marche implements Acteur{
 	private ArrayList<transformateur> transformateur;
 	
 	double prixVenteMin=20;
-	double prixVenteMax=40;
+	double prixVenteMax=400000000;
 	
 	double prixAchatMin=20;
-	double prixAchatMax=40;
+	double prixAchatMax=400000000;
 	
 	double unite=1000;
 	
@@ -88,12 +88,12 @@ public class Marche implements Acteur{
 			// Initialisation des deux variables définissant l'indice du distributeur et transformateur prioritaires
 
 			
-		 	if ((testFourchettePrix(test_t)||testFourchettePrix(test_d)) && testPrix){
+		 	while ((testFourchettePrix(test_t)||testFourchettePrix(test_d)) && !testPrix){
 			
 			// Recherche de minimum & maximum
 			
 
-			}
+			
 			
 			// Définition du prix
 			
@@ -112,7 +112,7 @@ public class Marche implements Acteur{
 			distributeur.get(prioDistri).getIndicateurStock().setValeur(distributeur.get(prioDistri), prix*unite);
 			distributeur.get(autreDistri).getIndicateurStock().setValeur(distributeur.get(prioDistri), prix*unite);
 			
-			
+		 	}
 			
 		}
 
