@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <class-diagram version="1.2.0" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="abstraction.producteur.ameriquelatine.GestionVentes" project="CACAO2017" 
     file="/CACAO2017/src/abstraction/producteur/ameriquelatine/GestionVentes.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="111" y="143"/>    
+
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -13,6 +15,7 @@
   <class id="2" language="java" name="abstraction.producteur.ameriquelatine.Producteur" project="CACAO2017" 
     file="/CACAO2017/src/abstraction/producteur/ameriquelatine/Producteur.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="414" y="46"/>    
+
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +24,9 @@
   </class>  
   <class id="3" language="java" name="abstraction.producteur.ameriquelatine.Recolte" project="CACAO2017" 
     file="/CACAO2017/src/abstraction/producteur/ameriquelatine/Recolte.java" binary="false" corner="BOTTOM_RIGHT">    
+
     <position height="-1" width="-1" x="720" y="105"/>    
+
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +35,9 @@
   </class>  
   <class id="4" language="java" name="abstraction.producteur.ameriquelatine.Stock" project="CACAO2017" 
     file="/CACAO2017/src/abstraction/producteur/ameriquelatine/Stock.java" binary="false" corner="BOTTOM_RIGHT">    
+
     <position height="-1" width="-1" x="609" y="365"/>    
+
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -39,7 +46,9 @@
   </class>  
   <class id="5" language="java" name="abstraction.producteur.ameriquelatine.Tresorerie" project="CACAO2017" 
     file="/CACAO2017/src/abstraction/producteur/ameriquelatine/Tresorerie.java" binary="false" corner="BOTTOM_RIGHT">    
+
     <position height="-1" width="-1" x="227" y="367"/>    
+
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

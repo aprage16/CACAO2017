@@ -15,6 +15,14 @@ public class Tresorerie {
 		this.comptecourant=comptecourant;
 	}
 	
+	public void addMoney(double montant){
+		this.comptecourant+=montant;
+	}
+	
+	public void removeMoney(double montant){
+		this.comptecourant-=montant;
+	}
+	
 	public double getCompteCourant(){
 		return this.comptecourant;
 	}
