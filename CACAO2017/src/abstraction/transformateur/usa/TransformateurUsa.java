@@ -11,11 +11,11 @@ public class TransformateurUsa implements transformateur,Acteur{
 	private StockProduitsFinis finis;
 	private StockMatPremiere premiere;
 	private TransfoChocolat Transfo;
-	private Tresorerie tresorie=new Tresorerie(5000000);
-	private static final int uniteventechocolat=10000;//10000 tonnes
+	private Tresorerie tresorie=new Tresorerie(5);
+	private static final int uniteventechocolat=1000;//1000 tonnes
 	private static final double bornesmax=0.008;//Une unité d'argent =1 million d'euro
 	private static final double bornesmin=0.004;
-	private static final double stockdesire=200*uniteventechocolat;
+	private static final double stockdesire=2000*uniteventechocolat;
 	private static final double prixstockage=0.25*bornesmin/(24*1000);//Le prix du stokage par an est de 25% de la valeur des marchandises stockées
 	private ArrayList<Double> prixmatprem;
 	private double venteChocolat;
@@ -67,6 +67,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 		produirechocolat();
 		payerstock();
 		achetermatierepremiere();
+		miseAJourJournal();
 		if(this.achats!=null){
 			this.achats.setValeur(this, this.getAchatCacao());
 			this.ventes.setValeur(this, this.MiseAJourVente());
@@ -76,6 +77,12 @@ public class TransformateurUsa implements transformateur,Acteur{
 		System.out.println(journal);
 	}
 	//souchu
+	
+	private void miseAJourJournal(){
+		journal.ajouter("Journal Usa");
+		journal.ajouter("");
+		journal.ajouter("");
+	}
 
 	private void payerstock(){
 		double avant=this.tresorie.getCompteCourant();
@@ -96,8 +103,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 	}
 
 	private void produirechocolat(){
-		double StockSouhaite =200*uniteventechocolat;
-		Transfo.produireChoco(StockSouhaite-finis.getStockChocolat());
+		Transfo.produireChoco(stockdesire-finis.getStockChocolat());
 	}
 
 	public double getprixMin(){
@@ -124,10 +130,12 @@ public class TransformateurUsa implements transformateur,Acteur{
 	}
 
 	public double QteSouhaite(){
-		System.out.println("Quantite souhaitée "+(stockdesire-this.premiere.getCacao()));
+		
 		if (stockdesire-this.premiere.getCacao()>=0){
+			journal.ajouter("Quantite souhaitée "+(stockdesire-this.premiere.getCacao()));
 			return stockdesire-this.premiere.getCacao();
 		}	
+		journal.ajouter("Quantite souhaitée="+0);
 		return 0;
 	}
 	@Override
@@ -136,7 +144,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 	}
 
 	public void notificationAchat(double achete, double prix){
-		journal.ajouter("On a achete"+achete*prix);
+		journal.ajouter("On a acheté pour un prix unitaire de  "+prix+"Et tant de tonne  "+achete);
 		this.tresorie.setCompteCourant(tresorie.getCompteCourant()-prix*achete);
 		this.premiere.setCacao(premiere.getCacao()+achete);
 		this.achatCacao+=achete;
