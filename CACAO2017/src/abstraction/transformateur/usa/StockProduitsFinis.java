@@ -6,26 +6,26 @@ public class StockProduitsFinis {
 	 * @author Arthur Prager
 	 */
 	/* modif souchu*/
-	private double Chocolat;
+	private double chocolat;
 
 	public StockProduitsFinis (double chocolat){
-		this.Chocolat=chocolat;
+		this.chocolat=chocolat;
 	}
 
 	public double getStockChocolat(){
-		return this.Chocolat;
+		return this.chocolat;
 	}
 
 	public void setStockChocolat(double chocolat){
-		this.Chocolat=chocolat;
+		this.chocolat=chocolat;
 	}
 
 	public void rajouterChoco(double chocolat){
-		this.Chocolat+=chocolat;
+		this.chocolat+=chocolat;
 	}
 
 	public void enleverChoco(double chocolat){
-		this.Chocolat-=chocolat;
+		this.chocolat-=chocolat;
 	}
 
 }
