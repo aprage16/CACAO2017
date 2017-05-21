@@ -104,6 +104,7 @@ public class Transformateur implements transformateur, Acteur  {
 		}
 		peremption=peremp;
 		System.out.println(peremp[4]);
+		System.out.println(estPerime);
 		this.s.retraitChocolat(estPerime);
 	}
 	
@@ -119,6 +120,6 @@ public class Transformateur implements transformateur, Acteur  {
 		
 	public void next(){
 		transformation();
-		modifPeremption();
+		//modifPeremption();
 	}
 }
