@@ -109,8 +109,8 @@ public class Marche implements Acteur{
 			
 			distributeur.get(prioDistri).notif(new Vente(prix, unite));
 			distributeur.get(autreDistri).notif(new Vente(prix, 0));
-			transformateur.get(prioTransfo).notif(unite, prix);
-			transformateur.get(autreTransfo).notif(0, prix);
+			transformateur.get(prioTransfo).notif(prix, unite);
+			transformateur.get(autreTransfo).notif(prix, 0);
 			distributeur.get(prioDistri).getIndicateurStock().setValeur(distributeur.get(prioDistri), prix*unite);
 			distributeur.get(autreDistri).getIndicateurStock().setValeur(distributeur.get(autreDistri), prix*unite);
 			
