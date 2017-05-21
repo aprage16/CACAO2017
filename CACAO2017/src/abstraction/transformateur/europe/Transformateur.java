@@ -95,7 +95,7 @@ public class Transformateur implements transformateur, Acteur  {
 	
 	public void modifPeremption(){
 		double[] peremp=new double[peremption.length];
-		double estPerime=peremption[5];
+		double estPerime=peremption[4];
 		peremp[0]=this.s.getStockCacao()*RATIO_CACAO_CHOCO;
 		for (int i=0;i<peremp.length-1;i++){
 			peremp[i+1]=peremption[i];
