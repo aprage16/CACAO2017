@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.0" icons="true" always-add-relationships="true" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="abstraction.transformateur.usa.StockMatPremiere" project="CACAO2017" 
-    file="/CACAO2017/src/abstraction/transformateur/usa/StockMatPremiere.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="387" width="257" x="393" y="-103"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="2" language="java" name="abstraction.transformateur.usa.StockProduitsFinis" project="CACAO2017" 
+  <class id="1" language="java" name="abstraction.transformateur.usa.StockProduitsFinis" project="CACAO2017" 
     file="/CACAO2017/src/abstraction/transformateur/usa/StockProduitsFinis.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="171" width="173" x="169" y="119"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -19,7 +10,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="abstraction.transformateur.usa.TransformateurUsa" project="CACAO2017" 
+  <class id="2" language="java" name="abstraction.transformateur.usa.TransformateurUsa" project="CACAO2017" 
     file="/CACAO2017/src/abstraction/transformateur/usa/TransformateurUsa.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="491" y="576"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -28,7 +19,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="abstraction.transformateur.usa.TransfoChocolat" project="CACAO2017" 
+  <class id="3" language="java" name="abstraction.transformateur.usa.TransfoChocolat" project="CACAO2017" 
     file="/CACAO2017/src/abstraction/transformateur/usa/TransfoChocolat.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="-1" width="-1" x="204" y="551"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -37,7 +28,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="abstraction.transformateur.usa.Tresorerie" project="CACAO2017" 
+  <class id="4" language="java" name="abstraction.transformateur.usa.Tresorerie" project="CACAO2017" 
     file="/CACAO2017/src/abstraction/transformateur/usa/Tresorerie.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="153" width="178" x="717" y="351"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
@@ -46,7 +37,7 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="6" language="java" name="abstraction.transformateur.usa.interfacemarche.transformateur" 
+  <interface id="5" language="java" name="abstraction.transformateur.usa.interfacemarche.transformateur" 
     project="CACAO2017" file="/CACAO2017/src/abstraction/transformateur/usa/interfacemarche/transformateur.java" 
     binary="false" corner="BOTTOM_RIGHT">    
     <position height="153" width="210" x="646" y="546"/>    
@@ -56,58 +47,58 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <association id="7">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="8" name="finis"/>      
-      <multiplicity id="9" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="10">    
-    <end type="SOURCE" refId="4" navigable="false">      
-      <attribute id="11" name="premiere"/>      
-      <multiplicity id="12" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="13">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="14" name="tresorie"/>      
-      <multiplicity id="15" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="16">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="17" name="premiere"/>      
-      <multiplicity id="18" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="19">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="20" name="finis"/>      
-      <multiplicity id="21" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="22">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="23" name="Transfo"/>      
-      <multiplicity id="24" minimum="0" maximum="1"/>    
+  <association id="6">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="7" name="tresorie">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="8" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="25">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="6"/>  
+  <association id="9">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="10" name="transfo">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="11" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="12">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="5"/>  
   </realization>  
+  <association id="13">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="14" name="finis">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="15" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="16">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="17" name="finis">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="18" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    
