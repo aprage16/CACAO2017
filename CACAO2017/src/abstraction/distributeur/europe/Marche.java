@@ -53,8 +53,8 @@ public class Marche implements Acteur{
 	
 	public int indiceMinimum(){
 		int indice_min = 0;
-		for (int i=1; i<this.distributeur.size(); i++){
-			indice_min = ((this.distributeur.get(i).getPrixMax()<this.distributeur.get(indice_min).getPrixMax()) ? i : indice_min);
+		for (int i=1; i<this.transformateur.size(); i++){
+			indice_min = ((this.transformateur.get(i).getprixMin()<this.transformateur.get(indice_min).getprixMin()) ? i : indice_min);
 		}
 		return indice_min;		
 	}
@@ -67,9 +67,11 @@ public class Marche implements Acteur{
 		
 		// On vérifie si les prix sont dans la fourchette autorisée
 		boolean[] test_t = new boolean[this.transformateur.size()];
-		boolean[] test_d = new boolean[this.transformateur.size()];
+		boolean[] test_d = new boolean[this.distributeur.size()];
 		for (int i=0; i<this.transformateur.size(); i++){
 			test_t[i] = (transformateur.get(i).getprixMin()>=prixVenteMin) &&	(transformateur.get(i).getprixMin()<=prixVenteMax);
+		}
+		for (int i=0; i<this.distributeur.size(); i++){
 			test_d[i] = (distributeur.get(i).getPrixMax()>=prixAchatMin) &&  (distributeur.get(i).getPrixMax()<=prixAchatMax);
 		}
 
@@ -110,7 +112,7 @@ public class Marche implements Acteur{
 			transformateur.get(prioTransfo).notif(unite, prix);
 			transformateur.get(autreTransfo).notif(0, prix);
 			distributeur.get(prioDistri).getIndicateurStock().setValeur(distributeur.get(prioDistri), prix*unite);
-			distributeur.get(autreDistri).getIndicateurStock().setValeur(distributeur.get(prioDistri), prix*unite);
+			distributeur.get(autreDistri).getIndicateurStock().setValeur(distributeur.get(autreDistri), prix*unite);
 			
 			
 			

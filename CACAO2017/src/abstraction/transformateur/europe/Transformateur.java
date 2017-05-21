@@ -51,6 +51,7 @@ public class Transformateur implements transformateur, Acteur  {
 	}
 	
 	public void notif(double prix, double quantite) {
+		System.out.println("vendu au prix de : "+prix+" avec une quantité de : "+quantite);
 		this.s.retraitChocolat(quantite);
 		double chiffredaffaire=prix*quantite;
 		this.compte.credit(chiffredaffaire);
@@ -103,8 +104,8 @@ public class Transformateur implements transformateur, Acteur  {
 			peremp[i+1]=peremption[i];
 		}
 		peremption=peremp;
-		System.out.println(peremp[4]);
-		System.out.println(estPerime);
+		//System.out.println(peremp[4]);
+		//System.out.println(estPerime);
 		this.s.retraitChocolat(estPerime);
 	}
 	
@@ -121,5 +122,6 @@ public class Transformateur implements transformateur, Acteur  {
 	public void next(){
 		transformation();
 		//modifPeremption();
+		//System.out.println(s.toString());
 	}
 }
