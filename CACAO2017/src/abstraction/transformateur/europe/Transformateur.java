@@ -20,17 +20,17 @@ public class Transformateur implements transformateur, Acteur  {
 	
 	private Indicateur stockChocolat;
 	private Indicateur tresorerie;
-	private Indicateur stockCacao;
+	private Indicateur commande;
 	
 	
 	public Transformateur (Stock s, Tresorerie compte){
 		this.s=s;
 		this.compte=compte;
 		this.stockChocolat=new Indicateur("3_TRAN_EU_stock_chocolat",this,this.s.getStockChocolat());
-		this.stockCacao=new Indicateur("3_TRAN_EU_stock_cacao",this,this.s.getStockCacao());
+		this.commande=new Indicateur("3_TRAN_EU_commande_actuelle",this,0.0);
 		this.tresorerie=new Indicateur("3_TRAN_EU_solde",this,this.compte.getCompte());
 		Monde.LE_MONDE.ajouterIndicateur( this.stockChocolat );
-		Monde.LE_MONDE.ajouterIndicateur( this.stockCacao );
+		Monde.LE_MONDE.ajouterIndicateur( this.commande );
 		Monde.LE_MONDE.ajouterIndicateur( this.tresorerie );
 	}
 	
@@ -54,7 +54,7 @@ public class Transformateur implements transformateur, Acteur  {
 		double chiffredaffaire=prix*quantite;
 		this.compte.credit(chiffredaffaire);
 		this.tresorerie.setValeur(this, this.compte.getCompte());
-		this.stockCacao.setValeur(this, quantite);
+		
 	}
 	
 	public int hashCode() {
@@ -72,21 +72,25 @@ public class Transformateur implements transformateur, Acteur  {
 	public double QteSouhaite(){
 		double stockCacao=this.s.getStockCacao();
 		double stockChocolat=this.s.getStockChocolat();
+		double quantiteSouhaitee;
 		if (stockChocolat<=CHOCOLAT_NECESSAIRE && stockChocolat < Stock.STOCK_MAX_CHOCOLAT){ //on vérifie si notre stock de chocolat est inférieur a la qte qu'on vend par mois
-			if (stockCacao>=(CHOCOLAT_NECESSAIRE-stockChocolat)*RATIO_CACAO_CHOCO){ //On vérifie si le cacao nécessaire pour atteindre notre objectif de chocolat est présent ou non, s'il l'est on achète rien
-				return 0;
+			if (stockCacao>=CACAO_NECESSAIRE){ //On vérifie si le cacao nécessaire pour atteindre notre objectif de chocolat est présent ou non, s'il l'est on achète rien
+				quantiteSouhaitee=0;
 			}else{
-				return ((CHOCOLAT_NECESSAIRE-stockChocolat)*RATIO_CACAO_CHOCO)-stockCacao; //on achète ce qui est suffisant pour produire CHOCOLAT_NECESSAIRE tonnes de chocolat
+				quantiteSouhaitee=CACAO_NECESSAIRE-stockCacao; //on achète ce qui est suffisant pour produire CHOCOLAT_NECESSAIRE tonnes de chocolat
 			}
 		}else{
-			return 0; //on achète rien si on a trop de chocolat par rapport à ce que l'on vend
+			return quantiteSouhaitee=0; //on achète rien si on a trop de chocolat par rapport à ce que l'on vend
 		}
-		
+		this.commande.setValeur(this, quantiteSouhaitee); //l'indicateur donne la quantité commandée au producteurs pendant le next
+		return quantiteSouhaitee;
 	}
 	
 	public void transformation(){
-		this.s.ajoutChocolat(this.s.getStockCacao()*RATIO_CACAO_CHOCO);
-		this.s.retraitChocolat(this.s.getStockCacao());
+		if (this.s.getStockChocolat()<=CHOCOLAT_NECESSAIRE){ //on vérifie que stock actuel <= Stock max
+			this.s.ajoutChocolat(CHOCOLAT_NECESSAIRE-this.s.getStockChocolat()); //on remplit notre stock tout le temps de sorte à avoir 44000
+			this.s.retraitCacao(CACAO_NECESSAIRE-this.s.getStockCacao());
+		}
 	}
 	
 	public void modifPeremption(){
@@ -103,7 +107,9 @@ public class Transformateur implements transformateur, Acteur  {
 	public void notificationAchat(double prix, double quantite){
 		this.s.ajoutCacao(quantite);
 		double achat = prix*quantite;
-		this.compte.debit(achat);
+		this.compte.debit(achat); //mettre cette ligne en commentaire pour observer la tréso 
+					// le retrait de cette ligne désactive le payement aux producteurs: on ne gagne que 11000€
+		                          // de ventes alors qu'on paye 10^7 : unités à revoir
 		this.stockChocolat.setValeur(this, this.s.getStockChocolat());
 		this.tresorerie.setValeur(this, this.compte.getCompte());
 	}
