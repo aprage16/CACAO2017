@@ -40,11 +40,12 @@ public class Transformateur implements transformateur, Acteur  {
 	
 	public double getprixMin() {
 		double stockchocolat=this.s.getStockChocolat();
-		if (stockchocolat<STOCK_MIN){
+		if (stockchocolat<STOCK_MIN){ // on se fixe un stock minimum de "secours" et si on le dépasse on renvoie une valeur qui doit couper la boucle du marché
 			return 1000000000;
 		}
 		else{
-			this.prixmin=PRIX_MIN+PRIX_MIN*STOCK_MIN/s.getStockChocolat(); //
+			this.prixmin=PRIX_MIN+PRIX_MIN*STOCK_MIN/s.getStockChocolat(); //calcul le nouveau prix minimum auquel on souhaite vendre en 
+																		   //tenant compte du stock de chocolat que l'on a
 			return this.prixmin;
 		}
 	}
@@ -93,7 +94,8 @@ public class Transformateur implements transformateur, Acteur  {
 		}
 	}
 	
-	public void modifPeremption(){
+	public void modifPeremption(){ // on considère notre stock de chocolat perissable en 10 semaines, le stockage dans une liste permet de 
+								  // supprimer la quantité produite il y a 10 semaines de notre stock 
 		double[] peremp=new double[peremption.length];
 		double estPerime=peremption[4];
 		peremp[0]=this.s.getStockCacao()*RATIO_CACAO_CHOCO;
@@ -101,6 +103,7 @@ public class Transformateur implements transformateur, Acteur  {
 			peremp[i+1]=peremption[i];
 		}
 		peremption=peremp;
+		System.out.println(peremp[4]);
 		this.s.retraitChocolat(estPerime);
 	}
 	
