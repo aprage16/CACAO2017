@@ -25,17 +25,30 @@ public class Stock {
 		Monde.LE_MONDE.ajouterJournal(this.journal);
 	}
 	
-	public Stock(double stockCacao, double stockChocolat){
+	public Stock(double stockCacao, double stockChocolat){ //constructeur
 		this.stockCacao=stockCacao;
 		this.stockChocolat=stockChocolat;
 	}
 	
-	public double getStockCacao(){
+	public Stock(Stock s){ //constructeur par recopie
+		this.stockCacao=s.stockCacao;
+		this.stockChocolat=s.stockChocolat;
+	}
+	
+	public double getStockCacao(){ //getters
 		return this.stockCacao;
 	}
 	
 	public double getStockChocolat(){
 		return this.stockChocolat;
+	}
+	
+	public void setStockCacao(double cacao){ //setters
+		this.stockCacao=cacao;
+	}
+	
+	public void setStockChocolat(double chocolat){
+		this.stockChocolat=chocolat;
 	}
 	
 	public void ajoutCacao(double cacao){ //ajout cacao au stock
