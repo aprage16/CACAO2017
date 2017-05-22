@@ -1,5 +1,11 @@
-package abstraction.transformateur.europe;
 
+//** Classe gérant le Stock (stockCacao, stockChocolat)
+//** authors : Blois Philippe, 
+//**           Charloux Jean, 
+//**           Halzuet Guillaume,
+//**		   Stourm Théo ***///
+
+package abstraction.transformateur.europe;
 import abstraction.fourni.Journal;
 
 public class Stock {
@@ -10,7 +16,6 @@ public class Stock {
 	public static final int STOCK_MAX_CACAO = 50000;
 	public static final int STOCK_MAX_CHOCOLAT = 70000;
 	private Journal journal;
-	
 	
 	public Stock(){
 		this.stockCacao=0;
@@ -26,14 +31,11 @@ public class Stock {
 		return this.stockChocolat;
 	}
 	
-	
-	public void ajoutCacao(double cacao){
-
+	public void ajoutCacao(double cacao){ //ajout cacao au stock
 		this.stockCacao+=cacao;
-		
 	}
 	
-	public void retraitCacao(double cacao){
+	public void retraitCacao(double cacao){ //retrait cacao
 		if (cacao>=0) {
 			if (this.getStockCacao()-cacao<=0) {
 				this.journal.ajouter("T'as pas assez de cacao pour faire ça !!");
@@ -45,14 +47,12 @@ public class Stock {
 		}
 	}
 	
-	
-	public void ajoutChocolat(double chocolat){
+	public void ajoutChocolat(double chocolat){ //ajout chocolat
 		this.stockChocolat+=chocolat;
 
 	}
 	
-	
-	public void retraitChocolat(double chocolat){
+	public void retraitChocolat(double chocolat){ //retrait chocolat
 		if (chocolat>=0) {
 			if (this.getStockChocolat()-chocolat<0) {
 				this.journal.ajouter("T'as pas assez de chocolat pour faire ça !!");
@@ -63,7 +63,6 @@ public class Stock {
 			this.journal.ajouter("Tu ajoutes du négatif !!");
 		}
 	}
-	
 	
 	public String toString(){
 		return "Le stock de cacao est de: "+this.getStockCacao()+", celui de chocolat est de: "+this.getStockChocolat();

@@ -1,3 +1,12 @@
+
+//** Classe gérant notre acteur globalement (intéractions avec le marché, processus de transformation du cacao en chocolat,
+//**										 ventes, achat, péremption, indicateurs et notifications)
+//** authors : Blois Philippe, 
+//**           Charloux Jean, 
+//**           Halzuet Guillaume,
+//**		   Stourm Théo ***///
+
+
 package abstraction.transformateur.europe;
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
@@ -6,7 +15,6 @@ import abstraction.transformateur.usa.interfacemarche.transformateur;;
 
 public class Transformateur implements transformateur, Acteur  {
 
-	private String nom;
 	private Stock s;
 	private Tresorerie compte;
 	private double prixmin;
@@ -16,12 +24,9 @@ public class Transformateur implements transformateur, Acteur  {
 	public static final int STOCK_MIN=5000;
 	public static final double RATIO_CACAO_CHOCO=0.7;
 	public static final int PRIX_MIN=20;
-	
-	
 	private Indicateur stockChocolat;
 	private Indicateur tresorerie;
 	private Indicateur commande;
-	
 	
 	public Transformateur (Stock s, Tresorerie compte){
 		this.s=s;
@@ -39,12 +44,12 @@ public class Transformateur implements transformateur, Acteur  {
 	}
 	
 	public double getprixMin() {
-		double stockchocolat=this.s.getStockChocolat();
-		if (stockchocolat<STOCK_MIN){ // on se fixe un stock minimum de "secours" et si on le dépasse on renvoie une valeur qui doit couper la boucle du marché
+		double stockChocolat=this.s.getStockChocolat();
+		if (stockChocolat<STOCK_MIN){ // on se fixe un stock minimum de "secours" et si on le dépasse on renvoie une valeur qui doit couper la boucle du marché
 			return 1000000000;
 		}
 		else{
-			this.prixmin=PRIX_MIN+PRIX_MIN*STOCK_MIN/s.getStockChocolat(); //calcul le nouveau prix minimum auquel on souhaite vendre en 
+			this.prixmin=PRIX_MIN+PRIX_MIN*STOCK_MIN/stockChocolat; //calcul le nouveau prix minimum auquel on souhaite vendre en 
 																		   //tenant compte du stock de chocolat que l'on a
 			return this.prixmin;
 		}
@@ -53,8 +58,8 @@ public class Transformateur implements transformateur, Acteur  {
 	public void notif(double prix, double quantite) {
 		System.out.println("vendu au prix de : "+prix+" avec une quantité de : "+quantite);
 		this.s.retraitChocolat(quantite);
-		double chiffredaffaire=prix*quantite;
-		this.compte.credit(chiffredaffaire);
+		double chiffreAffaire=prix*quantite;
+		this.compte.credit(chiffreAffaire);
 		this.tresorerie.setValeur(this, this.compte.getCompte());
 		
 	}
@@ -88,13 +93,10 @@ public class Transformateur implements transformateur, Acteur  {
 		return quantiteSouhaitee;
 	}
 	
-	
-	
-	
-	public void transformation(){
+	public void transformation(){ //processus de transformation du cacao en chocolat, appellée chaque next
 		if (this.s.getStockChocolat()<=CHOCOLAT_NECESSAIRE){ //on vérifie que stock actuel <= Stock max
 			this.s.ajoutChocolat(CHOCOLAT_NECESSAIRE-this.s.getStockChocolat()); //on remplit notre stock tout le temps de sorte à avoir 44000
-			this.s.retraitCacao(CACAO_NECESSAIRE-this.s.getStockCacao());
+			this.s.retraitCacao(CACAO_NECESSAIRE-this.s.getStockCacao()); //retrait du cacao nécessaire à la transformation
 		}
 	}
 	
@@ -122,7 +124,7 @@ public class Transformateur implements transformateur, Acteur  {
 		this.tresorerie.setValeur(this, this.compte.getCompte());
 	}
 		
-	public void next(){
+	public void next(){ //passage à l'étape suivante
 		transformation();
 		//modifPeremption();
 		//System.out.println(s.toString());

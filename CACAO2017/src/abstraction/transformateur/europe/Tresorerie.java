@@ -1,3 +1,10 @@
+
+//** Classe gérant la trésorerie de notre acteur
+//** authors : Blois Philippe, 
+//**           Charloux Jean, 
+//**           Halzuet Guillaume,
+//**		   Stourm Théo ***///
+
 package abstraction.transformateur.europe;
 
 public class Tresorerie {
@@ -26,10 +33,10 @@ public class Tresorerie {
 		}
 	}
 		
-	
 	public void debit(double montant){
 		if(montant>=0){
 			this.setCompte(this.getCompte()-montant);
 		}
 	}
+	
 }
