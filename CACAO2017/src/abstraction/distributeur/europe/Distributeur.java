@@ -23,15 +23,15 @@ public class Distributeur implements Acteur,IDistributeur{
 	
 	public Distributeur(){
 		this.nom = "Distributeur europe";
-		this.derniereVente = new Vente(2000,10);
+		this.derniereVente = new Vente(0.002,2);
 		this.stock = 400;
 		this.qteDemandee = 100;
 		this.fonds = 100;
  	    this.journal = new Journal("Journal de "+this.nom);
  	    Monde.LE_MONDE.ajouterJournal(this.journal);
 		
-		this.fondsI = new Indicateur("2_DISTR_EU_stock", this, 100);
-		this.stockI = new Indicateur("2_DISTR_EU_fonds", this, 0.1);
+		this.fondsI = new Indicateur("2_DISTR_EU_fonds", this, 100);
+		this.stockI = new Indicateur("2_DISTR_EU_stocks", this, 400);
 		
     	Monde.LE_MONDE.ajouterIndicateur( this.fondsI );
     	Monde.LE_MONDE.ajouterIndicateur( this.stockI );
@@ -83,7 +83,7 @@ public class Distributeur implements Acteur,IDistributeur{
 		prixTransfo = this.getDerniereVente().getPrix();
 		double coeff = qteDemandee/this.stock;
 		double prix = (1/coeff)*prixTransfo;
-
+		
 		return prix;
 	}
 	
@@ -95,9 +95,10 @@ public class Distributeur implements Acteur,IDistributeur{
 			this.stockI.setValeur(this, this.stock);
 		}
 		else {
+			double stock_manquant = this.stock; 
 			this.setStock(0);
-			double stock_manquant = Math.abs(this.stock-vente.getQuantite()); 
-			this.fondsI.setValeur(this, this.fonds+vente.getPrix()*vente.getQuantite()-vente.getPrix()*stock_manquant);
+			//-vente.getPrix()*stock_manquant
+			this.fondsI.setValeur(this, this.fonds+vente.getPrix()*stock_manquant);
 			this.stockI.setValeur(this, this.stock);			
 		}
 
