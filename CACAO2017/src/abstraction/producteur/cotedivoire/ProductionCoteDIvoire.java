@@ -133,7 +133,8 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	public void notificationVente(double quantite, double coursActuel) {	// grace a la notification de vente on met a jour // 
 		this.vente.setValeur(this,quantite);
 		this.stock.addStock(-quantite);
-		this.tresorerie.addBenef(quantite*coursActuel - this.stock.getStock()*Treso.COUTS);   
+		this.tresorerie.addBenef(quantite*coursActuel - this.stock.getStock()*Treso.COUTS);
+		this.tresoIndicateur.setValeur(this,this.tresorerie.getCa());
 	}
 	
 	//NEXT "Centre du programme -> Passage à la période suivante" 
@@ -141,6 +142,5 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	public void next() {
 		this.variationProduction(Monde.LE_MONDE.getStep());
 		this.stockIndicateur.setValeur(this,this.stock.getStock());
-		this.tresoIndicateur.setValeur(this,this.tresorerie.getCa());
 	}
 }
