@@ -10,12 +10,12 @@ import abstraction.distributeur.europe.IDistributeur;
 public class MarcheClients {
 	public static double fideliteIni=0.0;
 
-	private HashMap<IDistributeur, Double> fidelites;
-	//private ArrayList<Double> fidelite;
+	private HashMap<IDistributeur, Double> fidelites;//Hashmap met en relation deux objets ici le distributeur et la fidelite
+	
 
 	public MarcheClients(){
-		this.fidelites=new  HashMap<IDistributeur, Double>();//ArrayList<IDistributeur>();
-		//	this.fidelite=new ArrayList<Double>();
+		this.fidelites=new  HashMap<IDistributeur, Double>();
+		
 	}
 
 	public List<IDistributeur> getDistributeur(){
@@ -27,20 +27,16 @@ public class MarcheClients {
 		}
 		return res;
 	}
-	/*public ArrayList<Double> getFidelite(){
-		return this.fidelite;
-	}*/
-	/*
+	
 	public void addDistributeur(IDistributeur distributeur){
-		this.getDistributeur().add(distributeur);
-		this.getFidelite().add(fideliteIni);
+		this.setFidelite(distributeur, fideliteIni);
 	}
-	 */
+	 
 	public void setFidelite(IDistributeur distributeur, double fidelite){
-		this.fidelites.put(distributeur, fidelite);// int index=this.getDistributeur().indexOf(distributeur);
-		//this.getFidelite().
+		this.fidelites.put(distributeur, fidelite);
 	}
 	public double getFidelite(IDistributeur distributeur) {
 		return this.fidelites.get(distributeur);
 	}
+	
 }
