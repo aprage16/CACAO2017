@@ -7,6 +7,7 @@
 
 package abstraction.transformateur.europe;
 import abstraction.fourni.Journal;
+import abstraction.fourni.Monde;
 
 public class Stock {
 
@@ -15,20 +16,39 @@ public class Stock {
 	public static final int DATE_PEREMPTION = 5;
 	public static final int STOCK_MAX_CACAO = 50000;
 	public static final int STOCK_MAX_CHOCOLAT = 70000;
+	public static final int STOCK_MIN=5000;
 	private Journal journal;
 	
 	public Stock(){
-		this.stockCacao=0;
-		this.stockChocolat=44000;
-		this.journal=new Journal("Journal Transformateur Europe Stock");
+		this(0,44000);
+		this.journal=new Journal("Journal du Stock des Transformateurs d'Europe");
+		Monde.LE_MONDE.ajouterJournal(this.journal);
 	}
 	
-	public double getStockCacao(){
+	public Stock(double stockCacao, double stockChocolat){ //constructeur
+		this.stockCacao=stockCacao;
+		this.stockChocolat=stockChocolat;
+	}
+	
+	public Stock(Stock s){ //constructeur par recopie
+		this.stockCacao=s.stockCacao;
+		this.stockChocolat=s.stockChocolat;
+	}
+	
+	public double getStockCacao(){ //getters
 		return this.stockCacao;
 	}
 	
 	public double getStockChocolat(){
 		return this.stockChocolat;
+	}
+	
+	public void setStockCacao(double cacao){ //setters
+		this.stockCacao=cacao;
+	}
+	
+	public void setStockChocolat(double chocolat){
+		this.stockChocolat=chocolat;
 	}
 	
 	public void ajoutCacao(double cacao){ //ajout cacao au stock
@@ -49,7 +69,6 @@ public class Stock {
 	
 	public void ajoutChocolat(double chocolat){ //ajout chocolat
 		this.stockChocolat+=chocolat;
-
 	}
 	
 	public void retraitChocolat(double chocolat){ //retrait chocolat
@@ -65,7 +84,7 @@ public class Stock {
 	}
 	
 	public String toString(){
-		return "Le stock de cacao est de: "+this.getStockCacao()+", celui de chocolat est de: "+this.getStockChocolat();
+		return "Le stock de <b>cacao</b> est de: <b><font color=\"purple\">"+this.getStockCacao()+"</font></b> , celui de <b>chocolat</b> est de: <b><font color=\"purple\">"+this.getStockChocolat()+"</font></b>";
 	}
 	
 }

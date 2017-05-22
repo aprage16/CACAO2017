@@ -48,7 +48,6 @@ public class Marche implements Acteur{
 	}
 
 	public void Actif(){
-		
 		this.distributeurActif=new ArrayList<IDistributeur>();
 		this.transformateurActif=new ArrayList<transformateur>();
 		for (transformateur a:this.transformateur){
