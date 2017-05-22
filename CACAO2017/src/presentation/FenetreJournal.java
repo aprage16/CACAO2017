@@ -23,6 +23,7 @@ import abstraction.fourni.Journal;
 public class FenetreJournal extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
 	private Journal journal;
 	private JLabel label;
     private JCheckBox checkBox;

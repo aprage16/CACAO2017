@@ -76,7 +76,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 			this.solde.setValeur(this, this.tresorie.getCompteCourant());
 			this.achatCacao=0;
 		}
-		//System.out.println(journal);
+		System.out.println(journal);
 	}
 	//souchu
 	
