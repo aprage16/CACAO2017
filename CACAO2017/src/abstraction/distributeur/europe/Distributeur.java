@@ -82,7 +82,7 @@ public class Distributeur implements Acteur,IDistributeur{
 		double prixTransfo;
 		prixTransfo = this.getDerniereVente().getPrix();
 		double coeff = qteDemandee/this.stock;
-		double prix = coeff*prixTransfo;
+		double prix = (1/coeff)*prixTransfo;
 		return prix;
 	}
 	
@@ -90,9 +90,16 @@ public class Distributeur implements Acteur,IDistributeur{
 		this.setVente(vente);
 		if (this.stock-vente.getQuantite()>0){
 			this.setStock(this.stock-vente.getQuantite());
+			this.fondsI.setValeur(this, this.fonds+vente.getPrix()*vente.getQuantite());
+			this.stockI.setValeur(this, this.stock);
 		}
-		this.fondsI.setValeur(this, this.fonds+vente.getPrix()*vente.getQuantite());
-		this.stockI.setValeur(this, this.stock);
+		else {
+			this.setStock(0);
+			double stock_manquant = Math.abs(this.stock-vente.getQuantite()); 
+			this.fondsI.setValeur(this, this.fonds+vente.getPrix()*vente.getQuantite()-vente.getPrix()*stock_manquant);
+			this.stockI.setValeur(this, this.stock);			
+		}
+
 	}
 	
 	public void next(){}
