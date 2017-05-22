@@ -1,6 +1,6 @@
 package abstraction.transformateur.usa.interfacemarche;
 
-public interface transformateur {
+public interface transformateur {  /* à modifier Transformateur( mettre majuscule ) */
 	/*Souchu*/
 	public double getprixMin();
 	public void notif(double prix,double quantité);

@@ -3,7 +3,7 @@ public class TransfoChocolat {
 	
 	private StockMatPremiere premiere;
 	private StockProduitsFinis finis;
-	public final static double[] recette = {0.6, 0.15, 0.2, 0.05};//pourcentage de matiere premiere pour realiser une unite de produit fini. new double[4];
+	public final static double[] Recette = {0.6, 0.15, 0.2, 0.05};//pourcentage de matiere premiere pour realiser une unite de produit fini. new double[4];
 	
 	private double[] stocks=new double[4];
 	final static public int SUCRE =2;
@@ -30,27 +30,27 @@ public class TransfoChocolat {
 		lireStock();
 		boolean suffisant=true;
 		double maxmanque=0;
-		for (int i=0;i<recette.length;i++){
-			demande[i]=recette[i]*quantité;
+		for (int i=0;i<Recette.length;i++){
+			demande[i]=Recette[i]*quantité;
 		}
-		for (int i=0;i<recette.length;i++){
+		for (int i=0;i<Recette.length;i++){
 			if(demande[i]>stocks[i]){
 				suffisant=false;
 			}
 		}
 		if (suffisant){
-			for (int i=0;i<recette.length;i++){
+			for (int i=0;i<Recette.length;i++){
 				stocks[i]-=demande[i];
 			}
 			finis.rajouterChoco(quantité);
 		}
 		else{
-			for (int i=0;i<recette.length;i++){
+			for (int i=0;i<Recette.length;i++){
 				if((demande[i]-stocks[i])/demande[i]>maxmanque){
 					maxmanque=(demande[i]-stocks[i])/demande[i];
 				}
 			}
-			for (int i=0;i<recette.length;i++){
+			for (int i=0;i<Recette.length;i++){
 				stocks[i]=stocks[i]-demande[i]*(1-maxmanque);
 			}
 			finis.rajouterChoco(quantité*(1-maxmanque));
