@@ -101,36 +101,41 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 		setQuantiteAchetableGlobale(qttEnVente);       //on définit la quantité globale en vente sur le marché.
 		int qttSouhaitee=0; 
 		for (transformateur t : Trans.keySet()){
-			qttSouhaitee+= Trans.get(t);
+			if (Trans.get(t)>=0){
+				qttSouhaitee+= Trans.get(t); //ON ADDITIONNE QUE SI LES QUANTITES SONT POSITIVES evite de fausser les valeurs
+			}
 		}
 		setQuantiteVoulueGlobale(qttSouhaitee);      // On définit la quantite globale voulue sur le marché.
 		if (qttEnVente>=qttSouhaitee) {
 			for (transformateur t : Trans.keySet()){
 				if (Trans.get(t)>=0){	
 					t.notificationAchat(Trans.get(t),this.getCoursActuel());
-					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE1 "+Trans.get(t)+" A L ETAPE "+Monde.LE_MONDE.getStep());
-					for (IProducteur p : Prod.keySet()){
-						p.notificationVente((((double)Prod.get(p)/qttEnVente)*Trans.get(t)), this.getCoursActuel());
-						this.journal.ajouter(((Acteur)p).getNom()+" VENDS "+(((double)Prod.get(p)/qttEnVente)*Trans.get(t))+" A L ETAPE "+Monde.LE_MONDE.getStep());
-					}
+					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE qqttEnvente>qttSouhaitee "+Trans.get(t)+" A L ETAPE "+Monde.LE_MONDE.getStep());
 				}
 				else {
 					t.notificationAchat(0, this.getCoursActuel());
 					this.journal.ajouter(((Acteur)t).getNom()+" DEMANDE UNE VALEUR NEGATIVE A L ETAPE "+Monde.LE_MONDE.getStep());
-					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE2 "+0+" A L ETAPE "+Monde.LE_MONDE.getStep());
+					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE "+0+" A L ETAPE "+Monde.LE_MONDE.getStep());
 				}
 			}
+			for (IProducteur p : Prod.keySet()){
+				p.notificationVente((((double)Prod.get(p)/qttEnVente)*qttSouhaitee), this.getCoursActuel());
+				//pourcentage de la quantite mise en vente fois la quentite vendue (quantite vendue = quantite soihaitee)
+				this.journal.ajouter(((Acteur)p).getNom()+" VENDS "+(((double)Prod.get(p)/qttEnVente)*qttSouhaitee)+" A L ETAPE "+Monde.LE_MONDE.getStep());
+					}
+			
 		}
 		else {
 			for (IProducteur p : Prod.keySet()){
 				p.notificationVente(Prod.get(p),this.getCoursActuel());
 				this.journal.ajouter(((Acteur)p).getNom()+" VENDS "+Prod.get(p)+" A L ETAPE "+Monde.LE_MONDE.getStep());
-				for (transformateur t : Trans.keySet()){
-					t.notificationAchat(((double)Trans.get(t)/qttSouhaitee)*qttEnVente,this.getCoursActuel());
-					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE3 "+((double)Trans.get(t)/qttSouhaitee)*qttEnVente+" A L ETAPE "+Monde.LE_MONDE.getStep()+ " au " +((Acteur)p).getNom());
+			}
+			for (transformateur t : Trans.keySet()){
+				t.notificationAchat(((double)Trans.get(t)/qttSouhaitee)*qttEnVente,this.getCoursActuel());
+				this.journal.ajouter(((Acteur)t).getNom()+" ACHETE3 "+((double)Trans.get(t)/qttSouhaitee)*qttEnVente+" A L ETAPE "+Monde.LE_MONDE.getStep());
 				}
 				
-			}
+		
 		}
 		EvolutionDuCours();
 
