@@ -80,7 +80,10 @@ public class Marche implements Acteur{
 			System.out.println(prioT.getprixMin());
 			if (prioD.getPrixMax()>=prioT.getprixMin()){
 			prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
-			System.out.println(prixMoyen);
+			for (int i=0; i<transformateur.size();i++){
+				transformateur.get(i).notif(prixMoyen, 0);
+			}
+			System.out.println("prix moyen = " + prixMoyen);
 			prioD.notif(new Vente(prixMoyen,unite));
 			prioT.notif(prixMoyen,unite);
 			
@@ -98,9 +101,13 @@ public class Marche implements Acteur{
 
 	public void next(){
 		this.onEchange=true;
+		int compteur = 0;
 		while(this.onEchange){
 			this.Echanges();
-			
+			if (compteur>=3){
+				break;
+			}
+			compteur+=1;
 		}
 	}
 
