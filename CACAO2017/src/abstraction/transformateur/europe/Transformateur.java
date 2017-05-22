@@ -65,17 +65,6 @@ public class Transformateur implements transformateur, Acteur  {
 	}
 	
 	
-	public void notif(double prix, double quantite) {
-		//System.out.println("vendu au prix de : "+prix+" avec une quantité de : "+quantite);
-		this.s.retraitChocolat(quantite);
-		double chiffreAffaire=prix*quantite;
-		this.compte.credit(chiffreAffaire);
-		this.tresorerie.setValeur(this, this.compte.getCompte());
-		quantiteAchetee+=quantite;
-		prixMoyendeVente+=prix;
-		compteurVente+=1;
-	}
-	
 	public int hashCode() {
 		return this.getNom().hashCode();
 	}
@@ -139,10 +128,23 @@ public class Transformateur implements transformateur, Acteur  {
 		quantiteAchetee+=quantite;
 	}
 	
+	
+	public void notif(double prix, double quantite) {
+		//System.out.println("vendu au prix de : "+prix+" avec une quantité de : "+quantite);
+		this.s.retraitChocolat(quantite);
+		double chiffreAffaire=prix*quantite;
+		this.compte.credit(chiffreAffaire);
+		this.tresorerie.setValeur(this, this.compte.getCompte());
+		quantiteAchetee+=quantite;
+		prixMoyendeVente+=prix;
+		compteurVente+=1;
+	}
+	
+	
 	public void Transactions (){
 		this.journal.ajouter("Une <b>quantité</b> de : <b><font color =\"red\"> "+quantiteAchetee+"</font></b> de cacao a été acheté au <b>prix unitaire</b> de : <font color=\"red\"> "+prixMoyendAchat/compteurAchat+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
 		this.journal.ajouter(" ");
-		this.journal.ajouter("Une <b>quantité</b> de : <b><font color=\"green\">"+quantiteVendue/compteurVente+"</font></b> de chocolat a été vendu au <b>prix unitaire</b> de : <font color=\"green\"> "+prixMoyendeVente+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
+		this.journal.ajouter("Une <b>quantité</b> de : <b><font color=\"green\">"+quantiteVendue+"</font></b> de chocolat a été vendu au <b>prix unitaire</b> de : <font color=\"green\"> "+prixMoyendeVente/compteurVente+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
 		this.journal.ajouter(" ");
 		this.journal.ajouter(this.s.toString());
 		this.journal.ajouter(" ");
