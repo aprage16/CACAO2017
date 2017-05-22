@@ -51,7 +51,6 @@ public class Stock {
 	
 	public void ajoutChocolat(double chocolat){ //ajout chocolat
 		this.stockChocolat+=chocolat;
-
 	}
 	
 	public void retraitChocolat(double chocolat){ //retrait chocolat
