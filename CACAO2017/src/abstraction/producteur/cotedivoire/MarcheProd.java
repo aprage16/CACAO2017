@@ -108,7 +108,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 			for (transformateur t : Trans.keySet()){
 				if (Trans.get(t)>=0){	
 					t.notificationAchat(Trans.get(t),this.getCoursActuel());
-					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE "+Trans.get(t)+" A L ETAPE "+Monde.LE_MONDE.getStep());
+					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE1 "+Trans.get(t)+" A L ETAPE "+Monde.LE_MONDE.getStep());
 					for (IProducteur p : Prod.keySet()){
 						p.notificationVente((((double)Prod.get(p)/qttEnVente)*Trans.get(t)), this.getCoursActuel());
 						this.journal.ajouter(((Acteur)p).getNom()+" VENDS "+(((double)Prod.get(p)/qttEnVente)*Trans.get(t))+" A L ETAPE "+Monde.LE_MONDE.getStep());
@@ -117,7 +117,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 				else {
 					t.notificationAchat(0, this.getCoursActuel());
 					this.journal.ajouter(((Acteur)t).getNom()+" DEMANDE UNE VALEUR NEGATIVE A L ETAPE "+Monde.LE_MONDE.getStep());
-					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE "+0+" A L ETAPE "+Monde.LE_MONDE.getStep());
+					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE2 "+0+" A L ETAPE "+Monde.LE_MONDE.getStep());
 				}
 			}
 		}
@@ -127,7 +127,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 				this.journal.ajouter(((Acteur)p).getNom()+" VENDS "+Prod.get(p)+" A L ETAPE "+Monde.LE_MONDE.getStep());
 				for (transformateur t : Trans.keySet()){
 					t.notificationAchat(((double)Trans.get(t)/qttSouhaitee)*qttEnVente,this.getCoursActuel());
-					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE "+((double)Trans.get(t)/qttSouhaitee)*qttEnVente+" A L ETAPE "+Monde.LE_MONDE.getStep());
+					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE3 "+((double)Trans.get(t)/qttSouhaitee)*qttEnVente+" A L ETAPE "+Monde.LE_MONDE.getStep()+ " au " +((Acteur)p).getNom());
 				}
 				
 			}
