@@ -45,7 +45,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 
 	public TransformateurUsa(){
 		step=0;
-		journal=new Journal("TransfoUsa");
+		journal=new Journal("Journal de Transformateur USA");
 		this.tresorerie=new Tresorerie(100);
 		prixmatprem = new ArrayList<Double>();
 		prixmatprem.add(0.000350);//Prix matière première à la tonne en euros.
@@ -62,7 +62,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 		Monde.LE_MONDE.ajouterIndicateur(this.ventes);
 		this.solde=new Indicateur("5_TRAN_USA_solde",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur(this.solde);	
-		//Monde.LE_MONDE.ajouterJournal(journal);
+		Monde.LE_MONDE.ajouterJournal(journal);
 	}
 
 	public void next(){
@@ -70,7 +70,6 @@ public class TransformateurUsa implements transformateur,Acteur{
 		payerstock();
 		achetermatierepremiere();
 		miseAJourJournal();
-		System.out.print(journal);
 		if(this.achats!=null){
 			this.achats.setValeur(this, this.getAchatCacao());
 			this.ventes.setValeur(this, this.MiseAJourVente());
