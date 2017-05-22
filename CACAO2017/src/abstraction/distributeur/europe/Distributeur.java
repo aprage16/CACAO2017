@@ -97,6 +97,7 @@ public class Distributeur implements Acteur,IDistributeur{
 		}
 		
 		journal.ajouter("Opération Réalisée"+vente.toString());
+		journal.ajouter("Fonds"+fonds);
 
 	}
 	
