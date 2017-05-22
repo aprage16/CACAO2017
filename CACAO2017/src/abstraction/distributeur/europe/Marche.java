@@ -7,8 +7,8 @@ import abstraction.fourni.Acteur;
 public class Marche implements Acteur{
 
 
-	private static double BORNESMIN=0.004;
-	private static double BORNESMAX=0.008;
+	private static double BORNESMIN=3999.0;
+	private static double BORNESMAX=8001.0;
 	private ArrayList<IDistributeur> distributeur;
 	private ArrayList<transformateur> transformateur;
 	private ArrayList<IDistributeur> distributeurActif;
@@ -18,9 +18,9 @@ public class Marche implements Acteur{
 
 	double unite=1000;
 
-	public Marche(ArrayList<IDistributeur> distributeur, ArrayList<transformateur> transformateur){
-		this.distributeur=distributeur;
-		this.transformateur=transformateur;
+	public Marche(){
+		this.distributeur= new ArrayList<IDistributeur>();
+		this.transformateur= new ArrayList<transformateur>();
 	}
 
 	public ArrayList<IDistributeur> getDistrib(){
@@ -74,10 +74,13 @@ public class Marche implements Acteur{
 		if (onEchange){
 			prioD= this.distributeur.get(this.indiceMaximum());
 			prioT=this.transformateur.get(this.indiceMinimum());
-			if (prioD.getPrixMax()>prioT.getprixMin()){
+			System.out.println(prioD.getPrixMax());
+			System.out.println(prioT.getprixMin());
+			if (prioD.getPrixMax()>=prioT.getprixMin()){
 			prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
 			prioD.notif(new Vente(prixMoyen,unite));
 			prioT.notif(prixMoyen,unite);
+			
 			}
 			else{
 				onEchange=false;

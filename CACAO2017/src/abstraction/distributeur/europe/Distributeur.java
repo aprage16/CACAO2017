@@ -23,8 +23,8 @@ public class Distributeur implements Acteur,IDistributeur{
 	
 	public Distributeur(){
 		this.nom = "Distributeur europe";
-		this.derniereVente = new Vente(10,10);
-		this.stock = 0.1;
+		this.derniereVente = new Vente(2000,10);
+		this.stock = 400;
 		this.qteDemandee = 100;
 		this.fonds = 100;
  	    this.journal = new Journal("Journal de "+this.nom);
@@ -83,6 +83,7 @@ public class Distributeur implements Acteur,IDistributeur{
 		prixTransfo = this.getDerniereVente().getPrix();
 		double coeff = qteDemandee/this.stock;
 		double prix = (1/coeff)*prixTransfo;
+
 		return prix;
 	}
 	
