@@ -101,6 +101,8 @@ public class Distributeur implements Acteur,IDistributeur{
 			this.fondsI.setValeur(this, this.fonds+vente.getPrix()*stock_manquant);
 			this.stockI.setValeur(this, this.stock);			
 		}
+		
+		journal.ajouter("Opération Réalisée"+vente.toString());
 
 	}
 	

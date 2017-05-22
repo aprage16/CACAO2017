@@ -46,6 +46,8 @@ public class Marche implements Acteur{
 		}
 		return indice_min;		
 	}
+	
+	
 
 	public void Actif(){
 		
@@ -72,8 +74,8 @@ public class Marche implements Acteur{
 		}
 		
 		if (onEchange){
-			prioD= this.distributeur.get(this.indiceMaximum());
-			prioT=this.transformateur.get(this.indiceMinimum());
+			prioD= this.distributeurActif.get(this.indiceMaximum());
+			prioT=this.transformateurActif.get(this.indiceMinimum());
 			System.out.println(prioD.getPrixMax());
 			System.out.println(prioT.getprixMin());
 			if (prioD.getPrixMax()>=prioT.getprixMin()){
