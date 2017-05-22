@@ -26,13 +26,13 @@ public class Producteur implements IProducteur, Acteur {
 		this.recolte=new Recolte(0.8) ;
 		this.stock=new Stock();
 		this.treso=new Tresorerie(stock);
-		this.quantiteVendue=new Indicateur("4_PROD_AMER_quantiteVendue", this,0.0);
+		this.quantiteVendue=new Indicateur("4_PROD_AMER_quantiteVendue", this,qtevendue);
 		MondeV1.LE_MONDE.ajouterIndicateur(this.quantiteVendue) ;
 		this.solde=new Indicateur("4_PROD_AMER_solde", this, treso.getTresorerie()) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.solde);
-		this.stockind=new Indicateur("4_PROD_AMER_stock", this,0.0) ;
+		this.stockind=new Indicateur("4_PROD_AMER_stock", this,this.stock.getStock()) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.stockind);
-		this.qtemiseenvente=new Indicateur("4_PROD_AMER_qtemiseenvente", this,0.0) ;
+		this.qtemiseenvente=new Indicateur("4_PROD_AMER_qtemiseenvente", this,this.quantiteMiseEnvente()) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.qtemiseenvente);
 		this.journal=new Journal("Journal de Prod Amerique Latine");
 		MondeV1.LE_MONDE.ajouterJournal(this.journal);
