@@ -50,11 +50,8 @@ public class Producteur implements IProducteur, Acteur {
 	public void setCoursActuel(double cours){
 		this.coursActuel=cours;
 	}
-	public void setQtevendue(double qte){
-		this.qtevendue=qte;
-	}
 	public double getQteVendue(){
-		return this.qtevendue;
+		return this.quantiteVendue.getValeur();
 	}
 	public void notificationVente(double quantite, double coursActuel) {
 		this.stock.retrait((int)quantite);
@@ -71,9 +68,7 @@ public class Producteur implements IProducteur, Acteur {
 			this.journal.ajouter(" valeur de Stock  =  <font color=\"maroon\">"+stock+"</font> tonnes de fèves au <b>step</b> "+Monde.LE_MONDE.getStep());
 			this.journal.ajouter(" valeur de Solde  =  <font color=\"maroon\">"+solde+"</font> millions d'euros au <b>step</b> "+Monde.LE_MONDE.getStep());
 			this.journal.ajouter(" valeur de la quantite vendue  =  <font color=\"maroon\">"+quantite+"</font> tonnes de fèves au <b>step</b> au prix de "+this.getCoursActuel()+"$ par tonne"+Monde.LE_MONDE.getStep());
-			
 			}
-
 	}
 	public double quantiteMiseEnvente() {
 		return (int)(0.8*this.stock.getStock());
