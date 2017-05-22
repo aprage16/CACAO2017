@@ -11,7 +11,7 @@ public class DistributeurUS implements IDistributeur{
 	public static String nomIndicateurFonds = "1_DISTR_US_fonds";
 	public static double fondsIni = 5000.0;
 	public static double stockIni = 6.25;
-	public static double prixKg=10;
+	public static double prixKg=10*Math.pow(10,-6);
 	public static double uniteChoc=10000;
 	public static double coefAleatoire=0;
 	
@@ -55,8 +55,8 @@ public class DistributeurUS implements IDistributeur{
 		//System.out.println(Monde.LE_MONDE.getStep()+" "+this.getGestion().getDemande().demandeStep());
 		if (this.getGestion().getStock()>=this.getDemande().getCommande()){
 		
-			this.getGestion().setStock(this.getGestion().getStock()-this.getDemande().getCommande());
-			this.getGestion().setFonds(this.getGestion().getFonds()+this.getDemande().getCommande()*prixKg*uniteChoc);
+			this.setStock(this.getGestion().getStock()-this.getDemande().getCommande());
+			this.setFonds(this.getGestion().getFonds()+this.getDemande().getCommande()*prixKg*uniteChoc);
 		}
 		else{
 			double vendu=this.getGestion().getStock();
@@ -76,12 +76,17 @@ public class DistributeurUS implements IDistributeur{
 
 	public void setStock(double stock) {
 		this.getGestion().setStock(stock);
+		this.stock.setValeur(this, stock);
 	}
 
 	public double getFonds() {
 		return this.getGestion().getFonds();
 	}
 
+	public void setFonds(double fonds){
+		this.getGestion().setFonds(fonds);
+		this.fonds.setValeur(this, fonds);
+	}
 
 
 	public Gestion getGestion(){
@@ -124,14 +129,16 @@ public class DistributeurUS implements IDistributeur{
 	}
 	
 	public double prixMax(){//Premier test, avec ça on utilise tous nos fonds le premier mois
-		double aacheter=this.getDemande().demandeStep()-this.getGestion().getStock();
-		double prixmax=this.getGestion().getFonds()/aacheter;
+	/*	double aacheter=this.getDemande().demandeStep()-this.getGestion().getStock();
+		double prixmax=this.getGestion().getFonds()/aacheter;*/
+		double prixmax=Math.random()*0.08;
+		//journalTest.ajouter("prixmax="+prixmax);
 		
 		
 		return prixmax;
 	}
 	
-	public int hashCode() {
+	public int hashCode() {//donne un critère d'ordre qui permet de l'utiliser en clé de hashMap
 		return this.getNom().hashCode();
 	}
 	public Journal getJournal(){

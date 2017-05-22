@@ -56,7 +56,7 @@ public class Demande {
 			augSaisonniere=augNoel;
 		}
 		
-		return (demandeMoisBase+augSaisonniere)*coefaleatoire;
+		return (demandeMoisBase+augSaisonniere*demandeTAnnee)*coefaleatoire;
 	}
 	
 }

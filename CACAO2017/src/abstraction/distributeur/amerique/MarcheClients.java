@@ -9,12 +9,15 @@ import abstraction.distributeur.europe.IDistributeur;
 
 public class MarcheClients {
 	public static double fideliteIni=0.0;
-
+	public static double prixVenteIni;
+	
 	private HashMap<IDistributeur, Double> fidelites;//Hashmap met en relation deux objets ici le distributeur et la fidelite
+	private HashMap<IDistributeur, Double> prixVente;
 	
 
 	public MarcheClients(){
 		this.fidelites=new  HashMap<IDistributeur, Double>();
+		this.prixVente=new HashMap<IDistributeur, Double>();
 		
 	}
 
@@ -30,6 +33,7 @@ public class MarcheClients {
 	
 	public void addDistributeur(IDistributeur distributeur){
 		this.setFidelite(distributeur, fideliteIni);
+		//this.setPrixVente(distributeur, prixVenteIni);
 	}
 	 
 	public void setFidelite(IDistributeur distributeur, double fidelite){
@@ -38,5 +42,4 @@ public class MarcheClients {
 	public double getFidelite(IDistributeur distributeur) {
 		return this.fidelites.get(distributeur);
 	}
-	
 }
