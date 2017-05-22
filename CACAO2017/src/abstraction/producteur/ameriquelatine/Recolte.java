@@ -18,11 +18,11 @@ public class Recolte {
 
 	}
 
-	public double miseAJourIndice() {
+	public void miseAJourIndice() {
 	//* une année = 26 next
 		int periode = MondeV1.LE_MONDE.getStep();
 		double[] indice = {0.6,0.6,0.6,0.6,0.5,0.7,0.7,0.6,0.5,0.5,0.4,0.4,0.3,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.9,0.8,0.8,0.7,0.6,0.6};
-		return indice[periode%26]+Math.random()*0.1;
+		this.indiceRecolte= indice[periode%26]+Math.random()*0.1;
 	}
 	
 		
