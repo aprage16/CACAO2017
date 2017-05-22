@@ -46,8 +46,7 @@ public class DemandeMonde {
 	public void calculDemandes(){
 		double augSaisonniere=0;
 		int date=Monde.LE_MONDE.getStep()%26;
-		double coefaleatoire=0.9+Math.random()*0.2;
-		if (date==2 || date==3){
+		if (date==2 || date==3){//Changer les numéros de step
 			augSaisonniere=augStVal;
 		}
 		if (date==7 || date==8){
@@ -60,7 +59,7 @@ public class DemandeMonde {
 			augSaisonniere=augNoel;
 		}
 		
-		double commandesTotalesStep=(commandesStepFixe+augSaisonniere*commandesAnneeTotales)*coefaleatoire;
+		double commandesTotalesStep=(commandesStepFixe+augSaisonniere*commandesAnneeTotales)*DistributeurUS.coefAleatoire;
 		this.setDemandeUS(commandesTotalesStep*(pourcentageFixe+pourcentageFluctuantUS));
 		this.setDemandeEU(commandesTotalesStep*(pourcentageFixe+pourcentageFluctuantEU));
 	}

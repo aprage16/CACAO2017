@@ -13,6 +13,7 @@ public class DistributeurUS implements IDistributeur{
 	public static double stockIni = 62.5;
 	public static double prixKg=10;
 	public static double uniteChoc=1000;
+	public static double coefAleatoire=0;
 	
 	private Gestion gestion;
 	private Demande demande;
@@ -64,6 +65,7 @@ public class DistributeurUS implements IDistributeur{
 		}
 		
 		this.getDemande().setCommande(this.getDemande().demandeStep());
+		coefAleatoire=0.9+Math.random()*0.2;
 	}
 
 	
