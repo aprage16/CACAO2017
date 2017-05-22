@@ -131,7 +131,11 @@ public class DistributeurUS implements IDistributeur{
 		return prixmax;
 	}
 	
+	public int hashCode() {
+		return this.getNom().hashCode();
+	}
 	public Journal getJournal(){
+		
 		return this.journalTest;
 	}
 }
