@@ -39,4 +39,7 @@ public class Tresorerie {
 		}
 	}
 	
+	public String toString(){
+		return ("L'état du <b>solde</b> actuellement est de : <b><font color=\"blue\">"+compte+"</font></b> euros");
+	}
 }

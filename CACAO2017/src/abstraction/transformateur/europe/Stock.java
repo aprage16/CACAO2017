@@ -7,6 +7,7 @@
 
 package abstraction.transformateur.europe;
 import abstraction.fourni.Journal;
+import abstraction.fourni.Monde;
 
 public class Stock {
 
@@ -20,7 +21,8 @@ public class Stock {
 	public Stock(){
 		this.stockCacao=0;
 		this.stockChocolat=44000;
-		this.journal=new Journal("Journal Transformateur Europe Stock");
+		this.journal=new Journal("Journal du Stock des Transformateurs d'Europe");
+		Monde.LE_MONDE.ajouterJournal(this.journal);
 	}
 	
 	public double getStockCacao(){
@@ -65,7 +67,7 @@ public class Stock {
 	}
 	
 	public String toString(){
-		return "Le stock de cacao est de: "+this.getStockCacao()+", celui de chocolat est de: "+this.getStockChocolat();
+		return "Le stock de <b>cacao</b> est de: <b><font color=\"purple\">"+this.getStockCacao()+"</font></b> , celui de <b>chocolat</b> est de: <b><font color=\"purple\">"+this.getStockChocolat()+"</font></b>";
 	}
 	
 }

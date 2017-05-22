@@ -10,8 +10,10 @@
 package abstraction.transformateur.europe;
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
+import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
-import abstraction.transformateur.usa.interfacemarche.transformateur;;
+import abstraction.transformateur.usa.interfacemarche.transformateur;
+import java.awt.Color;
 
 public class Transformateur implements transformateur, Acteur  {
 
@@ -23,7 +25,10 @@ public class Transformateur implements transformateur, Acteur  {
 	public static final int CHOCOLAT_NECESSAIRE = 44000; //stock necessaire par mois à vendre (calculé selon la demande européenne)
 	public static final int STOCK_MIN=5000;
 	public static final double RATIO_CACAO_CHOCO=0.7;
-	public static final int PRIX_MIN=20;
+	public static final double PRIX_MIN=0.004;
+	private Journal journal;
+	
+	
 	private Indicateur stockChocolat;
 	private Indicateur tresorerie;
 	private Indicateur commande;
@@ -34,9 +39,11 @@ public class Transformateur implements transformateur, Acteur  {
 		this.stockChocolat=new Indicateur("3_TRAN_EU_stock_chocolat",this,this.s.getStockChocolat());
 		this.commande=new Indicateur("3_TRAN_EU_commande_actuelle",this,0.0);
 		this.tresorerie=new Indicateur("3_TRAN_EU_solde",this,this.compte.getCompte());
+		this.journal = new Journal("Journal de "+getNom());
 		Monde.LE_MONDE.ajouterIndicateur( this.stockChocolat );
 		Monde.LE_MONDE.ajouterIndicateur( this.commande );
 		Monde.LE_MONDE.ajouterIndicateur( this.tresorerie );
+		Monde.LE_MONDE.ajouterJournal(this.journal);
 	}
 	
 	public Transformateur(){
@@ -46,7 +53,7 @@ public class Transformateur implements transformateur, Acteur  {
 	public double getprixMin() {
 		double stockChocolat=this.s.getStockChocolat();
 		if (stockChocolat<STOCK_MIN){ // on se fixe un stock minimum de "secours" et si on le dépasse on renvoie une valeur qui doit couper la boucle du marché
-			return 1000000000;
+			return 1000000;
 		}
 		else{
 			this.prixmin=PRIX_MIN+PRIX_MIN*STOCK_MIN/stockChocolat; //calcul le nouveau prix minimum auquel on souhaite vendre en 
@@ -55,13 +62,21 @@ public class Transformateur implements transformateur, Acteur  {
 		}
 	}
 	
+	
 	public void notif(double prix, double quantite) {
 		System.out.println("vendu au prix de : "+prix+" avec une quantité de : "+quantite);
 		this.s.retraitChocolat(quantite);
 		double chiffreAffaire=prix*quantite;
 		this.compte.credit(chiffreAffaire);
 		this.tresorerie.setValeur(this, this.compte.getCompte());
-		
+		this.journal.ajouter("Une <b>quantité</b> de : <b><font color=\"green\">"+quantite+"</font></b> de chocolat a été vendu au <b>prix unitaire</b> de : <font color=\"green\"> "+prix+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
+		this.journal.ajouter(" ");
+		this.journal.ajouter(s.toString());
+		this.journal.ajouter(" ");
+		this.journal.ajouter(compte.toString());
+		this.journal.ajouter(" ");
+		this.journal.ajouter(" ");
+		this.journal.ajouter(" ");
 	}
 	
 	public int hashCode() {
@@ -122,6 +137,8 @@ public class Transformateur implements transformateur, Acteur  {
 		                          // de ventes alors qu'on paye 10^7 : unités à revoir
 		this.stockChocolat.setValeur(this, this.s.getStockChocolat());
 		this.tresorerie.setValeur(this, this.compte.getCompte());
+		this.journal.ajouter("Une <b>quantité</b> de : <b><font color =\"red\"> "+quantite+"</font></b> de cacao a été acheté au <b>prix unitaire</b> de : <font color=\"red\"> "+prix+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
+		this.journal.ajouter(" ");
 	}
 		
 	public void next(){ //passage à l'étape suivante
