@@ -22,7 +22,6 @@ public class Transformateur implements transformateur, Acteur  {
 	private double[] peremption=new double[Stock.DATE_PEREMPTION];
 	public static final int CACAO_NECESSAIRE = 30800; //stock necessaire par mois pour avoir 44000 chocolats
 	public static final int CHOCOLAT_NECESSAIRE = 44000; //stock necessaire par mois à vendre (calculé selon la demande européenne)
-	public static final int STOCK_MIN=5000;
 	public static final double RATIO_CACAO_CHOCO=0.7;
 	public static final double PRIX_MIN=0.004;
 	private Journal journal;
@@ -52,11 +51,11 @@ public class Transformateur implements transformateur, Acteur  {
 	
 	public double getprixMin() {
 		double stockChocolat=this.s.getStockChocolat();
-		if (stockChocolat<STOCK_MIN){ // on se fixe un stock minimum de "secours" et si on le dépasse on renvoie une valeur qui doit couper la boucle du marché
+		if (stockChocolat<Stock.STOCK_MIN){ // on se fixe un stock minimum de "secours" et si on le dépasse on renvoie une valeur qui doit couper la boucle du marché
 			return 1000000;
 		}
 		else{
-			this.prixmin=PRIX_MIN+PRIX_MIN*STOCK_MIN/stockChocolat; //calcul le nouveau prix minimum auquel on souhaite vendre en 
+			this.prixmin=PRIX_MIN+PRIX_MIN*Stock.STOCK_MIN/stockChocolat; //calcul le nouveau prix minimum auquel on souhaite vendre en 
 																		   //tenant compte du stock de chocolat que l'on a
 			return this.prixmin;
 		}
