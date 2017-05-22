@@ -56,7 +56,7 @@ public class Marche implements Acteur{
 		for (transformateur a:this.transformateur){
 			if (a.getprixMin()>=BORNESMIN&&a.getprixMin()<=BORNESMAX){
 				transformateurActif.add(a);
-				transformateur.remove(a);
+				//transformateur.remove(a);
 			}
 		}
 		for (IDistributeur a:this.distributeur){
@@ -81,9 +81,9 @@ public class Marche implements Acteur{
 			System.out.println(prioT.getprixMin());
 			if (prioD.getPrixMax()>=prioT.getprixMin()){
 				prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
-				for (int i=0; i<transformateur.size();i++){
+				/*for (int i=0; i<transformateur.size();i++){
 					transformateur.get(i).notif(prixMoyen, 0);
-				}
+				}*/
 				System.out.println("prix moyen = " + prixMoyen);
 				prioD.notif(new Vente(prixMoyen,unite));
 				prioT.notif(prixMoyen,unite);	
@@ -91,10 +91,9 @@ public class Marche implements Acteur{
 			else{
 				onEchange=false;
 			}
-			for (int i=0;i<transformateurActif.size();i++){
-				transformateur.add(transformateurActif.get(i));
-			}
+
 		}
+
 	}
 
 	@Override
