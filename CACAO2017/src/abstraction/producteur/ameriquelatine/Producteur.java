@@ -47,7 +47,9 @@ public class Producteur implements IProducteur, Acteur {
 	public double getCoursActuel(){
 		return this.coursActuel;
 	}
-	
+	public void setCoursActuel(double cours){
+		this.coursActuel=cours;
+	}
 	public void setQtevendue(double qte){
 		this.qtevendue=qte;
 	}
@@ -62,6 +64,8 @@ public class Producteur implements IProducteur, Acteur {
 		this.solde.setValeur(this, this.treso.getTresorerie());
 		this.stockind.setValeur(this, this.stock.getStock());
 		this.qtemiseenvente.setValeur(this, this.quantiteMiseEnvente());
+		this.setQtevendue(quantite);
+		this.setCoursActuel(coursActuel);
 	}
 	public double quantiteMiseEnvente() {
 		return (int)(0.8*this.stock.getStock());
@@ -74,7 +78,7 @@ public class Producteur implements IProducteur, Acteur {
 		this.treso.decaissement(treso.cout());
 		String stock=new String(""+this.stock.getStock());
 		String solde=new String(""+this.treso.getTresorerie());
-		String quantitevendue=new String(""+this.qtevendue);
+		String quantitevendue=new String(""+this.getQteVendue());
 		if (this.journal!=null){
 			this.journal.ajouter(" valeur de Stock  =  <font color=\"maroon\">"+stock+"</font> tonnes de fèves au <b>step</b> "+Monde.LE_MONDE.getStep());
 			this.journal.ajouter(" valeur de Solde  =  <font color=\"maroon\">"+solde+"</font> millions d'euros au <b>step</b> "+Monde.LE_MONDE.getStep());
