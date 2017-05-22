@@ -80,7 +80,7 @@ public class Producteur implements IProducteur, Acteur {
 	
 	public void next() {
 		// rec
-		recolte.miseAJourIndice(); //mise à jour de l'indice de recolte
+		recolte.miseAJourIndice();//mise à jour de l'indice de recolte
 		this.stock.ajout(this.recolte.getQterecoltee());
 		journal.ajouter("ajout recolte :"+this.recolte.getQterecoltee()+"--> "+this.stock.getStock());
 		this.treso.decaissement(treso.cout());
