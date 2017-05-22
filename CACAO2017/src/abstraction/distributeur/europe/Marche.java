@@ -5,129 +5,103 @@ import abstraction.transformateur.usa.interfacemarche.*;
 import abstraction.fourni.Acteur;
 
 public class Marche implements Acteur{
-	
+
+
+	private static double BORNESMIN=0.004;
+	private static double BORNESMAX=0.008;
 	private ArrayList<IDistributeur> distributeur;
 	private ArrayList<transformateur> transformateur;
-	
-	double prixVenteMin=20;
-	double prixVenteMax=40;
-	
-	double prixAchatMin=20;
-	double prixAchatMax=40;
-	
+	private ArrayList<IDistributeur> distributeurActif;
+	private ArrayList<transformateur> transformateurActif;
+	private boolean onEchange;
+	private double prixMoyen;
+
 	double unite=1000;
-	
-	public Marche(ArrayList<IDistributeur> distributeur, ArrayList<transformateur> transformateur){
-		this.distributeur=distributeur;
-		this.transformateur=transformateur;
-	}
-	
+
 	public Marche(){
-		this.distributeur = new ArrayList<IDistributeur>();
-		this.transformateur = new ArrayList<transformateur>();
+		this.distributeur= new ArrayList<IDistributeur>();
+		this.transformateur= new ArrayList<transformateur>();
 	}
-	
+
 	public ArrayList<IDistributeur> getDistrib(){
 		return this.distributeur;
 	}
-	
+
 	public ArrayList<transformateur> getTransfo(){
 		return this.transformateur;
 	}
-	public boolean testFourchettePrix(boolean[] test_prix){
-		for (int i=0; i<test_prix.length; i++){
-			if ((test_prix[i]) == true){
-				return true;
-			}
-		}
-		return false;
-	}
-	
+
 	public int indiceMaximum(){
 		int indice_max = 0;
-		for (int i=1; i<this.distributeur.size(); i++){
-			indice_max = ((this.distributeur.get(i).getPrixMax()>this.distributeur.get(indice_max).getPrixMax()) ? i : indice_max);
+		for (int i=1; i<this.distributeurActif.size(); i++){
+			indice_max = ((this.distributeurActif.get(i).getPrixMax()>this.distributeurActif.get(indice_max).getPrixMax()) ? i : indice_max);
 		}
 		return indice_max;
 	}
-	
+
 	public int indiceMinimum(){
 		int indice_min = 0;
-		for (int i=1; i<this.transformateur.size(); i++){
-			indice_min = ((this.transformateur.get(i).getprixMin()<this.transformateur.get(indice_min).getprixMin()) ? i : indice_min);
+		for (int i=1; i<this.transformateurActif.size(); i++){
+			indice_min = ((this.transformateurActif.get(i).getprixMin()<this.transformateurActif.get(indice_min).getprixMin()) ? i : indice_min);
+
 		}
 		return indice_min;		
 	}
-	
-	public void Echanges(){
-		
-	
-       // Définition des tests vérifiant si la boucle doit s'arrêter ou non 
-		
-		
-		// On vérifie si les prix sont dans la fourchette autorisée
-		boolean[] test_t = new boolean[this.transformateur.size()];
-		boolean[] test_d = new boolean[this.distributeur.size()];
-		for (int i=0; i<this.transformateur.size(); i++){
-			test_t[i] = (transformateur.get(i).getprixMin()>=prixVenteMin) &&	(transformateur.get(i).getprixMin()<=prixVenteMax);
-		}
-		for (int i=0; i<this.distributeur.size(); i++){
-			test_d[i] = (distributeur.get(i).getPrixMax()>=prixAchatMin) &&  (distributeur.get(i).getPrixMax()<=prixAchatMax);
-		}
 
-		
-		// On vérifie qu'une transaction soit possible
-		
-		
-		int prioDistri=0;
-		int prioTransfo=0;
-		
-		prioDistri = this.indiceMaximum();
-		prioTransfo = this.indiceMinimum();
-					
-		 boolean testPrix = (distributeur.get(prioDistri).getPrixMax()<transformateur.get(prioTransfo).getprixMin()) ? false : true;
-		 
-			// Initialisation des deux variables définissant l'indice du distributeur et transformateur prioritaires
-
-			
-		 	if ((testFourchettePrix(test_t)||testFourchettePrix(test_d)) && testPrix){
-			
-			// Recherche de minimum & maximum
-			
-
+	public void Actif(){
+		this.distributeurActif=new ArrayList<IDistributeur>();
+		this.transformateurActif=new ArrayList<transformateur>();
+		for (transformateur a:this.transformateur){
+			if (a.getprixMin()>=BORNESMIN&&a.getprixMin()<=BORNESMAX){
+				transformateurActif.add(a);
 			}
-			
-			// Définition du prix
-			
-			double prix = (distributeur.get(prioDistri).getPrixMax()+transformateur.get(prioTransfo).getprixMin())/2;
-			
-			int autreDistri=Math.abs(prioDistri-1);
-			int autreTransfo=Math.abs(prioTransfo-1);
-			
-			
-			// Actualisation des prix d'achat et de vente
-			
-			distributeur.get(prioDistri).notif(new Vente(prix, unite));
-			distributeur.get(autreDistri).notif(new Vente(prix, 0));
-			transformateur.get(prioTransfo).notif(prix, unite);
-			transformateur.get(autreTransfo).notif(prix, 0);
-			distributeur.get(prioDistri).getIndicateurStock().setValeur(distributeur.get(prioDistri), prix*unite);
-			distributeur.get(autreDistri).getIndicateurStock().setValeur(distributeur.get(autreDistri), prix*unite);
-			
-			
-			
 		}
+		for (IDistributeur a:this.distributeur){
+			if (a.getPrixMax()>=BORNESMIN && a.getPrixMax()<=BORNESMAX){
+				this.distributeurActif.add(a);
+			}
+		}
+	}
+
+	public void Echanges(){
+		IDistributeur prioD;
+		transformateur prioT;
+		this.Actif();
+		if (this.distributeurActif.isEmpty() || this.transformateurActif.isEmpty()){
+			this.onEchange=false;
+		}
+		
+		if (onEchange){
+			prioD= this.distributeur.get(this.indiceMaximum());
+			prioT=this.transformateur.get(this.indiceMinimum());
+			System.out.println(prioD.getPrixMax());
+			System.out.println(prioT.getprixMin());
+			if (prioD.getPrixMax()>=prioT.getprixMin()){
+			prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
+			System.out.println(prixMoyen);
+			prioD.notif(new Vente(prixMoyen,unite));
+			prioT.notif(prixMoyen,unite);
+			
+			}
+			else{
+				onEchange=false;
+			}
+		}
+	}
 
 	@Override
 	public String getNom() {
 		return "Marche Distributeur / Transformateur";
 	}
-	
+
 	public void next(){
-		this.Echanges();
+		this.onEchange=true;
+		while(this.onEchange){
+			this.Echanges();
+			
+		}
 	}
 
-	
-		
-}
 
+
+}
