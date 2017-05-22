@@ -12,10 +12,10 @@ public class TransformateurUsa implements transformateur,Acteur{
 	private StockMatPremiere premiere;
 	private TransfoChocolat transfo;
 	private Tresorerie tresorerie;
-	private static final int Uniteventechocolat=10000;//10000 tonnes
+	private static final int Uniteventechocolat=1000;//10000 tonnes
 	private static final double Bornesmax=0.008;//Une unité d'argent =1 million d'euro
 	private static final double Bornesmin=0.004;
-	private static final double Stockdesire=200*Uniteventechocolat;
+	private static final double Stockdesire=100*Uniteventechocolat;
 	private static final double Prixstockage=0.25*Bornesmin/(24);//Le prix du stokage par an est de 25% de la valeur des marchandises stockées
 	private ArrayList<Double> prixmatprem;
 	private double venteChocolat;
