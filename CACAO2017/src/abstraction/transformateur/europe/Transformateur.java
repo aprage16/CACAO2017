@@ -118,7 +118,7 @@ public class Transformateur implements transformateur, Acteur  {
 	public void notificationAchat(double prix, double quantite){
 		this.s.ajoutCacao(quantite);
 		double achat = prix*quantite;
-		//this.compte.debit(achat); //mettre cette ligne en commentaire pour observer la tréso 
+		this.compte.debit(achat); //mettre cette ligne en commentaire pour observer la tréso 
 					// le retrait de cette ligne désactive le payement aux producteurs: on ne gagne que 11000€
 		                          // de ventes alors qu'on paye 10^7 : unités à revoir
 		this.stockChocolat.setValeur(this, this.s.getStockChocolat());
