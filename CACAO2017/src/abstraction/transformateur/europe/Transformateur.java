@@ -20,6 +20,12 @@ public class Transformateur implements transformateur, Acteur  {
 	private Tresorerie compte;
 	private double prixmin;
 	private double[] peremption=new double[Stock.DATE_PEREMPTION];
+	private double quantiteVendue;
+	private double quantiteAchetee;
+	private double prixMoyendeVente;
+	private double prixMoyendAchat;
+	private double compteurAchat=0;
+	private double compteurVente=0;
 	public static final int CACAO_NECESSAIRE = 30800; //stock necessaire par mois pour avoir 44000 chocolats
 	public static final int CHOCOLAT_NECESSAIRE = 44000; //stock necessaire par mois à vendre (calculé selon la demande européenne)
 	public static final double RATIO_CACAO_CHOCO=0.7;
@@ -65,14 +71,9 @@ public class Transformateur implements transformateur, Acteur  {
 		double chiffreAffaire=prix*quantite;
 		this.compte.credit(chiffreAffaire);
 		this.tresorerie.setValeur(this, this.compte.getCompte());
-		this.journal.ajouter("Une <b>quantité</b> de : <b><font color=\"green\">"+quantite+"</font></b> de chocolat a été vendu au <b>prix unitaire</b> de : <font color=\"green\"> "+prix+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
-		this.journal.ajouter(" ");
-		this.journal.ajouter(this.s.toString());
-		this.journal.ajouter(" ");
-		this.journal.ajouter(this.compte.toString());
-		this.journal.ajouter(" ");
-		this.journal.ajouter(" ");
-		this.journal.ajouter(" ");
+		quantiteAchetee+=quantite;
+		prixMoyendeVente+=prix;
+		compteurVente+=1;
 	}
 	
 	public int hashCode() {
@@ -133,12 +134,27 @@ public class Transformateur implements transformateur, Acteur  {
 		                          // de ventes alors qu'on paye 10^7 : unités à revoir
 		this.stockChocolat.setValeur(this, this.s.getStockChocolat());
 		this.tresorerie.setValeur(this, this.compte.getCompte());
-		this.journal.ajouter("Une <b>quantité</b> de : <b><font color =\"red\"> "+quantite+"</font></b> de cacao a été acheté au <b>prix unitaire</b> de : <font color=\"red\"> "+prix+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
+		prixMoyendAchat+=prix;
+		compteurAchat+=1;
+		quantiteAchetee+=quantite;
+	}
+	
+	public void Transactions (){
+		this.journal.ajouter("Une <b>quantité</b> de : <b><font color =\"red\"> "+quantiteAchetee+"</font></b> de cacao a été acheté au <b>prix unitaire</b> de : <font color=\"red\"> "+prixMoyendAchat/compteurAchat+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
+		this.journal.ajouter(" ");
+		this.journal.ajouter("Une <b>quantité</b> de : <b><font color=\"green\">"+quantiteVendue/compteurVente+"</font></b> de chocolat a été vendu au <b>prix unitaire</b> de : <font color=\"green\"> "+prixMoyendeVente+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
+		this.journal.ajouter(" ");
+		this.journal.ajouter(this.s.toString());
+		this.journal.ajouter(" ");
+		this.journal.ajouter(this.compte.toString());
+		this.journal.ajouter(" ");
+		this.journal.ajouter(" ");
 		this.journal.ajouter(" ");
 	}
-		
+	
 	public void next(){ //passage à l'étape suivante
 		transformation();
+		Transactions();
 		//modifPeremption();
 		//System.out.println(s.toString());
 	}
