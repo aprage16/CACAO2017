@@ -66,21 +66,29 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 		
 		//Durant une année: 
 		//Octobre à Mars: Production = production moyenne + 50%
-		//Avril à Août: Production = production moyenne - 50% 
-		//Code recursif on appel variationProduction de la période module 26 (le nombre de next en 1 an) 
+		//Avril à Août: Production = production moyenne - 50%  
 		
 		if (periode<26){ 
 			if ((periode>=0 && periode<= 5)||periode>18){
-				prod_min += PRODUCTIONMOYENNE*(1/2); 
-				prod_max += PRODUCTIONMOYENNE*(1/2); 
+				prod_min += PRODUCTIONMOYENNE*0.5; 
+				prod_max += PRODUCTIONMOYENNE*0.5; 
 				prod = prod_min + (double)Math.random()*(prod_max - prod_min); // Production random entre prod_min et prod_max
 			}else{ 
-				prod_min -= PRODUCTIONMOYENNE*(1/2); 
-				prod_max -= PRODUCTIONMOYENNE*(1/2); 
+				prod_min -= PRODUCTIONMOYENNE*0.5; 
+				prod_max -= PRODUCTIONMOYENNE*0.5; 
 				prod = prod_min + (double)Math.random()*(prod_max - prod_min);
 			}
 		}else{ 
-			variationProduction(periode%26); 
+			int reste = periode%26; 
+			if ((reste>=0 && reste<= 5)||reste>18){
+				prod_min += PRODUCTIONMOYENNE*0.5; 
+				prod_max += PRODUCTIONMOYENNE*0.5; 
+				prod = prod_min + (double)Math.random()*(prod_max - prod_min); // Production random entre prod_min et prod_max
+			}else{ 
+				prod_min -= PRODUCTIONMOYENNE*0.5; 
+				prod_max -= PRODUCTIONMOYENNE*0.5; 
+				prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+			}
 		}
 		this.production=(int)prod; // ajout dans la liste de production
 		this.stock.addStock((int)prod);
