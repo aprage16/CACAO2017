@@ -25,14 +25,11 @@ public class Transformateur implements transformateur, Acteur  {
 	public static final double RATIO_CACAO_CHOCO=0.7;
 	public static final double PRIX_MIN=0.004;
 	private Journal journal;
-	
-	
 	private Indicateur stockChocolat;
 	private Indicateur tresorerie;
 	private Indicateur commande;
 	
 	public Transformateur (Stock s, Tresorerie compte){
-		
 		this.s=s;
 		this.compte=compte;
 		this.stockChocolat=new Indicateur("3_TRAN_EU_stock_chocolat",this,this.s.getStockChocolat());
@@ -56,7 +53,7 @@ public class Transformateur implements transformateur, Acteur  {
 		}
 		else{
 			this.prixmin=PRIX_MIN+PRIX_MIN*Stock.STOCK_MIN/stockChocolat; //calcul le nouveau prix minimum auquel on souhaite vendre en 
-																		   //tenant compte du stock de chocolat que l'on a
+																		  //tenant compte du stock de chocolat que l'on a
 			return this.prixmin;
 		}
 	}

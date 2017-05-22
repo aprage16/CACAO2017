@@ -20,10 +20,14 @@ public class Stock {
 	private Journal journal;
 	
 	public Stock(){
-		this.stockCacao=0;
-		this.stockChocolat=44000;
+		this(0,44000);
 		this.journal=new Journal("Journal du Stock des Transformateurs d'Europe");
 		Monde.LE_MONDE.ajouterJournal(this.journal);
+	}
+	
+	public Stock(double stockCacao, double stockChocolat){
+		this.stockCacao=stockCacao;
+		this.stockChocolat=stockChocolat;
 	}
 	
 	public double getStockCacao(){
