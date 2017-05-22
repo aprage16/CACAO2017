@@ -6,29 +6,24 @@ package abstraction.producteur.ameriquelatine;
 public class Stock {
 	
 // tout ce qui est produit est stocké, on gère les ventes à partir des stocks.
-	private int initial; //stock initial
-	private Recolte recolte; //récolte de la période
-	private GestionVentes vente;
-	
+	private int stock; 
 
-	public Stock(Recolte recolte) {
-		this.initial=1000;
-		this.recolte=recolte ;
+
+	public Stock() {
+		this.stock=1000;
+	}
+	public void ajout(int a){
+		this.stock+=a;
+	}
+	public void retrait(int a){
+		this.stock-=a;
+	}
+	public void miseAJourStock(int stock) {
+		this.stock=stock;
 	}
 	
-	public void setGestionVente(GestionVentes vente){
-		this.vente=vente;
-	} // Pq modifier gestion Vente?
-	
-	public void miseAJourStock() {
-		this.initial=(int)(this.initial+recolte.getQterecoltee()-this.vente.getQuantiteVendue());
-	}
-	public int stockintermediaire(){
-		return this.initial+recolte.getQterecoltee();
-	}
-	
-	public int getInitial(){
-		return this.initial;
+	public int getStock(){
+		return this.stock;
 	}
 	
 }

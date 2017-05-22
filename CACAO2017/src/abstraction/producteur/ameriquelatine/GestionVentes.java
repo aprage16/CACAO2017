@@ -12,14 +12,8 @@ public class GestionVentes {
 		this.quantiteVendue=0;
 	}
 	
-	public int getQuantiteMiseEnVente(){
-		return (int)(0.8*stock.stockintermediaire());
-	}
-	
 	public double getQuantiteVendue(){
 		return this.quantiteVendue;
 	}
-	public void setQuantiteVendue(double qteVendue){
-		this.quantiteVendue=qteVendue;
-	}
+
 }
