@@ -88,13 +88,16 @@ public class Transformateur implements transformateur, Acteur  {
 		return quantiteSouhaitee;
 	}
 	
+	
+	
+	
 	public void transformation(){
 		if (this.s.getStockChocolat()<=CHOCOLAT_NECESSAIRE){ //on vérifie que stock actuel <= Stock max
 			this.s.ajoutChocolat(CHOCOLAT_NECESSAIRE-this.s.getStockChocolat()); //on remplit notre stock tout le temps de sorte à avoir 44000
 			this.s.retraitCacao(CACAO_NECESSAIRE-this.s.getStockCacao());
 		}
 	}
-	//ceci est un test github
+	
 	public void modifPeremption(){ // on considère notre stock de chocolat perissable en 10 semaines, le stockage dans une liste permet de 
 								  // supprimer la quantité produite il y a 10 semaines de notre stock 
 		double[] peremp=new double[peremption.length];
