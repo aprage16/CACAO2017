@@ -58,12 +58,30 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	}
 
 	// Méthode varitation random de la production
-	public void variationProduction(){
+	public void variationProduction(int periode){
 		//Création d'une enveloppe (prod_min->prod_max)
-		int periode = Monde.LE_MONDE.getStep(); 
 		double prod_min = PRODUCTIONMOYENNE - (double)(PRODUCTIONMOYENNE*VARIATIONALEATOIREPRODUCTION); 
 		double prod_max = PRODUCTIONMOYENNE + (double)(PRODUCTIONMOYENNE*VARIATIONALEATOIREPRODUCTION);
-		double prod = prod_min + (double)Math.random()*(prod_max - prod_min); // Production random entre prod_min et prod_max
+		double prod = 0; 
+		
+		//Durant une année: 
+		//Octobre à Mars: Production = production moyenne + 50%
+		//Avril à Août: Production = production moyenne - 50% 
+		//Code recursif on appel variationProduction de la période module 26 (le nombre de next en 1 an) 
+		
+		if (periode<26){ 
+			if ((periode>=0 && periode<= 5)||periode>18){
+				prod_min += PRODUCTIONMOYENNE*(1/2); 
+				prod_max += PRODUCTIONMOYENNE*(1/2); 
+				prod = prod_min + (double)Math.random()*(prod_max - prod_min); // Production random entre prod_min et prod_max
+			}else{ 
+				prod_min -= PRODUCTIONMOYENNE*(1/2); 
+				prod_max -= PRODUCTIONMOYENNE*(1/2); 
+				prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+			}
+		}else{ 
+			variationProduction(periode%26); 
+		}
 		this.production=(int)prod; // ajout dans la liste de production
 		this.stock.addStock((int)prod);
 		this.productionIndicateur.setValeur(this, (int)prod);
@@ -89,7 +107,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	//NEXT "Centre du programme -> Passage à la période suivante" 
 	
 	public void next() {
-		this.variationProduction();
+		this.variationProduction(Monde.LE_MONDE.getStep());
 		this.stockIndicateur.setValeur(this,this.stock.getStock());
 		this.tresoIndicateur.setValeur(this,this.tresorerie.getCa());
 	}
