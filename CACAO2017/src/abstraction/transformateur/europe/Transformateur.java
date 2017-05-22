@@ -94,7 +94,7 @@ public class Transformateur implements transformateur, Acteur  {
 			this.s.retraitCacao(CACAO_NECESSAIRE-this.s.getStockCacao());
 		}
 	}
-	
+	//ceci est un test github
 	public void modifPeremption(){ // on considère notre stock de chocolat perissable en 10 semaines, le stockage dans une liste permet de 
 								  // supprimer la quantité produite il y a 10 semaines de notre stock 
 		double[] peremp=new double[peremption.length];
