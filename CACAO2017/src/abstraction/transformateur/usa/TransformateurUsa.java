@@ -10,13 +10,13 @@ import abstraction.transformateur.usa.interfacemarche.*;
 public class TransformateurUsa implements transformateur,Acteur{
 	private StockProduitsFinis finis;
 	private StockMatPremiere premiere;
-	private TransfoChocolat Transfo;
+	private TransfoChocolat transfo;
 	private Tresorerie tresorie=new Tresorerie(5);
-	private static final int uniteventechocolat=1000;//1000 tonnes
-	private static final double bornesmax=0.008;//Une unité d'argent =1 million d'euro
-	private static final double bornesmin=0.004;
-	private static final double stockdesire=2000*uniteventechocolat;
-	private static final double prixstockage=0.25*bornesmin/(24*1000);//Le prix du stokage par an est de 25% de la valeur des marchandises stockées
+	private static final int Uniteventechocolat=1000;//1000 tonnes
+	private static final double Bornesmax=0.008;//Une unité d'argent =1 million d'euro
+	private static final double Bornesmin=0.004;
+	private static final double Stockdesire=2000*Uniteventechocolat;
+	private static final double Prixstockage=0.25*Bornesmin/(24*1000);//Le prix du stokage par an est de 25% de la valeur des marchandises stockées
 	private ArrayList<Double> prixmatprem;
 	private double venteChocolat;
 	private double achatCacao;
@@ -50,9 +50,9 @@ public class TransformateurUsa implements transformateur,Acteur{
 		prixmatprem.add(0.000350);//Prix matière première à la tonne en euros.
 		prixmatprem.add(0.000025);
 		prixmatprem.add(0.000400);
-		finis = new StockProduitsFinis(stockdesire);
-		premiere =new StockMatPremiere(stockdesire/2,stockdesire,stockdesire,stockdesire);
-		Transfo =new TransfoChocolat(premiere,finis);
+		finis = new StockProduitsFinis(Stockdesire);
+		premiere =new StockMatPremiere(Stockdesire/2,Stockdesire,Stockdesire,Stockdesire);
+		transfo =new TransfoChocolat(premiere,finis);
 		this.venteChocolat=0;
 		this.achatCacao=0;
 		System.out.println();
@@ -91,39 +91,39 @@ public class TransformateurUsa implements transformateur,Acteur{
 
 	private void payerstock(){
 		double avant=this.tresorie.getCompteCourant();
-		this.tresorie.removeMoney(this.finis.getStockChocolat()*prixstockage*bornesmin);	
+		this.tresorie.removeMoney(this.finis.getStockChocolat()*Prixstockage*Bornesmin);	
 		for (int i=0;i<3;i++){
-			this.tresorie.removeMoney(this.premiere.getIngredient(i)*prixstockage);	
+			this.tresorie.removeMoney(this.premiere.getIngredient(i)*Prixstockage);	
 		}
 		journal.ajouter("Cout stockage = "+(avant-this.tresorie.getCompteCourant()));
 	}
 
 	public void achetermatierepremiere(){
 		for (int i=1;i<4;i++){
-			if (tresorie.getCompteCourant()-((stockdesire-this.premiere.getIngredient(i))*prixmatprem.get(i-1))>0){
-				tresorie.setCompteCourant(tresorie.getCompteCourant()-((stockdesire-this.premiere.getIngredient(i))*prixmatprem.get(i-1)));
-				this.premiere.setIngredient(i, stockdesire-this.premiere.getIngredient(i));
+			if (tresorie.getCompteCourant()-((Stockdesire-this.premiere.getIngredient(i))*prixmatprem.get(i-1))>0){
+				tresorie.setCompteCourant(tresorie.getCompteCourant()-((Stockdesire-this.premiere.getIngredient(i))*prixmatprem.get(i-1)));
+				this.premiere.setIngredient(i, Stockdesire-this.premiere.getIngredient(i));
 			}
 		}
 	}
 
 	private void produirechocolat(){
-		Transfo.produireChoco(stockdesire-finis.getStockChocolat());
+		transfo.produireChoco(Stockdesire-finis.getStockChocolat());
 	}
 
 	public double getprixMin(){
-		if (finis.getStockChocolat()<uniteventechocolat){
-			journal.ajouter("Prix min="+bornesmax+1);
-			return bornesmax+1;
+		if (finis.getStockChocolat()<Uniteventechocolat){
+			journal.ajouter("Prix min="+Bornesmax+1);
+			return Bornesmax+1;
 		}
-		else if (finis.getStockChocolat()<200*uniteventechocolat){
-			double prix= bornesmax-((finis.getStockChocolat()-1*uniteventechocolat)/((200-1)*uniteventechocolat)*(bornesmax-bornesmin));
+		else if (finis.getStockChocolat()<200*Uniteventechocolat){
+			double prix= Bornesmax-((finis.getStockChocolat()-1*Uniteventechocolat)/((200-1)*Uniteventechocolat)*(Bornesmax-Bornesmin));
 			journal.ajouter("Prix min="+prix);
 			return prix;
 		}
 		else{
-			journal.ajouter("Prix min="+bornesmin);
-			return bornesmin;
+			journal.ajouter("Prix min="+Bornesmin);
+			return Bornesmin;
 		}
 	}
 	@Override
@@ -136,9 +136,9 @@ public class TransformateurUsa implements transformateur,Acteur{
 
 	public double QteSouhaite(){
 		
-		if (stockdesire-this.premiere.getCacao()>=0){
-			journal.ajouter("Quantite souhaitée "+(stockdesire-this.premiere.getCacao()));
-			return stockdesire-this.premiere.getCacao();
+		if (Stockdesire-this.premiere.getCacao()>=0){
+			journal.ajouter("Quantite souhaitée "+(Stockdesire-this.premiere.getCacao()));
+			return Stockdesire-this.premiere.getCacao();
 		}	
 		journal.ajouter("Quantite souhaitée="+0);
 		return 0;
@@ -164,14 +164,14 @@ public class TransformateurUsa implements transformateur,Acteur{
 	}
 
 	public void test(){
-		this.notificationAchat(100*uniteventechocolat, 200);
+		this.notificationAchat(100*Uniteventechocolat, 200);
 		System.out.println(this.toString());
-		this.notif(6000, 100*uniteventechocolat);	
+		this.notif(6000, 100*Uniteventechocolat);	
 	}
 	
 	public void testPrixMin(){
 		System.out.println("Prixmin= "+this.getprixMin());
-		this.notif(10000, uniteventechocolat);
+		this.notif(10000, Uniteventechocolat);
 	}
 
 }
