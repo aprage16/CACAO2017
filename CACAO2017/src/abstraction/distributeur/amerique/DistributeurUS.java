@@ -10,9 +10,9 @@ public class DistributeurUS implements IDistributeur{
 	public static String  nomIndicateurStock = "1_DISTR_US_stock";
 	public static String nomIndicateurFonds = "1_DISTR_US_fonds";
 	public static double fondsIni = 5000.0;
-	public static double stockIni = 62.5;
+	public static double stockIni = 6.25;
 	public static double prixKg=10;
-	public static double uniteChoc=1000;
+	public static double uniteChoc=10000;
 	public static double coefAleatoire=0;
 	
 	private Gestion gestion;

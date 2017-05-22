@@ -5,11 +5,13 @@ import abstraction.fourni.Monde;
 public class Demande {
 	
 
-	public static double augStVal; //3%
-	public static double augPaques;// 4% des ventes de chocolat au total
+	public static double augStVal=0.3; //3%
+	public static double augPaques=0.4;// 4% des ventes de chocolat au total
 	public static double augHalloween; //10%
-	public static double augNoel; // 8% des ventes de chocolat au total
-	public static double demandeTAnnee=7.5*Math.pow(10,2)-augStVal-augPaques-augHalloween-augNoel;
+	public static double augNoel=0.8; // 8% des ventes de chocolat au total
+	public static double partDeMarche=0.30;
+	public static double demandeTAnnee=2470;
+	public static double demandeMoisBase=(demandeTAnnee-demandeTAnnee*(augStVal+augPaques+augHalloween+augNoel))/26;
 	public static double commandeIni = 62.5;
 	
 	private double commande;
@@ -41,20 +43,20 @@ public class Demande {
 		double coefaleatoire=0.9+Math.random()*0.2; //coefficient aléatoire permettant de faire varier la demande "linéaire" périodique
 		date=Monde.LE_MONDE.getStep();
 		date=date%26;
-		if (date==2 || date==3){
+		if (date==2){
 			augSaisonniere=augStVal;
 		}
-		if (date==7 || date==8){
+		if (date==7){
 			augSaisonniere=augPaques;
 		}
-		if (date==20 || date==21){
+		if (date==20){
 			augSaisonniere=augHalloween;
 		}
-		if (date==22 || date==23){
+		if (date==26){
 			augSaisonniere=augNoel;
 		}
 		
-		return ((demandeTAnnee/26)+augSaisonniere)*coefaleatoire;
+		return (demandeMoisBase+augSaisonniere)*coefaleatoire;
 	}
 	
 }

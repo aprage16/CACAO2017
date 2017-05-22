@@ -7,11 +7,13 @@ public class DemandeMonde {
 	public static double augPaques;// 4% des ventes de chocolat au total
 	public static double augHalloween; //10%
 	public static double augNoel; // 8% des ventes de chocolat au total
+	public static double nbStepAnnees=26;
 	public static double commandesAnneeTotales=6000;
-	public static double commandesStepFixe=(commandesAnneeTotales-commandesAnneeTotales*(augStVal+augPaques+augHalloween+augNoel))/26;
+	public static double commandesStepFixe=(commandesAnneeTotales-commandesAnneeTotales*(augStVal+augPaques+augHalloween+augNoel))/nbStepAnnees;
 	public static double pourcentageFixe=0.40;
-	public static double pourcentageFluctuantUS;
-	public static double pourcentageFluctuantEU;
+	public static double pourcentageFluctuantTotal=0.2;
+	public static double pourcentageFluctuantUS=pourcentageFluctuantTotal*0.5;
+	public static double pourcentageFluctuantEU=pourcentageFluctuantTotal*0.5;
 	
 	
 	private double demandeUS;
@@ -36,6 +38,9 @@ public class DemandeMonde {
 	public void setDemandeEU(double EU){
 		this.demandeEU=EU;
 	}
+	
+	/* A Calculer, dépend de la fidélité (on fait tourner le monde une fois sans rien pour avoir la demande du client, 
+	*/
 	public double getFluctuantUS(){
 		return pourcentageFluctuantUS;
 	}
@@ -46,18 +51,18 @@ public class DemandeMonde {
 	public void calculDemandes(){
 		double augSaisonniere=0;
 		int date=Monde.LE_MONDE.getStep()%26;
-		if (date==2 || date==3){//Changer les numéros de step
+		if (date==4){
 			augSaisonniere=augStVal;
 		}
-		if (date==7 || date==8){
+		if (date==13){
 			augSaisonniere=augPaques;
 		}
-		if (date==20 || date==21){
+		if (date==22){
 			augSaisonniere=augHalloween;
 		}
-		if (date==22 || date==23){
+		if (date==26){
 			augSaisonniere=augNoel;
-		}
+		}}
 		
 		double commandesTotalesStep=(commandesStepFixe+augSaisonniere*commandesAnneeTotales)*DistributeurUS.coefAleatoire;
 		this.setDemandeUS(commandesTotalesStep*(pourcentageFixe+pourcentageFluctuantUS));
