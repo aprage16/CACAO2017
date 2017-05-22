@@ -62,7 +62,7 @@ public class DemandeMonde {
 		}
 		if (date==26){
 			augSaisonniere=augNoel;
-		}}
+		}
 		
 		double commandesTotalesStep=(commandesStepFixe+augSaisonniere*commandesAnneeTotales)*DistributeurUS.coefAleatoire;
 		this.setDemandeUS(commandesTotalesStep*(pourcentageFixe+pourcentageFluctuantUS));
