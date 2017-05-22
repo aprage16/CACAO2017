@@ -6,8 +6,7 @@ package abstraction.producteur.ameriquelatine;
 public class Tresorerie {
 	public final static int CHARGESPROD=10000000;// ($) charges fixes (hors coût de stock)
 	public final static double COUTSTOCK=1000;
-	public final static double COUTSALARIE=47400; // ($) prix d'un salarie (recolte) par tonne de cacao récolté produite et par an
-//	private double resultat; 
+	public final static double COUTSALARIE=47400; // ($) prix d'un salarie (recolte) par tonne de cacao récolté et par an
 	private double tresorerie; // argent en banque
 	private Stock stock;
 	private Recolte recolte;
@@ -22,7 +21,7 @@ public class Tresorerie {
 		 return this.tresorerie ;
 	}
 	public double cout(){
-		return CHARGESPROD + stock.getStock()*COUTSTOCK+this.recolte.getQterecoltee()*COUTSALARIE; //on paye le cout du stock le mois d'après !!!
+		return CHARGESPROD + stock.getStock()*COUTSTOCK+this.recolte.getQterecoltee()*COUTSALARIE/26; //le cout du salarie est par AN !! Ce pourquoi on doit diviser par 26 (nombre de next par an)
 	}
 	public void encaissement(double a){
 		this.tresorerie+=a;
