@@ -69,25 +69,49 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 		//Avril à Août: Production = production moyenne - 50%  
 		
 		if (periode<26){ 
-			if ((periode>=0 && periode<= 5)||periode>18){
+			if ((periode>=0 && periode<= 4)||periode>=19){
 				prod_min += PRODUCTIONMOYENNE*0.5; 
 				prod_max += PRODUCTIONMOYENNE*0.5; 
 				prod = prod_min + (double)Math.random()*(prod_max - prod_min); // Production random entre prod_min et prod_max
 			}else{ 
-				prod_min -= PRODUCTIONMOYENNE*0.5; 
-				prod_max -= PRODUCTIONMOYENNE*0.5; 
-				prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+				if(periode==5||periode==18){ 
+					prod_min += PRODUCTIONMOYENNE*(1/3); 
+					prod_max += PRODUCTIONMOYENNE*(1/3); 
+					prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+				}else{ 
+					if(periode==6||periode==17){ 
+						prod_min -= PRODUCTIONMOYENNE*(1/3); 
+						prod_max -= PRODUCTIONMOYENNE*(1/3); 
+						prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+					}else{
+						prod_min -= PRODUCTIONMOYENNE*0.5; 
+						prod_max -= PRODUCTIONMOYENNE*0.5; 
+						prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+					}
+				}
 			}
 		}else{ 
 			int reste = periode%26; 
-			if ((reste>=0 && reste<= 5)||reste>18){
+			if ((reste>=0 && reste<= 4)||reste>=19){
 				prod_min += PRODUCTIONMOYENNE*0.5; 
 				prod_max += PRODUCTIONMOYENNE*0.5; 
 				prod = prod_min + (double)Math.random()*(prod_max - prod_min); // Production random entre prod_min et prod_max
 			}else{ 
-				prod_min -= PRODUCTIONMOYENNE*0.5; 
-				prod_max -= PRODUCTIONMOYENNE*0.5; 
-				prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+				if(reste==5||reste==18){ 
+					prod_min += PRODUCTIONMOYENNE*(1/3); 
+					prod_max += PRODUCTIONMOYENNE*(1/3); 
+					prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+				}else{ 
+					if(reste==6||reste==17){ 
+						prod_min -= PRODUCTIONMOYENNE*(1/3); 
+						prod_max -= PRODUCTIONMOYENNE*(1/3); 
+						prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+					}else{
+						prod_min -= PRODUCTIONMOYENNE*0.5; 
+						prod_max -= PRODUCTIONMOYENNE*0.5; 
+						prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+					}
+				}
 			}
 		}
 		this.production=(int)prod; // ajout dans la liste de production
