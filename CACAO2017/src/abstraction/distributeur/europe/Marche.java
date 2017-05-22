@@ -7,14 +7,14 @@ import abstraction.fourni.Acteur;
 public class Marche implements Acteur{
 
 
-	private static double bornesmin=0.004;
-	private static double bornesmax=0.008;
+	private static double BORNESMIN=0.004;
+	private static double BORNESMAX=0.008;
 	private ArrayList<IDistributeur> distributeur;
 	private ArrayList<transformateur> transformateur;
 	private ArrayList<IDistributeur> distributeurActif;
 	private ArrayList<transformateur> transformateurActif;
-	private boolean OnEchange;
-	private double prixmoyen;
+	private boolean onEchange;
+	private double prixMoyen;
 
 	double unite=1000;
 
@@ -48,15 +48,16 @@ public class Marche implements Acteur{
 	}
 
 	public void Actif(){
+		
 		this.distributeurActif=new ArrayList<IDistributeur>();
 		this.transformateurActif=new ArrayList<transformateur>();
 		for (transformateur a:this.transformateur){
-			if (a.getprixMin()>=bornesmin&&a.getprixMin()<=bornesmax){
+			if (a.getprixMin()>=BORNESMIN&&a.getprixMin()<=BORNESMAX){
 				transformateurActif.add(a);
 			}
 		}
 		for (IDistributeur a:this.distributeur){
-			if (a.getPrixMax()>=bornesmin && a.getPrixMax()<=bornesmax){
+			if (a.getPrixMax()>=BORNESMIN && a.getPrixMax()<=BORNESMAX){
 				this.distributeurActif.add(a);
 			}
 		}
@@ -67,14 +68,20 @@ public class Marche implements Acteur{
 		transformateur prioT;
 		this.Actif();
 		if (this.distributeurActif.isEmpty() || this.transformateurActif.isEmpty()){
-			this.OnEchange=false;
+			this.onEchange=false;
 		}
-		if (OnEchange){
+		
+		if (onEchange){
 			prioD= this.distributeur.get(this.indiceMaximum());
 			prioT=this.transformateur.get(this.indiceMinimum());
-			prixmoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
-			prioD.notif(new Vente(prixmoyen,unite));
-			prioT.notif(prixmoyen,unite);
+			if (prioD.getPrixMax()>prioT.getprixMin()){
+			prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
+			prioD.notif(new Vente(prixMoyen,unite));
+			prioT.notif(prixMoyen,unite);
+			}
+			else{
+				onEchange=false;
+			}
 		}
 	}
 
@@ -84,8 +91,8 @@ public class Marche implements Acteur{
 	}
 
 	public void next(){
-		this.OnEchange=true;
-		while(this.OnEchange){
+		this.onEchange=true;
+		while(this.onEchange){
 			this.Echanges();
 			
 		}
