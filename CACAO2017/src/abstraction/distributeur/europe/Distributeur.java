@@ -32,7 +32,7 @@ public class Distributeur implements Acteur,IDistributeur{
 		
 		this.fondsI = new Indicateur("2_DISTR_EU_fonds", this, 100);
 		this.stockI = new Indicateur("2_DISTR_EU_stocks", this, 400);
-
+		
     	Monde.LE_MONDE.ajouterIndicateur( this.fondsI );
     	Monde.LE_MONDE.ajouterIndicateur( this.stockI );
         
