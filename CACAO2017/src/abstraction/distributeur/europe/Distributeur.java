@@ -83,6 +83,7 @@ public class Distributeur implements Acteur,IDistributeur{
 		prixTransfo = this.getDerniereVente().getPrix();
 		double coeff = qteDemandee/this.stock;
 		double prix = (1/coeff)*prixTransfo;
+		
 		return prix;
 	}
 	
