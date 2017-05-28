@@ -2,6 +2,7 @@ package presentation;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -46,6 +47,13 @@ public class FenetreJournal extends JFrame {
 		   }});
 
 	}
+	
+	@Override
+	public void paint(Graphics g) {
+		this.label.setText(journal.toHtml());
+		super.paint(g);
+	}
+	
 	public void setCheckBox(JCheckBox checkBox) {
 		this.checkBox = checkBox;
 	}
