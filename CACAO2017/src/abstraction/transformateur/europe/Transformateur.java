@@ -22,7 +22,6 @@ public class Transformateur implements transformateur, Acteur  {
 	private double[] peremption=new double[Stock.DATE_PEREMPTION];
 	private double quantiteVendue;
 	private double quantiteAchetee;
-	private double qtedemandee;
 	private double prixMoyendeVente;
 	private double prixMoyendAchat;
 	private double compteurAchat=0;
@@ -59,10 +58,9 @@ public class Transformateur implements transformateur, Acteur  {
 			return 1000000;
 		}
 		else{
-			this.prixmin=PRIX_MIN+PRIX_MIN*Stock.STOCK_MIN/this.quantiteAchetee; //calcul le nouveau prix minimum auquel on souhaite vendre en 
-			System.out.println("prix min de transfo eu : "+prixmin);															  //tenant compte du stock de chocolat que l'on a
+			this.prixmin=PRIX_MIN+PRIX_MIN*Stock.STOCK_MIN/stockChocolat; //calcul le nouveau prix minimum auquel on souhaite vendre en 
+																		  //tenant compte du stock de chocolat que l'on a
 			return this.prixmin;
-			
 		}
 	}
 	
@@ -83,7 +81,7 @@ public class Transformateur implements transformateur, Acteur  {
 		double stockCacao=this.s.getStockCacao();
 		double stockChocolat=this.s.getStockChocolat();
 		double quantiteSouhaitee;
-		if (stockChocolat < Stock.STOCK_MAX_CHOCOLAT){ //on vérifie si notre stock de chocolat est inférieur a la qte qu'on vend par mois
+		if (stockChocolat<=CHOCOLAT_NECESSAIRE && stockChocolat < Stock.STOCK_MAX_CHOCOLAT){ //on vérifie si notre stock de chocolat est inférieur a la qte qu'on vend par mois
 			if (stockCacao>=CACAO_NECESSAIRE){ //On vérifie si le cacao nécessaire pour atteindre notre objectif de chocolat est présent ou non, s'il l'est on achète rien
 				quantiteSouhaitee=0;
 			}else{
@@ -93,14 +91,13 @@ public class Transformateur implements transformateur, Acteur  {
 			return quantiteSouhaitee=0; //on achète rien si on a trop de chocolat par rapport à ce que l'on vend
 		}
 		this.commande.setValeur(this, quantiteSouhaitee); //l'indicateur donne la quantité commandée au producteurs pendant le next
-		this.qtedemandee=quantiteSouhaitee;
 		return quantiteSouhaitee;
 	}
 	
 	public void transformation(){ //processus de transformation du cacao en chocolat, appellée chaque next
-		if (this.s.getStockChocolat()<CHOCOLAT_NECESSAIRE){ //on vérifie que stock actuel <= Stock max
+		if (this.s.getStockChocolat()<=CHOCOLAT_NECESSAIRE){ //on vérifie que stock actuel <= Stock max
 			this.s.ajoutChocolat(CHOCOLAT_NECESSAIRE-this.s.getStockChocolat()); //on remplit notre stock tout le temps de sorte à avoir 44000
-			this.s.retraitCacao(CACAO_NECESSAIRE-this.s.getStockCacao()*RATIO_CACAO_CHOCO); //retrait du cacao nécessaire à la transformation
+			this.s.retraitCacao(CACAO_NECESSAIRE-this.s.getStockCacao()); //retrait du cacao nécessaire à la transformation
 		}
 	}
 	
@@ -153,7 +150,6 @@ public class Transformateur implements transformateur, Acteur  {
 		this.journal.ajouter(" ");
 		this.journal.ajouter(this.compte.toString());
 		this.journal.ajouter(" ");
-		this.journal.ajouter(" la quantitee demandee aux producteurs est de : <b>"+this.qtedemandee+"</b>");
 		this.journal.ajouter(" ");
 		this.journal.ajouter(" ");
 	}
