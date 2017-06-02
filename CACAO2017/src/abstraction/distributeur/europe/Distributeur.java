@@ -75,8 +75,8 @@ public class Distributeur implements Acteur,IDistributeur{
 	public void notif(Vente vente){
 		this.setVente(vente);
 		if (this.stock.totalStock()-vente.getQuantite()>0){
-			//this.stock.retraitStock(2);
-			//this.stock.vieillirStock();
+			this.stock.retraitStock(1000);
+			this.stock.vieillirStock();
 			this.fonds = this.fonds+vente.getPrix()*vente.getQuantite();
 			this.fondsI.setValeur(this, this.fonds+vente.getPrix()*vente.getQuantite());
 			this.stockI.setValeur(this, this.stock.totalStock());

@@ -95,7 +95,7 @@ public class Stock{
 		
 		while (i<6 && var>0){
 			
-			if (stock[i]-var<=0){
+			if (stock[i]-var>=0){
 				stock[i]=stock[i]-demande;
 				var=0;
 			}
@@ -105,6 +105,7 @@ public class Stock{
 				stock[i]=stock[i]-var;
 				var2=var;
 			}
+			i++;
 			
 		}
 	}
