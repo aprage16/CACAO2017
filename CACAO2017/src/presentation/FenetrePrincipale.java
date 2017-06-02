@@ -59,13 +59,13 @@ public class FenetrePrincipale extends JFrame {
 		pLab.add(Box.createRigidArea(new Dimension(10,9)));
 		for (Indicateur i : indicateurs){
 			JPanel pIndic = new JPanel();
+			pIndic.setLayout(new BorderLayout());
+			JPanel pReste = new JPanel();
+			
 			// Nom de l'indicateur
 			JLabel lIndic = new JLabel( i.getNom());
-			pIndic.setLayout(new BorderLayout());
 			lIndic.setAlignmentX(RIGHT_ALIGNMENT);
-			pLab.add(lIndic);
-			pLab.add(Box.createVerticalGlue());
-			JPanel pReste = new JPanel();
+			pReste.add(lIndic);
 			// Case a cocher "Graphique" permettant d'afficher/cacher le graphique de l'indicateur
 			JCheckBox cGraphiqueIndic = new JCheckBox("Graphique"); 
 			FenetreGraphique graphique = new FenetreGraphique(i.getNom(), 800, 600);
