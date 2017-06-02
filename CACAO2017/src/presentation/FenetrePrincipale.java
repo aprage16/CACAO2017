@@ -38,6 +38,7 @@ public class FenetrePrincipale extends JFrame {
 	public FenetrePrincipale() {
 		super("Prime CACAO");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		
 		Monde.LE_MONDE = new MondeV1(); 
 		Monde.LE_MONDE.peupler();
 		this.setLayout(new BorderLayout());
