@@ -15,7 +15,7 @@ public class Stock {
 	private double stockChocolat;
 	public static final int DATE_PEREMPTION = 5;
 	public static final int STOCK_MAX_CACAO = 50000;
-	public static final int STOCK_MAX_CHOCOLAT = 44000;
+	public static final int STOCK_MAX_CHOCOLAT = 70000;
 	public static final int STOCK_MIN=5000;
 	private Journal journal;
 	
