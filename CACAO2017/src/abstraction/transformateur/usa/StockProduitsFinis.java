@@ -49,8 +49,8 @@ public class StockProduitsFinis {
 	}
 
 	public void enleverChoco(double chocolatAEnlever){
-		for (int i=5;i>0;i--){
-			if (chocolatAEnlever>=this.chocolat.get(i)){
+		for (int i=5;i>=0;i--){
+			if (chocolatAEnlever>this.chocolat.get(i)){
 				chocolatAEnlever-=this.chocolat.get(i);
 				this.chocolat.set(i, 0.0);
 			}

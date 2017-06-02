@@ -24,11 +24,11 @@ public class Distributeur implements Acteur,IDistributeur{
 		this.derniereVente = new Vente(0.002,2);
 		this.stock = new Stock();
 		this.stock.ajoutStock(40000);
-		this.fonds = 100;
+		this.fonds = 80000;
  	    this.journal = new Journal("Journal de "+this.nom);
  	    Monde.LE_MONDE.ajouterJournal(this.journal);
 		
-		this.fondsI = new Indicateur("2_DISTR_EU_fonds", this, 100);
+		this.fondsI = new Indicateur("2_DISTR_EU_fonds", this, 80000);
 		this.stockI = new Indicateur("2_DISTR_EU_stocks", this, 40000);
 		
     	Monde.LE_MONDE.ajouterIndicateur( this.fondsI );
@@ -74,29 +74,21 @@ public class Distributeur implements Acteur,IDistributeur{
 	
 	public void notif(Vente vente){
 		this.setVente(vente);
-		if (this.stock.totalStock()-vente.getQuantite()>0){
-			this.stock.retraitStock(1000);
-			this.stock.vieillirStock();
-			this.fonds = this.fonds+vente.getPrix()*vente.getQuantite();
-			this.fondsI.setValeur(this, this.fonds+vente.getPrix()*vente.getQuantite());
-			this.stockI.setValeur(this, this.stock.totalStock());
-		}
-		else {
-			double stock_manquant = this.stock.totalStock(); 
-			this.stock.ajoutStock(0);
-			this.fonds = this.fonds+vente.getPrix()*stock_manquant;
-			this.fondsI.setValeur(this, this.fonds+vente.getPrix()*stock_manquant);
-			this.stockI.setValeur(this, this.stock.totalStock());			
-		}
+		this.stock.ajoutStock(1000);
+		this.fonds = this.fonds-vente.getPrix()*vente.getQuantite();
+		this.fondsI.setValeur(this, this.fonds-vente.getPrix()*vente.getQuantite());
+		this.stockI.setValeur(this, this.stock.totalStock());
 		
 		journal.ajouter("Opération Réalisée "+vente.toString());
 		journal.ajouter("Fonds "+fonds);
 
 	}
 	
-	public void next(){}
+	public void next(){
+		//this.stock.vieillirStock();
+	}
 	
 	public String getNom(){
-		return "";
+		return "Distributeur Europe";
 	}
 }
