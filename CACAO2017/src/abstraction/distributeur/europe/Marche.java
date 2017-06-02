@@ -7,8 +7,8 @@ import abstraction.fourni.Acteur;
 public class Marche implements Acteur{
 
 
-	private static double BORNESMIN=3999.0;
-	private static double BORNESMAX=8001.0;
+	private static double BORNESMIN=0.004;
+	private static double BORNESMAX=0.008;
 	private ArrayList<IDistributeur> distributeur;
 	private ArrayList<transformateur> transformateur;
 	private ArrayList<IDistributeur> distributeurActif;
@@ -46,14 +46,17 @@ public class Marche implements Acteur{
 		}
 		return indice_min;		
 	}
+	
+	
 
 	public void Actif(){
 		
 		this.distributeurActif=new ArrayList<IDistributeur>();
 		this.transformateurActif=new ArrayList<transformateur>();
-		for (transformateur a:this.transformateur){
-			if (a.getprixMin()>=BORNESMIN&&a.getprixMin()<=BORNESMAX){
-				transformateurActif.add(a);
+		for (int i=0; i<transformateur.size();i++){
+			if (transformateur.get(i).getprixMin()>=BORNESMIN&&transformateur.get(i).getprixMin()<=BORNESMAX){
+				transformateurActif.add(transformateur.get(i));
+				transformateur.remove(transformateur.get(i));
 			}
 		}
 		for (IDistributeur a:this.distributeur){
@@ -72,20 +75,27 @@ public class Marche implements Acteur{
 		}
 		
 		if (onEchange){
-			prioD= this.distributeur.get(this.indiceMaximum());
-			prioT=this.transformateur.get(this.indiceMinimum());
+			prioD= this.distributeurActif.get(this.indiceMaximum());
+			prioT=this.transformateurActif.get(this.indiceMinimum());
 			System.out.println(prioD.getPrixMax());
 			System.out.println(prioT.getprixMin());
 			if (prioD.getPrixMax()>=prioT.getprixMin()){
-			prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
-			prioD.notif(new Vente(prixMoyen,unite));
-			prioT.notif(prixMoyen,unite);
-			
+				prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
+				for (int i=0; i<transformateur.size();i++){
+					transformateur.get(i).notif(prixMoyen, 0);
+				}
+				System.out.println("prix moyen = " + prixMoyen);
+				prioD.notif(new Vente(prixMoyen,unite));
+				prioT.notif(prixMoyen,unite);	
 			}
 			else{
 				onEchange=false;
 			}
+			for (int i=0; i<transformateurActif.size();i++){
+				transformateur.add(transformateurActif.get(i));
+			}
 		}
+
 	}
 
 	@Override
@@ -95,9 +105,13 @@ public class Marche implements Acteur{
 
 	public void next(){
 		this.onEchange=true;
+		int compteur = 0;
 		while(this.onEchange){
 			this.Echanges();
-			
+			if (compteur>=3){
+				break;
+			}
+			compteur+=1;
 		}
 	}
 
