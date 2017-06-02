@@ -8,4 +8,5 @@ public interface IDistributeur extends Acteur{
 	public void notif(Vente vente);
 	public Indicateur getIndicateurStock();
 	public Indicateur getSolde();
+	public int hashCode();
 }
