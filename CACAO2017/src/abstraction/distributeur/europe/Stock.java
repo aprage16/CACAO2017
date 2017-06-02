@@ -1,7 +1,7 @@
 //Classe codée par Walid
-/*package abstraction.distributeur.europe;
+package abstraction.distributeur.europe;
 import java.util.ArrayList;
-
+/*
 
 class QuantiteChoco {
 	private Chocolats typeChoco;
@@ -74,7 +74,8 @@ public class Stock{
 		this.stock=tableau;
 	}
 	
-	public void vieillirStock(double s){
+	
+	public void vieillirStock(){
 		double[] var = new double[6];
 		var=this.stock;
 		
@@ -108,7 +109,7 @@ public class Stock{
 		}
 	}
 	
-	public double totalStock(Stock stock){
+	public double totalStock(){
 		double total=0;
 		
 		for (int i=0;i<6;i++){
