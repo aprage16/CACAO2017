@@ -3,6 +3,8 @@ package abstraction.distributeur.europe;
 import java.util.ArrayList;
 import abstraction.transformateur.usa.interfacemarche.*;
 import abstraction.fourni.Acteur;
+import abstraction.fourni.Journal;
+import abstraction.fourni.Monde;
 
 public class Marche implements Acteur{
 
@@ -15,12 +17,16 @@ public class Marche implements Acteur{
 	private ArrayList<transformateur> transformateurActif;
 	private boolean onEchange;
 	private double prixMoyen;
+	private Journal journal;	
 
-	double unite=1000;
+
+	public static final double UNITE=1000;
 
 	public Marche(){
+		this.journal = new Journal("Journal du marche");
 		this.distributeur= new ArrayList<IDistributeur>();
 		this.transformateur= new ArrayList<transformateur>();
+		Monde.LE_MONDE.ajouterJournal(this.journal);
 	}
 
 	public ArrayList<IDistributeur> getDistrib(){
@@ -56,7 +62,7 @@ public class Marche implements Acteur{
 		for (int i=0; i<transformateur.size();i++){
 			if (transformateur.get(i).getprixMin()>=BORNESMIN&&transformateur.get(i).getprixMin()<=BORNESMAX){
 				transformateurActif.add(transformateur.get(i));
-				transformateur.remove(transformateur.get(i));
+				
 			}
 		}
 		for (IDistributeur a:this.distributeur){
@@ -76,24 +82,19 @@ public class Marche implements Acteur{
 		
 		if (onEchange){
 			prioD= this.distributeurActif.get(this.indiceMaximum());
+			this.journal.ajouter("Le distributeur a remporte le marche : " + prioD.getNom());
 			prioT=this.transformateurActif.get(this.indiceMinimum());
-			System.out.println(prioD.getPrixMax());
-			System.out.println(prioT.getprixMin());
+			this.journal.ajouter("Le transformateur a remporte le marche : " + prioT.getprixMin());
 			if (prioD.getPrixMax()>=prioT.getprixMin()){
 				prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
-				for (int i=0; i<transformateur.size();i++){
-					transformateur.get(i).notif(prixMoyen, 0);
-				}
-				System.out.println("prix moyen = " + prixMoyen);
-				prioD.notif(new Vente(prixMoyen,unite));
-				prioT.notif(prixMoyen,unite);	
+				this.journal.ajouter("Prix moyen : " + prixMoyen);
+				prioD.notif(new Vente(prixMoyen,UNITE));
+				prioT.notif(prixMoyen,UNITE);	
 			}
 			else{
 				onEchange=false;
 			}
-			for (int i=0; i<transformateurActif.size();i++){
-				transformateur.add(transformateurActif.get(i));
-			}
+			
 		}
 
 	}
@@ -105,13 +106,10 @@ public class Marche implements Acteur{
 
 	public void next(){
 		this.onEchange=true;
-		int compteur = 0;
+
 		while(this.onEchange){
 			this.Echanges();
-			if (compteur>=3){
-				break;
-			}
-			compteur+=1;
+			
 		}
 	}
 
