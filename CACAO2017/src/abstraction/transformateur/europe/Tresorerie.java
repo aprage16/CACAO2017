@@ -1,3 +1,10 @@
+
+//** Classe gérant la trésorerie de notre acteur
+//** authors : Blois Philippe, 
+//**           Charloux Jean, 
+//**           Halzuet Guillaume,
+//**		   Stourm Théo ***///
+
 package abstraction.transformateur.europe;
 
 public class Tresorerie {
@@ -16,15 +23,23 @@ public class Tresorerie {
 		return this.compte;
 	}
 	
-	public void setCompte(double compte){
+	private void setCompte(double compte){
 		this.compte=compte;
 	}
 	
-	public void ajoutChiffredaffaire(double chiffre_daffaire){
-		this.setCompte(chiffre_daffaire+this.getCompte());
+	public void credit(double montant){
+		if (montant >=0){
+			this.setCompte(this.getCompte()+montant);
+		}
+	}
+		
+	public void debit(double montant){
+		if(montant>=0){
+			this.setCompte(this.getCompte()-montant);
+		}
 	}
 	
-	public void retraitAchat(double achat){
-		this.setCompte(this.getCompte()-achat);
+	public String toString(){
+		return ("L'état du <b>solde</b> actuellement est de : <b><font color=\"blue\">"+compte+"</font></b> euros");
 	}
 }
