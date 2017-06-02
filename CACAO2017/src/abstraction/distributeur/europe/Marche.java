@@ -77,14 +77,14 @@ public class Marche implements Acteur{
 		if (onEchange){
 			prioD= this.distributeurActif.get(this.indiceMaximum());
 			prioT=this.transformateurActif.get(this.indiceMinimum());
-			System.out.println(prioD.getPrixMax());
-			System.out.println(prioT.getprixMin());
+			//System.out.println(prioD.getPrixMax());
+			//System.out.println(prioT.getprixMin());
 			if (prioD.getPrixMax()>=prioT.getprixMin()){
 				prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
 				for (int i=0; i<transformateur.size();i++){
 					transformateur.get(i).notif(prixMoyen, 0);
 				}
-				System.out.println("prix moyen = " + prixMoyen);
+				//System.out.println("prix moyen = " + prixMoyen);
 				prioD.notif(new Vente(prixMoyen,unite));
 				prioT.notif(prixMoyen,unite);	
 			}
