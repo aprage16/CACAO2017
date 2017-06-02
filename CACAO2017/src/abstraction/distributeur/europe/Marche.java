@@ -3,6 +3,7 @@ package abstraction.distributeur.europe;
 import java.util.ArrayList;
 import abstraction.transformateur.usa.interfacemarche.*;
 import abstraction.fourni.Acteur;
+import abstraction.fourni.Journal;
 
 public class Marche implements Acteur{
 
@@ -15,6 +16,8 @@ public class Marche implements Acteur{
 	private ArrayList<transformateur> transformateurActif;
 	private boolean onEchange;
 	private double prixMoyen;
+	private Journal journal;	
+
 
 	public static final double UNITE=1000;
 
@@ -56,7 +59,7 @@ public class Marche implements Acteur{
 		for (int i=0; i<transformateur.size();i++){
 			if (transformateur.get(i).getprixMin()>=BORNESMIN&&transformateur.get(i).getprixMin()<=BORNESMAX){
 				transformateurActif.add(transformateur.get(i));
-				transformateur.remove(transformateur.get(i));
+				
 			}
 		}
 		for (IDistributeur a:this.distributeur){
@@ -79,18 +82,14 @@ public class Marche implements Acteur{
 			prioT=this.transformateurActif.get(this.indiceMinimum());
 			if (prioD.getPrixMax()>=prioT.getprixMin()){
 				prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
-				for (int i=0; i<transformateur.size();i++){
-					transformateur.get(i).notif(prixMoyen, 0);
-				}
+				
 				prioD.notif(new Vente(prixMoyen,UNITE));
 				prioT.notif(prixMoyen,UNITE);	
 			}
 			else{
 				onEchange=false;
 			}
-			for (int i=0; i<transformateurActif.size();i++){
-				transformateur.add(transformateurActif.get(i));
-			}
+			
 		}
 
 	}
@@ -102,13 +101,10 @@ public class Marche implements Acteur{
 
 	public void next(){
 		this.onEchange=true;
-		int compteur = 0;
+
 		while(this.onEchange){
 			this.Echanges();
-			if (compteur>=3){
-				break;
-			}
-			compteur+=1;
+			
 		}
 	}
 
