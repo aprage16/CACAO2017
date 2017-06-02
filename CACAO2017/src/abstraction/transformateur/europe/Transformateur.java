@@ -62,7 +62,7 @@ public class Transformateur implements transformateur, Acteur  {
 		}
 		else{
 			if (quantiteAchetee>0){
-				this.prixmin=PRIX_MIN+PRIX_MIN*Stock.STOCK_MIN/this.s.getStockCacao(); //calcul le nouveau prix minimum auquel on souhaite vendre en 
+				this.prixmin=PRIX_MIN+PRIX_MIN*Stock.STOCK_MIN/this.s.getStockChocolat(); //calcul le nouveau prix minimum auquel on souhaite vendre en 
 				System.out.println("prix min de transfo eu : "+prixmin);															  //tenant compte du stock de chocolat que l'on a
 				return this.prixmin;
 			}
@@ -105,7 +105,7 @@ public class Transformateur implements transformateur, Acteur  {
 		}
 		this.commande.setValeur(this, quantiteSouhaitee); // L'indicateur donne la quantité commandée au producteurs pendant le next
 		this.qtedemandee=quantiteSouhaitee;
-		return quantiteSouhaitee/4.;
+		return quantiteSouhaitee;
 	}
 
 	

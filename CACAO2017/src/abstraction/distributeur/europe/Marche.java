@@ -84,7 +84,6 @@ public class Marche implements Acteur{
 			prioD= this.distributeurActif.get(this.indiceMaximum());
 			this.journal.ajouter("Le distributeur a remporte le marche : " + prioD.getNom());
 			prioT=this.transformateurActif.get(this.indiceMinimum());
-<<<<<<< HEAD
 			//System.out.println(prioD.getPrixMax());
 			//System.out.println(prioT.getprixMin());
 			if (prioD.getPrixMax()>=prioT.getprixMin()){
@@ -93,21 +92,19 @@ public class Marche implements Acteur{
 					transformateur.get(i).notif(prixMoyen, 0);
 				}
 				//System.out.println("prix moyen = " + prixMoyen);
-				prioD.notif(new Vente(prixMoyen,unite));
-				prioT.notif(prixMoyen,unite);	
-=======
+				prioD.notif(new Vente(prixMoyen,UNITE));
+				prioT.notif(prixMoyen,UNITE);	
 			this.journal.ajouter("Le transformateur a remporte le marche : " + prioT.getprixMin());
 			if (prioD.getPrixMax()>=prioT.getprixMin()){
 				prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
 				this.journal.ajouter("Prix moyen : " + prixMoyen);
 				prioD.notif(new Vente(prixMoyen,UNITE));
 				prioT.notif(prixMoyen,UNITE);	
->>>>>>> CACAO2017/master
 			}
 			else{
 				onEchange=false;
 			}
-			
+			}
 		}
 
 	}
