@@ -12,16 +12,17 @@ import abstraction.producteur.ameriquelatine.IProducteur;
 
 public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	public static final int  PRODUCTIONMOYENNE = 1650000/26; // Production moyenne de la cote d'ivoire en tonnes
-	public static final double VARIATIONALEATOIREPRODUCTION = 0.01; 
+	public static final double VARIATIONALEATOIREPRODUCTION = 0.05; 
 	
 	private int  production; //Liste des productions par périodes
-	private Stock stock;          // Represente notre stock 
+	private Stock stock;          // Représente notre stock 
 	private Treso tresorerie;     // Représente notre trésorerie
-	private Indicateur productionIndicateur;
+	private Indicateur productionIndicateur;	
 	private Indicateur stockIndicateur;
 	private Indicateur tresoIndicateur;
-	private Indicateur vente;
-	private Journal journal;
+	private Indicateur vente;	
+	private Journal journal;	//Introduction du Journal pour avoir une visibilité sur 
+								//l'évolution des différents paramètres.
 	
 	//Cf marché
 	public int hashCode() {
@@ -34,6 +35,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 		this.stock=stock;
 		this.tresorerie = treso; 
 	}
+	//Constructeur sans paramètre
 	public ProductionCoteDIvoire() {
 		this.production = 0;
 		this.stock= new Stock(0);
@@ -59,14 +61,21 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 
 	// Méthode varitation random de la production
 	public void variationProduction(int periode){
-		//Création d'une enveloppe (prod_min->prod_max)
+		
+		//Création d'une enveloppe (prod_min->prod_max) autour de la 
+		//production moyenne annuelle divisée par le nombre de next en 1 année (26)
+		
 		double prod_min = PRODUCTIONMOYENNE - (double)(PRODUCTIONMOYENNE*VARIATIONALEATOIREPRODUCTION); 
 		double prod_max = PRODUCTIONMOYENNE + (double)(PRODUCTIONMOYENNE*VARIATIONALEATOIREPRODUCTION);
 		double prod = 0; 
 		
 		//Durant une année: 
-		//Octobre à Mars: Production = production moyenne + 50%
-		//Avril à Août: Production = production moyenne - 50%  
+		//Octobre à Février: Production = production moyenne + 50%
+		//Mars: Production = production moyenne + 33%
+		//Avril: Production = production moyenne - 33%
+		//Mai à Juillet: Production = production moyenne - 50% 
+		//Août: Production = production moyenne - 33%
+		//Septembre: Production = production moyenne + 33%
 		
 		if (periode<26){ 
 			if ((periode>=0 && periode<= 4)||periode>=19){
