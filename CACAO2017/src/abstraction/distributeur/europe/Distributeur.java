@@ -69,12 +69,12 @@ public class Distributeur implements Acteur,IDistributeur{
 		double prixTransfo;
 		prixTransfo = this.getDerniereVente().getPrix();
 		if(this.stock>300){
-			System.out.println("prix final = " + (((prixTransfo*1.2>0.007)&&(prixTransfo*1.2 <= 0.008)) ? prixTransfo*1.2 : 0.007));
+			//System.out.println("prix final = " + (((prixTransfo*1.2>0.007)&&(prixTransfo*1.2 <= 0.008)) ? prixTransfo*1.2 : 0.007));
 			return (((prixTransfo*1.2>0.007)&&(prixTransfo*1.2 <= 0.008)) ? prixTransfo*1.2 : 0.007);
 			
 		}
 		else{
-			System.out.println("prix final = " +  ( (prixTransfo*1.2>0.007)&&(prixTransfo*1.5 <= 0.008) ? prixTransfo*1.5 : 0.007));
+			//System.out.println("prix final = " +  ( (prixTransfo*1.2>0.007)&&(prixTransfo*1.5 <= 0.008) ? prixTransfo*1.5 : 0.007));
 			 return ( (prixTransfo*1.2>0.007)&&(prixTransfo*1.5 <= 0.008) ? prixTransfo*1.5 : 0.007);
 		}
 	}
@@ -90,14 +90,13 @@ public class Distributeur implements Acteur,IDistributeur{
 		else {
 			double stock_manquant = this.stock; 
 			this.setStock(0);
-			//-vente.getPrix()*stock_manquant
 			this.fonds = this.fonds+vente.getPrix()*stock_manquant;
 			this.fondsI.setValeur(this, this.fonds+vente.getPrix()*stock_manquant);
 			this.stockI.setValeur(this, this.stock);			
 		}
 		
-		journal.ajouter("Opération Réalisée"+vente.toString());
-		journal.ajouter("Fonds"+fonds);
+		journal.ajouter("Opération Réalisée "+vente.toString());
+		journal.ajouter("Fonds "+fonds);
 
 	}
 	
