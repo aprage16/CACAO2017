@@ -14,7 +14,7 @@ public class Demande {
 	public static double demandeMoisBase=(demandeTAnnee-demandeTAnnee*(augStVal+augPaques+augHalloween+augNoel))/26;
 	public static double commandeIni = 62.5;
 	
-	private double commande;
+	private double commande; 
 	
 	public Demande(double commande){
 		this.commande=commande;
