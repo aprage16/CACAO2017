@@ -20,11 +20,11 @@ public class Transformateur implements transformateur, Acteur  {
 	private Tresorerie compte;
 	private double prixmin;
 	private double[] peremption=new double[Stock.DATE_PEREMPTION];
-	private double quantiteVendue;
-	private double quantiteAchetee;
+	private double quantiteVendue=0;
+	private double quantiteAchetee=0;
 	private double qtedemandee;
-	private double prixMoyendeVente;
-	private double prixMoyendAchat;
+	private double prixMoyendeVente=0;
+	private double prixMoyendAchat=0;
 	private double compteurAchat=0;
 	private double compteurVente=0;
 	public static final int CACAO_NECESSAIRE = 30800; // Stock nécessaire par mois pour avoir 44000 chocolats
@@ -59,10 +59,14 @@ public class Transformateur implements transformateur, Acteur  {
 			return 1000000;
 		}
 		else{
-			this.prixmin=PRIX_MIN+PRIX_MIN*Stock.STOCK_MIN/this.quantiteAchetee; //Calcul le nouveau prix minimum auquel on souhaite vendre en 
-			System.out.println("prix min de transfo eu : "+prixmin);															  //tenant compte du stock de chocolat que l'on a
-			return this.prixmin;
-			
+			if (quantiteAchetee>0){
+				this.prixmin=PRIX_MIN+PRIX_MIN*Stock.STOCK_MIN/this.quantiteAchetee; //calcul le nouveau prix minimum auquel on souhaite vendre en 
+				System.out.println("prix min de transfo eu : "+prixmin);															  //tenant compte du stock de chocolat que l'on a
+				return this.prixmin;
+			}
+			else {
+				return prixmin;
+			}
 		}
 	}
 	
@@ -97,14 +101,14 @@ public class Transformateur implements transformateur, Acteur  {
 		return quantiteSouhaitee;
 	}
 	
-	public void transformation(){ // Processus de transformation du cacao en chocolat, appellée chaque next
-		if (this.s.getStockChocolat()<CHOCOLAT_NECESSAIRE){// On vérifie que stock actuel <= stock max	
-			if (this.s.getStockCacao()>=(CHOCOLAT_NECESSAIRE-this.s.getStockChocolat())*RATIO_CACAO_CHOCO){
-				this.s.ajoutChocolat(CHOCOLAT_NECESSAIRE-this.s.getStockChocolat()); // On remplit notre stock tout le temps de sorte à avoir 44000
-				this.s.retraitCacao(CHOCOLAT_NECESSAIRE-this.s.getStockChocolat()*RATIO_CACAO_CHOCO); //retrait du cacao nécessaire à la transformation
+
+	public void transformation(){ //processus de transformation du cacao en chocolat, appellée chaque next
+		if (this.s.getStockChocolat()<CHOCOLAT_NECESSAIRE){ //on vérifie que stock actuel <= Stock max
+			this.s.ajoutChocolat(CHOCOLAT_NECESSAIRE-this.s.getStockChocolat()); //on remplit notre stock tout le temps de sorte à avoir 44000
+			this.s.retraitCacao(CACAO_NECESSAIRE-this.s.getStockCacao()); //retrait du cacao nécessaire à la transformation
 		}
 	}
-}
+	
 	public void modifPeremption(){ // on considère notre stock de chocolat perissable en 10 semaines, le stockage dans une liste permet de 
 								  // supprimer la quantité produite il y a 10 semaines de notre stock 
 		double[] peremp=new double[peremption.length];
@@ -119,7 +123,7 @@ public class Transformateur implements transformateur, Acteur  {
 		this.s.retraitChocolat(estPerime);
 	}
 	
-	public void notificationAchat(double prix, double quantite){
+	public void notificationAchat(double quantite, double prix){
 		this.s.ajoutCacao(quantite);
 		double achat = prix*quantite;
 		this.compte.debit(achat); //mettre cette ligne en commentaire pour observer la tréso 
@@ -139,11 +143,19 @@ public class Transformateur implements transformateur, Acteur  {
 		double chiffreAffaire=prix*quantite;
 		this.compte.credit(chiffreAffaire);
 		this.tresorerie.setValeur(this, this.compte.getCompte());
-		quantiteAchetee+=quantite;
+		quantiteVendue+=quantite;
 		prixMoyendeVente+=prix;
 		compteurVente+=1;
 	}
 	
+	public void Miseajour(){
+		quantiteAchetee=0;
+		quantiteVendue=0;
+		prixMoyendAchat=0;
+		compteurAchat=0;
+		prixMoyendeVente=0;
+		compteurVente=0;
+	}
 	
 	public void Transactions (){
 		this.journal.ajouter("Une <b>quantité</b> de : <b><font color =\"red\"> "+quantiteAchetee+"</font></b> de cacao a été acheté au <b>prix unitaire</b> de : <font color=\"red\"> "+prixMoyendAchat/compteurAchat+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
@@ -162,6 +174,7 @@ public class Transformateur implements transformateur, Acteur  {
 	public void next(){ //passage à l'étape suivante
 		transformation();
 		Transactions();
+		Miseajour();
 		//modifPeremption();
 		//System.out.println(s.toString());
 	}
