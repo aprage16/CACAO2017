@@ -23,7 +23,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 	private Indicateur achats;
 	private Indicateur ventes;
 	private Indicateur solde;
-	private Journal journal;
+	public static Journal LE_JOURNAL_USA;
 	private double step;
 
 	/* Nos indicateurs sont :
@@ -45,13 +45,14 @@ public class TransformateurUsa implements transformateur,Acteur{
 
 	public TransformateurUsa(){
 		step=0;
-		journal=new Journal("Journal de Transformateur USA");
+		LE_JOURNAL_USA=new Journal("Journal de Transformateur USA");
 		this.tresorerie=new Tresorerie(100);
 		prixmatprem = new ArrayList<Double>();
 		prixmatprem.add(0.000350);//Prix matière première à la tonne en euros.
 		prixmatprem.add(0.000025);
 		prixmatprem.add(0.000400);
-		finis = new StockProduitsFinis(Stockdesire);
+		finis = new StockProduitsFinis();
+		finis.ajouterChocolat(Stockdesire/3);
 		premiere =new StockMatPremiere(Stockdesire/2,Stockdesire,Stockdesire,Stockdesire);
 		transfo =new TransfoChocolat(premiere,finis);
 		this.venteChocolat=0;
@@ -62,10 +63,11 @@ public class TransformateurUsa implements transformateur,Acteur{
 		Monde.LE_MONDE.ajouterIndicateur(this.ventes);
 		this.solde=new Indicateur("5_TRAN_USA_solde",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur(this.solde);	
-		Monde.LE_MONDE.ajouterJournal(journal);
+		Monde.LE_MONDE.ajouterJournal(LE_JOURNAL_USA);
 	}
 
 	public void next(){
+		this.finis.miseAJour();
 		produirechocolat();		
 		payerstock();
 		achetermatierepremiere();
@@ -81,14 +83,14 @@ public class TransformateurUsa implements transformateur,Acteur{
 	
 	private void miseAJourJournal(){
 		step++;
-		journal.ajouter("Journal Usa : step "+step);
-		journal.ajouter("");
-		journal.ajouter("");
-		journal.ajouter("Notre Stock de Choco est "+this.finis.getStockChocolat());
-		journal.ajouter("Notre Stock de Cacao est "+this.premiere.getCacao());
-		journal.ajouter("Notre Stock de Lait est "+this.premiere.getIngredient(1));
-		journal.ajouter("Notre Stock de Sucre est "+this.premiere.getIngredient(2));
-		journal.ajouter("Notre Stock de Lecitine est "+this.premiere.getIngredient(3));
+		LE_JOURNAL_USA.ajouter("Journal Usa : step "+step);
+		LE_JOURNAL_USA.ajouter("");
+		LE_JOURNAL_USA.ajouter("");
+		LE_JOURNAL_USA.ajouter("Notre Stock de Choco est "+this.finis.getStockChocolat());
+		LE_JOURNAL_USA.ajouter("Notre Stock de Cacao est "+this.premiere.getCacao());
+		LE_JOURNAL_USA.ajouter("Notre Stock de Lait est "+this.premiere.getIngredient(1));
+		LE_JOURNAL_USA.ajouter("Notre Stock de Sucre est "+this.premiere.getIngredient(2));
+		LE_JOURNAL_USA.ajouter("Notre Stock de Lecitine est "+this.premiere.getIngredient(3));
 	}
 
 	private void payerstock(){
@@ -97,7 +99,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 		for (int i=0;i<3;i++){
 			this.tresorerie.removeMoney(this.premiere.getIngredient(i)*Prixstockage);	
 		}
-		journal.ajouter("Cout stockage = "+(avant-this.tresorerie.getCompteCourant()));
+		LE_JOURNAL_USA.ajouter("Cout stockage = "+(avant-this.tresorerie.getCompteCourant()));
 	}
 
 	public void achetermatierepremiere(){
@@ -109,27 +111,30 @@ public class TransformateurUsa implements transformateur,Acteur{
 		}
 	}
 	private void produirechocolat(){
+		this.LE_JOURNAL_USA.ajouter("Production de chocolat : "+(Stockdesire-finis.getStockChocolat()));
 		transfo.produireChoco(Stockdesire-finis.getStockChocolat());
 	}
 
 	public double getprixMin(){
-		if (finis.getStockChocolat()<Uniteventechocolat){
-			journal.ajouter("Prix min="+Bornesmax+1);
+		if (finis.getStockChocolat()<=Uniteventechocolat){
+			LE_JOURNAL_USA.ajouter("1Prix min="+Bornesmax+1);
 			return Bornesmax+1;
 		}
 		else if (finis.getStockChocolat()<Stockdesire){
-			double prix= Bornesmax-((finis.getStockChocolat()-1*Uniteventechocolat)/((Stockdesire/Uniteventechocolat-1)*Uniteventechocolat)*(Bornesmax-Bornesmin));
-			journal.ajouter("Prix min="+prix);
+			double prix= Bornesmax-((finis.getStockChocolat()-Uniteventechocolat)/((Stockdesire/Uniteventechocolat-1)*Uniteventechocolat)*(Bornesmax-Bornesmin));
+			LE_JOURNAL_USA.ajouter("2Prix min="+prix);
+			LE_JOURNAL_USA.ajouter(""+(finis.getStockChocolat()));
 			return prix;
 		}
 		else{
-			journal.ajouter("Prix min="+Bornesmin);
+			LE_JOURNAL_USA.ajouter("3Prix min="+Bornesmin);
 			return Bornesmin;
 		}
 	}
 	@Override
 	public void notif(double prix, double quantite) {
 		//System.out.println(prix+"    "+quantité);
+		LE_JOURNAL_USA.ajouter(""+quantite);
 		this.venteChocolat+=quantite;
 		this.finis.enleverChoco(quantite);
 		this.tresorerie.setCompteCourant(this.tresorerie.getCompteCourant()+quantite*prix);	
@@ -138,10 +143,10 @@ public class TransformateurUsa implements transformateur,Acteur{
 	public double QteSouhaite(){
 		
 		if (Stockdesire-this.premiere.getCacao()>=0){
-			journal.ajouter("Quantite souhaitée "+(Stockdesire-this.premiere.getCacao()));
+			LE_JOURNAL_USA.ajouter("Quantite souhaitée "+(Stockdesire-this.premiere.getCacao()));
 			return Stockdesire-this.premiere.getCacao();
 		}	
-		journal.ajouter("Quantite souhaitée="+0);
+		LE_JOURNAL_USA.ajouter("Quantite souhaitée="+0);
 		return 0;
 	}
 	@Override
@@ -150,7 +155,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 	}
 
 	public void notificationAchat(double achete, double prix){
-		journal.ajouter("On a acheté pour un prix unitaire de  "+prix/1000000+"Et tant de tonne  "+achete);
+		LE_JOURNAL_USA.ajouter("On a acheté pour un prix unitaire de  "+prix/1000000+"Et tant de tonne  "+achete);
 		this.tresorerie.setCompteCourant(tresorerie.getCompteCourant()-prix*achete/1000000);
 		this.premiere.setCacao(premiere.getCacao()+achete);
 		this.achatCacao+=achete;

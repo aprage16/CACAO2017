@@ -1,5 +1,7 @@
 package abstraction.producteur.cotedivoire;
 
+import abstraction.fourni.Monde;
+
 public class Test {
 	public static void main (String[] args) {
 		MarcheProd marche= new MarcheProd();
@@ -16,10 +18,10 @@ public class Test {
 		ProductionCoteDIvoire prod= new ProductionCoteDIvoire(); 
 		System.out.println(prod.quantiteMiseEnvente());
 		System.out.println(prod.getQuantiteProd());
-		prod.variationProduction();
+		prod.variationProduction(Monde.LE_MONDE.getStep());
 		System.out.println(prod.quantiteMiseEnvente());
 		System.out.println(prod.getQuantiteProd());
-		prod.variationProduction();
+		prod.variationProduction(Monde.LE_MONDE.getStep());
 		System.out.println(prod.quantiteMiseEnvente());
 		System.out.println(prod.getQuantiteProd());
 	}
