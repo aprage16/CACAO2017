@@ -1,5 +1,5 @@
 //Classe codée par Walid
-package abstraction.distributeur.europe;
+/*package abstraction.distributeur.europe;
 import java.util.ArrayList;
 
 
@@ -56,6 +56,65 @@ public class Stock {
 			nb = nb + this.getStock().get(i).getQuantite();
 		}
 		return nb;
+	}
+	
+}
+*/
+
+
+//Classe V2 codée par Julien
+
+
+public class Stock{
+	
+	private double[] stock;
+	
+	public Stock(){
+		double[] tableau = new double[6];
+		this.stock=tableau;
+	}
+	
+	public void vieillirStock(double s){
+		double[] var = new double[6];
+		var=this.stock;
+		
+		for (int i=1;i<6;i++){
+			this.stock[i]=var[i-1];
+		}
+		this.stock[0]=0;
+	}
+	public void ajoutStock(double s){
+		
+		this.stock[0]+=s;
+	}
+	public void retraitStock(double demande){
+		
+		double var = demande;
+		int i=0;
+		
+		while (i<6 && var>0){
+			
+			if (stock[i]-var<=0){
+				stock[i]=stock[i]-demande;
+				var=0;
+			}
+			else{
+				double var2=var;
+				var2=var-stock[i];
+				stock[i]=stock[i]-var;
+				var2=var;
+			}
+			
+		}
+	}
+	
+	public double totalStock(Stock stock){
+		double total=0;
+		
+		for (int i=0;i<6;i++){
+			total+=this.stock[i];
+		}
+		return total;
 	}
 	
 }
