@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import abstraction.transformateur.usa.interfacemarche.*;
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Journal;
+import abstraction.fourni.Monde;
 
 public class Marche implements Acteur{
 
@@ -22,8 +23,10 @@ public class Marche implements Acteur{
 	public static final double UNITE=1000;
 
 	public Marche(){
+		this.journal = new Journal("Journal du marche");
 		this.distributeur= new ArrayList<IDistributeur>();
 		this.transformateur= new ArrayList<transformateur>();
+		Monde.LE_MONDE.ajouterJournal(this.journal);
 	}
 
 	public ArrayList<IDistributeur> getDistrib(){
@@ -79,10 +82,12 @@ public class Marche implements Acteur{
 		
 		if (onEchange){
 			prioD= this.distributeurActif.get(this.indiceMaximum());
+			this.journal.ajouter("Le distributeur a remporte le marche : " + prioD.getNom());
 			prioT=this.transformateurActif.get(this.indiceMinimum());
+			this.journal.ajouter("Le transformateur a remporte le marche : " + prioT.getprixMin());
 			if (prioD.getPrixMax()>=prioT.getprixMin()){
 				prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
-				
+				this.journal.ajouter("Prix moyen : " + prixMoyen);
 				prioD.notif(new Vente(prixMoyen,UNITE));
 				prioT.notif(prixMoyen,UNITE);	
 			}
