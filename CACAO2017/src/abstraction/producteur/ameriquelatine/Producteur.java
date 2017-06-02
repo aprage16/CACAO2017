@@ -21,6 +21,7 @@ public class Producteur implements IProducteur, Acteur {
 	private Indicateur qtemiseenvente;
 	private Indicateur production;
 	private Journal journal;
+//	private ArrayList<devis> ldevis ;
 	
 	public Producteur(){
 		this.nom="Producteur AmeriqueLatine" ;
