@@ -7,7 +7,7 @@ import abstraction.distributeur.europe.MondeV1;
 //MOdifié par Lolotteisyoung et AnaisBel
 //26/04 Adrien
 public class Recolte {
-	public final static int SURFACE_CULTIVABLE=72673; //Constante : surface cultivable max en hectare
+	public final static int SURFACE_CULTIVABLE=72673; //Constante : surface cultivable max en hectare + moitié de prod du reste du monde
 	private double indiceRecolte; // Indicateur variant entre 0 et 1 : pourcentage pour fixer nb de fèves totales
 	public final static double INDICE_REEL = 1.54; // Ajustement de l'indice pour atteindre la production annuel
 	
