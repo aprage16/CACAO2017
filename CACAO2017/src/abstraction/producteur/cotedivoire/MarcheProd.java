@@ -136,7 +136,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 			for (transformateur t : Trans.keySet()){	//Achats
 				if (Trans.get(t)>=0){		//Gestion des demandes négatives
 					t.notificationAchat(((double)Trans.get(t)/qttSouhaitee)*qttEnVente,this.getCoursActuel());
-					this.journal.ajouter("<font color=\"blue\">"+((Acteur)t).getNom()+"</font><font color=\"green\"> ACHETE qqtEnvente inf a qttSouhaitee </font>"+((double)Trans.get(t)/qttSouhaitee)*qttEnVente+" A L ETAPE "+Monde.LE_MONDE.getStep());
+					this.journal.ajouter("<font color=\"blue\">"+((Acteur)t).getNom()+"</font><font color=\"green\"> ACHETE qqtEnvente inf  a qttSouhaitee </font>"+((double)Trans.get(t)/qttSouhaitee)*qttEnVente+" A L ETAPE "+Monde.LE_MONDE.getStep());
 					}
 				else{
 					t.notificationAchat(0,this.getCoursActuel());
