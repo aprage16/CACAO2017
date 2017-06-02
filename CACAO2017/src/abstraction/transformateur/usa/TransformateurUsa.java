@@ -116,23 +116,25 @@ public class TransformateurUsa implements transformateur,Acteur{
 	}
 
 	public double getprixMin(){
-		if (finis.getStockChocolat()<Uniteventechocolat){
-			LE_JOURNAL_USA.ajouter("Prix min="+Bornesmax+1);
+		if (finis.getStockChocolat()<=Uniteventechocolat){
+			LE_JOURNAL_USA.ajouter("1Prix min="+Bornesmax+1);
 			return Bornesmax+1;
 		}
 		else if (finis.getStockChocolat()<Stockdesire){
-			double prix= Bornesmax-((finis.getStockChocolat()-1*Uniteventechocolat)/((Stockdesire/Uniteventechocolat-1)*Uniteventechocolat)*(Bornesmax-Bornesmin));
-			LE_JOURNAL_USA.ajouter("Prix min="+prix);
+			double prix= Bornesmax-((finis.getStockChocolat()-Uniteventechocolat)/((Stockdesire/Uniteventechocolat-1)*Uniteventechocolat)*(Bornesmax-Bornesmin));
+			LE_JOURNAL_USA.ajouter("2Prix min="+prix);
+			LE_JOURNAL_USA.ajouter(""+(finis.getStockChocolat()));
 			return prix;
 		}
 		else{
-			LE_JOURNAL_USA.ajouter("Prix min="+Bornesmin);
+			LE_JOURNAL_USA.ajouter("3Prix min="+Bornesmin);
 			return Bornesmin;
 		}
 	}
 	@Override
 	public void notif(double prix, double quantite) {
 		//System.out.println(prix+"    "+quantité);
+		LE_JOURNAL_USA.ajouter(""+quantite);
 		this.venteChocolat+=quantite;
 		this.finis.enleverChoco(quantite);
 		this.tresorerie.setCompteCourant(this.tresorerie.getCompteCourant()+quantite*prix);	
