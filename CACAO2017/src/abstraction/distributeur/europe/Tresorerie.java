@@ -27,6 +27,11 @@ public class Tresorerie{
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "Tresorerie [treso=" + treso + "]";
+	}
+
 
 
 	

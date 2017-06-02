@@ -2,6 +2,7 @@ package presentation;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,6 +37,13 @@ public class FenetreHistorique extends JFrame {
 		this.add(sp, BorderLayout.CENTER);
 		this.setSize(new Dimension(800,600));
 	}
+	
+	@Override
+	public void paint(Graphics g) {
+		this.label.setText(historique.toHtml());
+		super.paint(g);
+	}
+	
 	public void setLabel(String s) {
 		this.label.setText(s);
 		if (this.isVisible()) {
