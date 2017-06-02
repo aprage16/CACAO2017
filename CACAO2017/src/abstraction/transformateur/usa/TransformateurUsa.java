@@ -132,7 +132,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 	}
 	@Override
 	public void notif(double prix, double quantite) {
-		//System.out.println(prix+"    "+quantité);
+		this.LE_JOURNAL_USA.ajouter("On a vendu a tel prix: "+prix+"   tand de tonne de Cacao: "+quantite);
 		this.venteChocolat+=quantite;
 		this.finis.enleverChoco(quantite);
 		this.tresorerie.setCompteCourant(this.tresorerie.getCompteCourant()+quantite*prix);	
