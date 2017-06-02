@@ -71,7 +71,7 @@ public class Producteur implements IProducteur, Acteur {
 		String solde=new String(""+this.treso.getTresorerie());
 		if (this.journal!=null){
 			this.journal.ajouter(" valeur de Stock  =  <font color=\"maroon\">"+stock+"</font> tonnes de fèves au <b>step</b> "+Monde.LE_MONDE.getStep());
-			this.journal.ajouter(" valeur de Solde  =  <font color=\"maroon\">"+solde+"</font> millions d'euros au <b>step</b> "+Monde.LE_MONDE.getStep());
+			this.journal.ajouter(" valeur de Solde  =  <font color=\"maroon\">"+solde+"</font> euros au <b>step</b> "+Monde.LE_MONDE.getStep());
 			this.journal.ajouter(" valeur de la quantite vendue  =  <font color=\"maroon\">"+quantite+"</font> tonnes de fèves au <b>step</b> au prix de "+this.getCoursActuel()+"$ par tonne"+Monde.LE_MONDE.getStep());
 			}
 		this.journal.ajouter("--- fin notif vente---");
