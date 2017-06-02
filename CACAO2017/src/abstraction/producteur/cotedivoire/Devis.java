@@ -1,4 +1,4 @@
-package abstraction.contrats;
+package abstraction.producteur.cotedivoire;
 
 public class Devis {
 	private IContratProd nomProd; 

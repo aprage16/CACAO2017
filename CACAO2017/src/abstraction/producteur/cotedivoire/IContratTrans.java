@@ -1,4 +1,4 @@
-package abstraction.contrats;
+package abstraction.producteur.cotedivoire;
 
 import java.util.List;
 
