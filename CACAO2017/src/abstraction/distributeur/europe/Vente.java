@@ -2,6 +2,11 @@ package abstraction.distributeur.europe;
 
 public class Vente {
 	
+	@Override
+	public String toString() {
+		return "Vente [prix=" + prix + ", quantite=" + quantite + "]";
+	}
+
 	private double prix;
 	private double quantite;
 	

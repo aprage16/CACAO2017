@@ -46,14 +46,17 @@ public class Marche implements Acteur{
 		}
 		return indice_min;		
 	}
+	
+	
 
 	public void Actif(){
 		
 		this.distributeurActif=new ArrayList<IDistributeur>();
 		this.transformateurActif=new ArrayList<transformateur>();
-		for (transformateur a:this.transformateur){
-			if (a.getprixMin()>=BORNESMIN&&a.getprixMin()<=BORNESMAX){
-				transformateurActif.add(a);
+		for (int i=0; i<transformateur.size();i++){
+			if (transformateur.get(i).getprixMin()>=BORNESMIN&&transformateur.get(i).getprixMin()<=BORNESMAX){
+				transformateurActif.add(transformateur.get(i));
+				transformateur.remove(transformateur.get(i));
 			}
 		}
 		for (IDistributeur a:this.distributeur){
@@ -77,16 +80,22 @@ public class Marche implements Acteur{
 			System.out.println(prioD.getPrixMax());
 			System.out.println(prioT.getprixMin());
 			if (prioD.getPrixMax()>=prioT.getprixMin()){
-			prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
-			System.out.println(prixMoyen);
-			prioD.notif(new Vente(prixMoyen,unite));
-			prioT.notif(prixMoyen,unite);
-			
+				prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
+				for (int i=0; i<transformateur.size();i++){
+					transformateur.get(i).notif(prixMoyen, 0);
+				}
+				System.out.println("prix moyen = " + prixMoyen);
+				prioD.notif(new Vente(prixMoyen,unite));
+				prioT.notif(prixMoyen,unite);	
 			}
 			else{
 				onEchange=false;
 			}
+			for (int i=0; i<transformateurActif.size();i++){
+				transformateur.add(transformateurActif.get(i));
+			}
 		}
+
 	}
 
 	@Override
@@ -96,9 +105,13 @@ public class Marche implements Acteur{
 
 	public void next(){
 		this.onEchange=true;
+		int compteur = 0;
 		while(this.onEchange){
 			this.Echanges();
-			
+			if (compteur>=3){
+				break;
+			}
+			compteur+=1;
 		}
 	}
 
