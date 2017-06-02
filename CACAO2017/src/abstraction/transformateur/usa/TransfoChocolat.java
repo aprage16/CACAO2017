@@ -42,7 +42,7 @@ public class TransfoChocolat {
 			for (int i=0;i<Recette.length;i++){
 				stocks[i]-=demande[i];
 			}
-			finis.rajouterChoco(quantité);
+			finis.ajouterChocolat(quantité);
 		}
 		else{
 			for (int i=0;i<Recette.length;i++){
@@ -53,7 +53,7 @@ public class TransfoChocolat {
 			for (int i=0;i<Recette.length;i++){
 				stocks[i]=stocks[i]-demande[i]*(1-maxmanque);
 			}
-			finis.rajouterChoco(quantité*(1-maxmanque));
+			finis.ajouterChocolat(quantité*(1-maxmanque));
 		}
 		premiere.setCacao(stocks[0]);
 		premiere.setLait(stocks[1]);
@@ -63,7 +63,7 @@ public class TransfoChocolat {
 	
 	public static void test(){
 		StockMatPremiere premiere= new StockMatPremiere(1000,1000,1000,1000);
-		StockProduitsFinis finis = new StockProduitsFinis(0);
+		StockProduitsFinis finis = new StockProduitsFinis();
 		TransfoChocolat transfo =new TransfoChocolat(premiere,finis);
 		System.out.println(premiere.getCacao());
 		System.out.println(finis.getStockChocolat());
