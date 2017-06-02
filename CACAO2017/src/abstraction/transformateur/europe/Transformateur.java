@@ -27,9 +27,9 @@ public class Transformateur implements transformateur, Acteur  {
 	private double prixMoyendAchat;
 	private double compteurAchat=0;
 	private double compteurVente=0;
-	public static final int CACAO_NECESSAIRE = 30800; //stock necessaire par mois pour avoir 44000 chocolats
-	public static final int CHOCOLAT_NECESSAIRE = 44000; //stock necessaire par mois à vendre (calculé selon la demande européenne)
-	public static final double RATIO_CACAO_CHOCO=0.7;
+	public static final int CACAO_NECESSAIRE = 30800; // Stock nécessaire par mois pour avoir 44000 chocolats
+	public static final int CHOCOLAT_NECESSAIRE = 44000; //stock nécessaire par mois à vendre (calculé selon la demande européenne)
+	public static final double RATIO_CACAO_CHOCO=0.7; // Ratio de transformation entre le cacao et le chocolat
 	public static final double PRIX_MIN=0.004;
 	private Journal journal;
 	private Indicateur stockChocolat;
@@ -55,11 +55,11 @@ public class Transformateur implements transformateur, Acteur  {
 	
 	public double getprixMin() {
 		double stockChocolat=this.s.getStockChocolat();
-		if (stockChocolat<Stock.STOCK_MIN){ // on se fixe un stock minimum de "secours" et si on le dépasse on renvoie une valeur qui doit couper la boucle du marché
+		if (stockChocolat<Stock.STOCK_MIN){ // On se fixe un stock minimum de "secours" et si on le dépasse on renvoie une valeur qui doit couper la boucle du marché
 			return 1000000;
 		}
 		else{
-			this.prixmin=PRIX_MIN+PRIX_MIN*Stock.STOCK_MIN/this.quantiteAchetee; //calcul le nouveau prix minimum auquel on souhaite vendre en 
+			this.prixmin=PRIX_MIN+PRIX_MIN*Stock.STOCK_MIN/this.quantiteAchetee; //Calcul le nouveau prix minimum auquel on souhaite vendre en 
 			System.out.println("prix min de transfo eu : "+prixmin);															  //tenant compte du stock de chocolat que l'on a
 			return this.prixmin;
 			
@@ -83,27 +83,28 @@ public class Transformateur implements transformateur, Acteur  {
 		double stockCacao=this.s.getStockCacao();
 		double stockChocolat=this.s.getStockChocolat();
 		double quantiteSouhaitee;
-		if (stockChocolat < Stock.STOCK_MAX_CHOCOLAT){ //on vérifie si notre stock de chocolat est inférieur a la qte qu'on vend par mois
+		if (stockChocolat < Stock.STOCK_MAX_CHOCOLAT){ // On vérifie si notre stock de chocolat est inférieur a la quantité qu'on vend par mois
 			if (stockCacao>=CACAO_NECESSAIRE){ //On vérifie si le cacao nécessaire pour atteindre notre objectif de chocolat est présent ou non, s'il l'est on achète rien
 				quantiteSouhaitee=0;
 			}else{
-				quantiteSouhaitee=CACAO_NECESSAIRE-stockCacao; //on achète ce qui est suffisant pour produire CHOCOLAT_NECESSAIRE tonnes de chocolat
+				quantiteSouhaitee=CACAO_NECESSAIRE-stockCacao; // On achète ce qui est suffisant pour produire CHOCOLAT_NECESSAIRE tonnes de chocolat
 			}
 		}else{
-			return quantiteSouhaitee=0; //on achète rien si on a trop de chocolat par rapport à ce que l'on vend
+			return quantiteSouhaitee=0; // On achète rien si on a trop de chocolat par rapport à ce que l'on vend
 		}
-		this.commande.setValeur(this, quantiteSouhaitee); //l'indicateur donne la quantité commandée au producteurs pendant le next
+		this.commande.setValeur(this, quantiteSouhaitee); // L'indicateur donne la quantité commandée au producteurs pendant le next
 		this.qtedemandee=quantiteSouhaitee;
 		return quantiteSouhaitee;
 	}
 	
-	public void transformation(){ //processus de transformation du cacao en chocolat, appellée chaque next
-		if (this.s.getStockChocolat()<CHOCOLAT_NECESSAIRE){ //on vérifie que stock actuel <= Stock max
-			this.s.ajoutChocolat(CHOCOLAT_NECESSAIRE-this.s.getStockChocolat()); //on remplit notre stock tout le temps de sorte à avoir 44000
-			this.s.retraitCacao(CACAO_NECESSAIRE-this.s.getStockCacao()*RATIO_CACAO_CHOCO); //retrait du cacao nécessaire à la transformation
+	public void transformation(){ // Processus de transformation du cacao en chocolat, appellée chaque next
+		if (this.s.getStockChocolat()<CHOCOLAT_NECESSAIRE){// On vérifie que stock actuel <= stock max	
+			if (this.s.getStockCacao()>=(CHOCOLAT_NECESSAIRE-this.s.getStockChocolat())*RATIO_CACAO_CHOCO){
+				this.s.ajoutChocolat(CHOCOLAT_NECESSAIRE-this.s.getStockChocolat()); // On remplit notre stock tout le temps de sorte à avoir 44000
+				this.s.retraitCacao(CHOCOLAT_NECESSAIRE-this.s.getStockChocolat()*RATIO_CACAO_CHOCO); //retrait du cacao nécessaire à la transformation
 		}
 	}
-	
+}
 	public void modifPeremption(){ // on considère notre stock de chocolat perissable en 10 semaines, le stockage dans une liste permet de 
 								  // supprimer la quantité produite il y a 10 semaines de notre stock 
 		double[] peremp=new double[peremption.length];
