@@ -65,7 +65,6 @@ public class Producteur implements IProducteur, Acteur {
 		this.solde.setValeur(this, this.treso.getTresorerie());
 		this.stockind.setValeur(this, this.stock.getStock());
 		this.production.setValeur(this, this.recolte.getQterecoltee());
-	//	this.qtemiseenvente.setValeur(this, this.quantiteMiseEnvente());
 		this.setCoursActuel(coursActuel);
 		String stock=new String(""+this.stock.getStock());
 		String solde=new String(""+this.treso.getTresorerie());
