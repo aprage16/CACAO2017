@@ -12,16 +12,17 @@ import abstraction.producteur.ameriquelatine.IProducteur;
 
 public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	public static final int  PRODUCTIONMOYENNE = 1650000/26; // Production moyenne de la cote d'ivoire en tonnes
-	public static final double VARIATIONALEATOIREPRODUCTION = 0.01; 
+	public static final double VARIATIONALEATOIREPRODUCTION = 0.05; 
 	
 	private int  production; //Liste des productions par périodes
-	private Stock stock;          // Represente notre stock 
+	private Stock stock;          // Représente notre stock 
 	private Treso tresorerie;     // Représente notre trésorerie
-	private Indicateur productionIndicateur;
+	private Indicateur productionIndicateur;	
 	private Indicateur stockIndicateur;
 	private Indicateur tresoIndicateur;
-	private Indicateur vente;
-	private Journal journal;
+	private Indicateur vente;	
+	private Journal journal;	//Introduction du Journal pour avoir une visibilité sur 
+								//l'évolution des différents paramètres.
 	
 	//Cf marché
 	public int hashCode() {
@@ -34,6 +35,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 		this.stock=stock;
 		this.tresorerie = treso; 
 	}
+	//Constructeur sans paramètre
 	public ProductionCoteDIvoire() {
 		this.production = 0;
 		this.stock= new Stock(0);
@@ -58,12 +60,69 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	}
 
 	// Méthode varitation random de la production
-	public void variationProduction(){
-		//Création d'une enveloppe (prod_min->prod_max)
-		int periode = Monde.LE_MONDE.getStep(); 
+	public void variationProduction(int periode){
+		
+		//Création d'une enveloppe (prod_min->prod_max) autour de la 
+		//production moyenne annuelle divisée par le nombre de next en 1 année (26)
+		
 		double prod_min = PRODUCTIONMOYENNE - (double)(PRODUCTIONMOYENNE*VARIATIONALEATOIREPRODUCTION); 
 		double prod_max = PRODUCTIONMOYENNE + (double)(PRODUCTIONMOYENNE*VARIATIONALEATOIREPRODUCTION);
-		double prod = prod_min + (double)Math.random()*(prod_max - prod_min); // Production random entre prod_min et prod_max
+		double prod = 0; 
+		
+		//Durant une année: 
+		//Octobre à Février: Production = production moyenne + 50%
+		//Mars: Production = production moyenne + 33%
+		//Avril: Production = production moyenne - 33%
+		//Mai à Juillet: Production = production moyenne - 50% 
+		//Août: Production = production moyenne - 33%
+		//Septembre: Production = production moyenne + 33%
+		
+		if (periode<26){ 
+			if ((periode>=0 && periode<= 4)||periode>=19){
+				prod_min += PRODUCTIONMOYENNE*0.5; 
+				prod_max += PRODUCTIONMOYENNE*0.5; 
+				prod = prod_min + (double)Math.random()*(prod_max - prod_min); // Production random entre prod_min et prod_max
+			}else{ 
+				if(periode==5||periode==18){ 
+					prod_min += PRODUCTIONMOYENNE*(1/3); 
+					prod_max += PRODUCTIONMOYENNE*(1/3); 
+					prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+				}else{ 
+					if(periode==6||periode==17){ 
+						prod_min -= PRODUCTIONMOYENNE*(1/3); 
+						prod_max -= PRODUCTIONMOYENNE*(1/3); 
+						prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+					}else{
+						prod_min -= PRODUCTIONMOYENNE*0.5; 
+						prod_max -= PRODUCTIONMOYENNE*0.5; 
+						prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+					}
+				}
+			}
+		}else{ 
+			int reste = periode%26; 
+			if ((reste>=0 && reste<= 4)||reste>=19){
+				prod_min += PRODUCTIONMOYENNE*0.5; 
+				prod_max += PRODUCTIONMOYENNE*0.5; 
+				prod = prod_min + (double)Math.random()*(prod_max - prod_min); // Production random entre prod_min et prod_max
+			}else{ 
+				if(reste==5||reste==18){ 
+					prod_min += PRODUCTIONMOYENNE*(1/3); 
+					prod_max += PRODUCTIONMOYENNE*(1/3); 
+					prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+				}else{ 
+					if(reste==6||reste==17){ 
+						prod_min -= PRODUCTIONMOYENNE*(1/3); 
+						prod_max -= PRODUCTIONMOYENNE*(1/3); 
+						prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+					}else{
+						prod_min -= PRODUCTIONMOYENNE*0.5; 
+						prod_max -= PRODUCTIONMOYENNE*0.5; 
+						prod = prod_min + (double)Math.random()*(prod_max - prod_min);
+					}
+				}
+			}
+		}
 		this.production=(int)prod; // ajout dans la liste de production
 		this.stock.addStock((int)prod);
 		this.productionIndicateur.setValeur(this, (int)prod);
@@ -83,14 +142,14 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	public void notificationVente(double quantite, double coursActuel) {	// grace a la notification de vente on met a jour // 
 		this.vente.setValeur(this,quantite);
 		this.stock.addStock(-quantite);
-		this.tresorerie.addBenef(quantite*coursActuel - this.stock.getStock()*Treso.COUTS);   
+		this.tresorerie.addBenef(quantite*coursActuel - this.stock.getStock()*Treso.COUTS);
+		this.tresoIndicateur.setValeur(this,this.tresorerie.getCa());
 	}
 	
 	//NEXT "Centre du programme -> Passage à la période suivante" 
 	
 	public void next() {
-		this.variationProduction();
+		this.variationProduction(Monde.LE_MONDE.getStep());
 		this.stockIndicateur.setValeur(this,this.stock.getStock());
-		this.tresoIndicateur.setValeur(this,this.tresorerie.getCa());
 	}
 }
