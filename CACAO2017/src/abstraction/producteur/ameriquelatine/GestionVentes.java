@@ -11,9 +11,4 @@ public class GestionVentes {
 		this.stock=stock;
 		this.quantiteVendue=0;
 	}
-	
-	public double getQuantiteVendue(){
-		return this.quantiteVendue;
-	}
-
 }
