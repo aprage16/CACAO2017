@@ -273,14 +273,24 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 		int i=0;
 		double q[]=new double[l.size()];
 		double p[]=new double[l.size()];
+		int points[]=new int[l.size()];
 		
 		for (Devis d : l){
 			q[i]=d.getQttLivrable();
 			p[i]=d.getPrix();
+			i++;
+		}
+		
+		/*for (int j=0;j<l.size();j++){
+			if (q[j]<=CACAO_NECESSAIRE+500 && q[j]>=CACAO_NECESSAIRE-(500) && ) {
+				points[j]=95;
+			}
+		}*/
+		
+		for (Devis d : l){
 			if (true){
 				d.setQttVoulue(0);
 			}
-			i++;
 		}
 	}
 
