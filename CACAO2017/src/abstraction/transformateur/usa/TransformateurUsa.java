@@ -153,11 +153,6 @@ public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 	
 	@Override
 	public void notif(double prix, double quantite) {
-<<<<<<< HEAD
-=======
-		//this.LE_JOURNAL_USA.ajouter("On a vendu a tel prix: "+prix+"   tand de tonne de Cacao: "+quantite);
-		
->>>>>>> refs/remotes/origin/master
 		this.venteChocolat+=quantite;
 		this.finis.enleverChoco(quantite);
 		this.tresorerie.setCompteCourant(this.tresorerie.getCompteCourant()+quantite*prix);	
