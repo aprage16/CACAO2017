@@ -150,6 +150,7 @@ public class Transformateur implements transformateur, Acteur  {
 		}
 	
 	
+	
 	/**
 	 * @objectif: Prendre en compte que le chocolat se périmme
 	 * On considère notre stock de chocolat perissable en 10 semaines, 
