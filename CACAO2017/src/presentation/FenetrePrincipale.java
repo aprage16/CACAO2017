@@ -57,9 +57,6 @@ public class FenetrePrincipale extends JFrame {
 		pGauche.add(Box.createVerticalGlue());
 		ArrayList<Indicateur> indicateurs = Monde.LE_MONDE.getIndicateurs();
 
-		JPanel pLab = new JPanel();
-		pLab.setLayout(new BoxLayout(pLab, BoxLayout.Y_AXIS));
-		pLab.add(Box.createRigidArea(new Dimension(10,9)));
 		for (Indicateur i : indicateurs){
 			JPanel pIndic = new JPanel();
 			pIndic.setLayout(new BorderLayout());
@@ -116,7 +113,6 @@ public class FenetrePrincipale extends JFrame {
 		pIndicateurs.setBorder(BorderFactory.createTitledBorder("Indicateurs"));
 
 		pIndicateurs.setLayout(new BorderLayout());
-		pIndicateurs.add(pLab, BorderLayout.WEST);
 		pIndicateurs.add(pGauche, BorderLayout.CENTER);
 		this.add(pIndicateurs, BorderLayout.CENTER);
 
