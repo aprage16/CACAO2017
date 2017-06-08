@@ -13,6 +13,7 @@ public class Distributeur implements Acteur,IDistributeur{
 	private String nom;
 	private double fonds;
 	private Journal journal;
+	private Indicateur stepI;
 	
 	public Distributeur(Vente vente, Stock stock, double qteDemandee){ // penser à redocoder en enlevant les arguments du constructeur
 		this.derniereVente = vente;
@@ -30,9 +31,10 @@ public class Distributeur implements Acteur,IDistributeur{
 		
 		this.fondsI = new Indicateur("2_DISTR_EU_fonds", this, 80000);
 		this.stockI = new Indicateur("2_DISTR_EU_stocks", this, 40000);
-		
+		this.stepI = new Indicateur("Numero du step", this, 0);
     	Monde.LE_MONDE.ajouterIndicateur( this.fondsI );
     	Monde.LE_MONDE.ajouterIndicateur( this.stockI );
+    	Monde.LE_MONDE.ajouterIndicateur( this.stepI );
         
 	}
 	
@@ -86,6 +88,7 @@ public class Distributeur implements Acteur,IDistributeur{
 	
 	public void next(){
 		//this.stock.vieillirStock();
+		this.stepI.setValeur(this, Monde.LE_MONDE.getStep());
 	}
 	
 	public String getNom(){
