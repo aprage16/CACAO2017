@@ -271,26 +271,35 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 	public void qttVoulue() { //quantité demandée aux producteurs
 		
 		int i=0;
+		int c=0;
 		double q[]=new double[l.size()];
 		double p[]=new double[l.size()];
 		int points[]=new int[l.size()];
 		
-		for (Devis d : l){
+		for (Devis d : l){ //récupération des prix et qte des différents devis
 			q[i]=d.getQttLivrable();
 			p[i]=d.getPrix();
 			i++;
 		}
 		
-		/*for (int j=0;j<l.size();j++){
-			if (q[j]<=CACAO_NECESSAIRE+500 && q[j]>=CACAO_NECESSAIRE-(500) && ) {
-				points[j]=95;
-			}
-		}*/
+		for (int j=0;j<l.size();j++){ //distribution de 5 points d'office aux deux producteurs
+			points[j]=5;
+		}
+		//distribution des 90 points restants
+		if (p[0]<p[1] && q[0]>q[1] && q[0]<=CACAO_NECESSAIRE){
+			points[0]+=90;
+			points[1]+=0;
+		}
+		if (p[1]<p[0] && q[1]>q[0] && q[1]<=CACAO_NECESSAIRE){
+			points[1]+=90;
+			points[0]+=0;
+		}
+		points[0]=points[0]/100; //passage des points aux pourcentages
+		points[1]=points[1]/100;
 		
-		for (Devis d : l){
-			if (true){
-				d.setQttVoulue(0);
-			}
+		for (Devis d : l){ //set des qte voulues aux deux distributeurs selon le système de points
+			d.setQttVoulue(points[c]*CACAO_NECESSAIRE);
+			c++;
 		}
 	}
 
