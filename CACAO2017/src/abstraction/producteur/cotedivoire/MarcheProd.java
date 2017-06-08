@@ -78,6 +78,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 		}
 	}
 	public void next() { 
+		this.journal.ajouter("<font color=\"maroon\">----------------------------</font>");
 		setQuantiteAchetableGlobale(0.0);
 		setQuantiteVoulueGlobale(0.0);
 		Map<IProducteur, Integer> Prod = new HashMap<IProducteur,Integer>();
@@ -86,11 +87,11 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 		
 		for (int i=0 ; i<this.producteurs.size(); i++) {
 			Prod.put(this.producteurs.get(i), (int)this.producteurs.get(i).quantiteMiseEnvente());
-			this.journal.ajouter(((Acteur)this.producteurs.get(i)).getNom()+" METS EN VENTE "+(int)this.producteurs.get(i).quantiteMiseEnvente()+" A L ETAPE "+Monde.LE_MONDE.getStep());
+			this.journal.ajouter("<font color=\"orange\">"+((Acteur)this.producteurs.get(i)).getNom()+"</font> METS EN VENTE "+(int)this.producteurs.get(i).quantiteMiseEnvente()+" A L ETAPE "+Monde.LE_MONDE.getStep());
 		}
 		for (int i=0 ; i<this.transformateurs.size(); i++) {
 			Trans.put(this.transformateurs.get(i), (int)this.transformateurs.get(i).QteSouhaite());
-			this.journal.ajouter(((Acteur)this.transformateurs.get(i)).getNom()+" SOUHAITE "+(int)this.transformateurs.get(i).QteSouhaite()+" A L ETAPE "+Monde.LE_MONDE.getStep());
+			this.journal.ajouter("<font color=\"blue\">"+((Acteur)this.transformateurs.get(i)).getNom()+"</font> SOUHAITE "+(int)this.transformateurs.get(i).QteSouhaite()+" A L ETAPE "+Monde.LE_MONDE.getStep());
 		}
 		// si on réecrit la meme ligne juste en changeant la valeur du integer ca modifie juste sa valeur donc 
 		// c'est un moyen de garder en mémoire la valeur pour chaque prod et transformateurs
@@ -114,39 +115,41 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 			for (transformateur t : Trans.keySet()){	//Achats
 				if (Trans.get(t)>=0){			//gestion des demandes négatives
 					t.notificationAchat(Trans.get(t),this.getCoursActuel());
-					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE qqttEnvente>qttSouhaitee "+Trans.get(t)+" A L ETAPE "+Monde.LE_MONDE.getStep());
+					this.journal.ajouter("<font color=\"blue\">"+((Acteur)t).getNom()+"</font><font color=\"green\"> ACHETE qqttEnvente>qttSouhaitee </font>"+Trans.get(t)+" A L ETAPE "+Monde.LE_MONDE.getStep());
 				}
 				else {
 					t.notificationAchat(0, this.getCoursActuel());
-					this.journal.ajouter(((Acteur)t).getNom()+" DEMANDE UNE VALEUR NEGATIVE A L ETAPE "+Monde.LE_MONDE.getStep());
-					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE "+0+" A L ETAPE "+Monde.LE_MONDE.getStep());
+					this.journal.ajouter("<font color=\"blue\">"+((Acteur)t).getNom()+"</font><font color=\"red\"> DEMANDE UNE VALEUR NEGATIVE </font> A L ETAPE "+Monde.LE_MONDE.getStep());
+					this.journal.ajouter("<font color=\"blue\">"+((Acteur)t).getNom()+"</font><font color=\"red\"> ACHETE </font>"+0+" A L ETAPE "+Monde.LE_MONDE.getStep());
 				}
 			}
 			for (IProducteur p : Prod.keySet()){	//Ventes
 				p.notificationVente((((double)Prod.get(p)/qttEnVente)*qttSouhaitee), this.getCoursActuel());
 				//pourcentage de la quantite mise en vente fois la quentite vendue (quantite vendue = quantite soihaitee)
-				this.journal.ajouter(((Acteur)p).getNom()+" VENDS "+(((double)Prod.get(p)/qttEnVente)*qttSouhaitee)+" A L ETAPE "+Monde.LE_MONDE.getStep());
+				this.journal.ajouter("<font color=\"orange\">"+((Acteur)p).getNom()+"</font> VENDS "+(((double)Prod.get(p)/qttEnVente)*qttSouhaitee)+" A L ETAPE "+Monde.LE_MONDE.getStep());
 					}
 		}
 		
 		
 		//Quantité en vente inférieure à la quantité souhaitée --> Les producteurs vendent tout 
 		else {
-			for (IProducteur p : Prod.keySet()){	//Ventes
-				p.notificationVente(Prod.get(p),this.getCoursActuel());
-				this.journal.ajouter(((Acteur)p).getNom()+" VENDS "+Prod.get(p)+" A L ETAPE "+Monde.LE_MONDE.getStep());
-			}
 			for (transformateur t : Trans.keySet()){	//Achats
 				if (Trans.get(t)>=0){		//Gestion des demandes négatives
 					t.notificationAchat(((double)Trans.get(t)/qttSouhaitee)*qttEnVente,this.getCoursActuel());
-					this.journal.ajouter(((Acteur)t).getNom()+" ACHETE3 "+((double)Trans.get(t)/qttSouhaitee)*qttEnVente+" A L ETAPE "+Monde.LE_MONDE.getStep());
+					this.journal.ajouter("<font color=\"blue\">"+((Acteur)t).getNom()+"</font><font color=\"green\"> ACHETE qqtEnvente inf  a qttSouhaitee </font>"+((double)Trans.get(t)/qttSouhaitee)*qttEnVente+" A L ETAPE "+Monde.LE_MONDE.getStep());
 					}
 				else{
 					t.notificationAchat(0,this.getCoursActuel());
-					this.journal.ajouter(((Acteur)t).getNom()+"Achete 0" + "Demande une valeur negative, CHANGE TON CODE" +Monde.LE_MONDE.getStep());
+					this.journal.ajouter("<font color=\"blue\">"+((Acteur)t).getNom()+"</font><font color=\"red\"> Achete 0" + " DEMANDE UNE VALEUR NEGATIVE </font>" +Monde.LE_MONDE.getStep());
 				}
 				
 			}
+			
+			for (IProducteur p : Prod.keySet()){	//Ventes
+				p.notificationVente(Prod.get(p),this.getCoursActuel());
+				this.journal.ajouter("<font color=\"orange\">"+((Acteur)p).getNom()+"</font> VENDS "+Prod.get(p)+" A L ETAPE "+Monde.LE_MONDE.getStep());
+			}
+			
 				
 		
 		}
