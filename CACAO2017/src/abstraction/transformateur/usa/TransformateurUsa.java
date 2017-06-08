@@ -123,22 +123,22 @@ public class TransformateurUsa implements transformateur,Acteur{
 
 	public double getprixMin(){
 		if (finis.getStockChocolat()<Uniteventechocolat){
-			LE_JOURNAL_USA.ajouter("Prix min="+Bornesmax+1);
+			//LE_JOURNAL_USA.ajouter("Prix min="+Bornesmax+1);
 			return Bornesmax+1;
 		}
 		else if (finis.getStockChocolat()<Stockdesire){
 			double prix= Bornesmax-((finis.getStockChocolat()-1*Uniteventechocolat)/((Stockdesire/Uniteventechocolat-1)*Uniteventechocolat)*(Bornesmax-Bornesmin));
-			LE_JOURNAL_USA.ajouter("Prix min="+prix);
+			//LE_JOURNAL_USA.ajouter("Prix min="+prix);
 			return prix;
 		}
 		else{
-			LE_JOURNAL_USA.ajouter("Prix min="+Bornesmin);
+			//LE_JOURNAL_USA.ajouter("Prix min="+Bornesmin);
 			return Bornesmin;
 		}
 	}
 	@Override
 	public void notif(double prix, double quantite) {
-		this.LE_JOURNAL_USA.ajouter("On a vendu a tel prix: "+prix+"   tand de tonne de Cacao: "+quantite);
+		//this.LE_JOURNAL_USA.ajouter("On a vendu a tel prix: "+prix+"   tand de tonne de Cacao: "+quantite);
 		this.venteChocolat+=quantite;
 		this.finis.enleverChoco(quantite);
 		this.tresorerie.setCompteCourant(this.tresorerie.getCompteCourant()+quantite*prix);	
