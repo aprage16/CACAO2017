@@ -1,4 +1,3 @@
-
 package abstraction.producteur.ameriquelatine;
 //26/04 Adrien
 
@@ -19,7 +18,9 @@ public class Producteur implements IProducteur, Acteur {
 	private Indicateur solde; //Trésorerie
 	private Indicateur stockind ;
 	private Indicateur qtemiseenvente;
+	private Indicateur production;
 	private Journal journal;
+//	private ArrayList<devis> ldevis ;
 	
 	public Producteur(){
 		this.nom="Producteur AmeriqueLatine" ;
@@ -35,6 +36,8 @@ public class Producteur implements IProducteur, Acteur {
 		this.journal=new Journal("Journal de Prod Amerique Latine");
 		this.qtemiseenvente=new Indicateur("4_PROD_AMER_qtemiseenvente", this,0);//this.quantiteMiseEnvente()) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.qtemiseenvente);
+		this.production=new Indicateur("4_PROD_AMER_production", this,this.recolte.getQterecoltee()) ;
+		MondeV1.LE_MONDE.ajouterIndicateur(this.production);
 		MondeV1.LE_MONDE.ajouterJournal(this.journal);
 	}
 	public String getNom(){
@@ -61,13 +64,13 @@ public class Producteur implements IProducteur, Acteur {
 		this.quantiteVendue.setValeur(this, quantite);
 		this.solde.setValeur(this, this.treso.getTresorerie());
 		this.stockind.setValeur(this, this.stock.getStock());
-	//	this.qtemiseenvente.setValeur(this, this.quantiteMiseEnvente());
+		this.production.setValeur(this, this.recolte.getQterecoltee());
 		this.setCoursActuel(coursActuel);
 		String stock=new String(""+this.stock.getStock());
 		String solde=new String(""+this.treso.getTresorerie());
 		if (this.journal!=null){
 			this.journal.ajouter(" valeur de Stock  =  <font color=\"maroon\">"+stock+"</font> tonnes de fèves au <b>step</b> "+Monde.LE_MONDE.getStep());
-			this.journal.ajouter(" valeur de Solde  =  <font color=\"maroon\">"+solde+"</font> millions d'euros au <b>step</b> "+Monde.LE_MONDE.getStep());
+			this.journal.ajouter(" valeur de Solde  =  <font color=\"maroon\">"+solde+"</font> euros au <b>step</b> "+Monde.LE_MONDE.getStep());
 			this.journal.ajouter(" valeur de la quantite vendue  =  <font color=\"maroon\">"+quantite+"</font> tonnes de fèves au <b>step</b> au prix de "+this.getCoursActuel()+"$ par tonne"+Monde.LE_MONDE.getStep());
 			}
 		this.journal.ajouter("--- fin notif vente---");
