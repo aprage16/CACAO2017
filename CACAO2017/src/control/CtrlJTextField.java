@@ -2,7 +2,6 @@ package control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Locale;
@@ -45,6 +44,7 @@ public class CtrlJTextField  implements Observer, ActionListener {
 	public void update(Observable o, Object arg) {
 		NumberFormat dc = NumberFormat.getInstance(Locale.FRANCE);
 		dc.setMaximumFractionDigits(2);
+		dc.setMinimumFractionDigits(2);
 		String formattedText = dc.format(ind.getValeur());
 		this.field.setText(formattedText);
 	}

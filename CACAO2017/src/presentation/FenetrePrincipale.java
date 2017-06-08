@@ -96,6 +96,7 @@ public class FenetrePrincipale extends JFrame {
 			JTextField tIndic = new JTextField(20);
 			NumberFormat dc = NumberFormat.getInstance(Locale.FRANCE);
 			dc.setMaximumFractionDigits(2);
+			dc.setMinimumFractionDigits(2);
 			String formattedText = dc.format(i.getValeur());
 			tIndic.setText(formattedText);
 			CtrlJTextField controlJTextField = new CtrlJTextField(tIndic, i);
