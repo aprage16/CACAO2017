@@ -91,4 +91,9 @@ public class Distributeur implements Acteur,IDistributeur{
 	public String getNom(){
 		return "Distributeur Europe";
 	}
+
+	public double getPrixClient() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

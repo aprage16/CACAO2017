@@ -21,7 +21,6 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	
 	private Indicateur fonds;
 	private Indicateur stock;
-	private Indicateur prixMax;
 	
 	private Journal journalTest;
 	
@@ -49,7 +48,6 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 		
     	Monde.LE_MONDE.ajouterIndicateur( this.stock );
     	Monde.LE_MONDE.ajouterIndicateur( this.fonds );
-    	Monde.LE_MONDE.ajouterIndicateur(this.prixMax);
     	Monde.LE_MONDE.ajouterJournal(this.getJournal());
     	
     	
@@ -141,8 +139,6 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 		double prixmax=this.getGestion().getFonds()/aacheter;*/
 		double prixmax=Math.random()*0.08;
 		//journalTest.ajouter("prixmax="+prixmax);
-		
-		this.prixMax.setValeur(this, prixmax);
 		return prixmax;
 	}
 	
