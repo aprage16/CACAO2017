@@ -1,4 +1,4 @@
-package abstraction.distributeur.amerique;
+/*package abstraction.distributeur.amerique;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,8 +21,8 @@ public class MarcheClients implements Acteur{
 	public static double commandesStepFixe=(commandesAnneeTotales-commandesAnneeTotales*(augStVal+augPaques+augHalloween+augNoel))/nbStepAnnees;
 	public static double pourcentageFixe=0.40;
 	public static double pourcentageFluctuantTotal=0.2;
-	public static double vendusUS;
-	public static double vendusEU;
+
+	private double satisfaction
 	
 	public void calculDemandes(){
 		double augSaisonniere=0;
@@ -80,7 +80,7 @@ public class MarcheClients implements Acteur{
 	
 	public void addDistributeur(IDistributeur distributeur){
 		this.setSatisfaction(distributeur, satisfactionIni);
-		this.setPrixVente(distributeur, prixVenteIni);
+	//	this.setPrixVente(distributeur, prixVenteIni);
 	}
 	 
 	public void setSatisfaction(IDistributeur distributeur, double satisfaction){
@@ -89,7 +89,7 @@ public class MarcheClients implements Acteur{
 	
 	/*public void setPrixVente(IDistributeur distributeur, double prixVente){
 		this.prixVente.put(distributeur, prixVente);
-	}*/
+	}
 	public double getSatisfaction(IDistributeur distributeur) {
 		return this.satisfactions.get(distributeur);
 	}
@@ -107,4 +107,4 @@ public class MarcheClients implements Acteur{
 	}
 	
 	
-}
+}*/
