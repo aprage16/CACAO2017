@@ -10,7 +10,7 @@ public class Stock {
 
 
 	public Stock() {
-		this.stock=1000;
+		this.stock=10000;
 	}
 	public void ajout(int a){
 		this.stock+=a;
