@@ -4,9 +4,9 @@ package abstraction.producteur.ameriquelatine;
 //26/04 Adrien
 
 public class Tresorerie {
-	public final static int CHARGESPROD=10000;// ($) charges fixes (hors coût de stock)
+	public final static int CHARGESPROD=10000000;// ($) charges fixes (hors coût de stock)
 	public final static double COUTSTOCK=1000;
-	public final static double COUTSALARIE=44700; // ($) prix d'un salarie (recolte) par tonne de cacao récolté et par an
+	public final static double COUTSALARIE=47400; // ($) prix d'un salarie (recolte) par tonne de cacao récolté et par an
 	private double tresorerie; // argent en banque
 	private Stock stock;
 	private Recolte recolte;
