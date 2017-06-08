@@ -122,7 +122,6 @@ public class TransformateurUsa implements transformateur,Acteur{
 	}
 
 	public double getprixMin(){
-<<<<<<< HEAD
 		if (finis.getStockChocolat()<=Uniteventechocolat){
 			//LE_JOURNAL_USA.ajouter("1Prix min="+Bornesmax+1);
 			return Bornesmax+1;
@@ -134,20 +133,6 @@ public class TransformateurUsa implements transformateur,Acteur{
 			return prix;
 		}
 		else{
-			//LE_JOURNAL_USA.ajouter("3Prix min="+Bornesmin);
-=======
-		if (finis.getStockChocolat()<Uniteventechocolat){
-			LE_JOURNAL_USA.ajouter("Prix min="+Bornesmax+1);
-			return Bornesmax+1;
-		}
-		else if (finis.getStockChocolat()<Stockdesire){
-			double prix= Bornesmax-((finis.getStockChocolat()-1*Uniteventechocolat)/((Stockdesire/Uniteventechocolat-1)*Uniteventechocolat)*(Bornesmax-Bornesmin));
-			LE_JOURNAL_USA.ajouter("Prix min="+prix);
-			return prix;
-		}
-		else{
-			LE_JOURNAL_USA.ajouter("Prix min="+Bornesmin);
->>>>>>> refs/remotes/origin/master
 			return Bornesmin;
 		}
 	}
@@ -156,12 +141,6 @@ public class TransformateurUsa implements transformateur,Acteur{
 	
 	@Override
 	public void notif(double prix, double quantite) {
-<<<<<<< HEAD
-		//System.out.println(prix+"    "+quantité);
-		//LE_JOURNAL_USA.ajouter("Vente de Chocolat"+quantite);
-=======
-		this.LE_JOURNAL_USA.ajouter("On a vendu a tel prix: "+prix+"   tand de tonne de Cacao: "+quantite);
->>>>>>> refs/remotes/origin/master
 		this.venteChocolat+=quantite;
 		this.finis.enleverChoco(quantite);
 		this.tresorerie.setCompteCourant(this.tresorerie.getCompteCourant()+quantite*prix);	
