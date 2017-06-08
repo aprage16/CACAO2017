@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import control.CtrlBtnNext;
 import control.CtrlCheckBoxHistorique;
@@ -94,6 +95,7 @@ public class FenetrePrincipale extends JFrame {
 			
 			// Champ de saisie permettant de modifier la valeur de l'indicateur
 			JTextField tIndic = new JTextField(20);
+			tIndic.setHorizontalAlignment(SwingConstants.RIGHT);
 			NumberFormat dc = NumberFormat.getInstance(Locale.FRANCE);
 			dc.setMaximumFractionDigits(2);
 			dc.setMinimumFractionDigits(2);
