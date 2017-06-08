@@ -128,8 +128,8 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 			}
 		}
 		this.stock.addStock((int)prod);
-		while(this.stock.getStock()==Stock.STOCK_MAX){ 
-			prod = prod/2;   
+		if(this.stock.getStock()>=Stock.STOCK_MAX){ 
+			prod = prod/4;   
 		}
 		this.production=(int)prod; // ajout dans la liste de production
 		this.productionIndicateur.setValeur(this, (int)prod);
