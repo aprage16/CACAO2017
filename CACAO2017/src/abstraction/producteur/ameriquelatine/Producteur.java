@@ -64,7 +64,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	}
 	public void notificationVente(double quantite, double coursActuel) {
 		this.journal.ajouter("--- notif vente ---");
-		this.stock.retrait((int)quantite);
+/*a modiifier*/		this.stock.retrait((int)quantite);
 		this.treso.encaissement(coursActuel*quantite);
 		this.journal.ajouter(" retrait de Stock  =  "+(int)quantite+" --> "+this.stock.getStock());//<font color=\"maroon\">"+stock+"</font> tonnes de fèves au <b>step</b> "+Monde.LE_MONDE.getStep());
 		this.quantiteVendue.setValeur(this, quantite);
@@ -88,9 +88,17 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	}
 	
 	public void next() {
-		// rec
-		recolte.miseAJourIndice();//mise à jour de l'indice de recolte
-		this.stock.ajout(this.recolte.getQterecoltee());
+		recolte.miseAJourIndice();
+		if (Monde.LE_MONDE.getStep()<=19){ // Avant le step 19, on ajoute à chaque step dans prod
+			this.stock.ajout(this.recolte.getQterecoltee(), Monde.LE_MONDE.getStep());
+		}
+		else {
+			ArrayList<Integer> copie=new ArrayList<Integer>(stock.getProd());
+			for (int i=0; i<this.stock.getProd().size()-1;i++){
+				this.stock.setProd(i, copie.get(i+1)); // On  crée une copie où on décale toutes les valeurs
+			}
+			this.stock.ajout(this.recolte.getQterecoltee(), this.stock.getProd().size()); // On ajoute les futures récoltes à la fin de la liste (les plus récentes)
+		}
 		journal.ajouter("ajout recolte :"+this.recolte.getQterecoltee()+"--> "+this.stock.getStock());
 		this.treso.decaissement(treso.cout());
 			}
