@@ -6,10 +6,10 @@ import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
 
-public class DistributeurUS implements IDistributeur{
+public class DistributeurUS implements IDistributeur, DistribClient{
 	public static String  nomIndicateurStock = "1_DISTR_US_stock";
 	public static String nomIndicateurFonds = "1_DISTR_US_fonds";
-	public static double fondsIni = 5000.0;
+	public static double fondsIni = 500000.0;
 	public static double stockIni = 6.25;
 	public static double prixKg=10*Math.pow(10,-6);
 	public static double uniteChoc=10000;
@@ -17,15 +17,18 @@ public class DistributeurUS implements IDistributeur{
 	
 	private Gestion gestion;
 	private Demande demande;
+	private String nom;
 	
 	private Indicateur fonds;
 	private Indicateur stock;
+	private Indicateur prixMax;
 	
 	private Journal journalTest;
 	
-	public DistributeurUS(Gestion gestion, Demande demande, Indicateur fonds, Indicateur stock, Journal journal){
+	public DistributeurUS(Gestion gestion, Demande demande, String nom, Indicateur fonds, Indicateur stock, Journal journal){
 		this.gestion=gestion;
 		this.demande=demande;
+		this.nom=nom;
 		this.fonds=fonds;
 		this.stock=stock;
 		this.journalTest=journal;
@@ -37,6 +40,7 @@ public class DistributeurUS implements IDistributeur{
 
 		this.gestion= new Gestion(fondsIni,stockIni);
 		this.demande=new Demande(Demande.commandeIni);
+		this.nom="distributeurUS";
 		
 		this.stock = new Indicateur(nomIndicateurStock, this, stockIni);
 		this.fonds = new Indicateur(nomIndicateurFonds, this, fondsIni);
@@ -45,7 +49,9 @@ public class DistributeurUS implements IDistributeur{
 		
     	Monde.LE_MONDE.ajouterIndicateur( this.stock );
     	Monde.LE_MONDE.ajouterIndicateur( this.fonds );
+    	Monde.LE_MONDE.ajouterIndicateur(this.prixMax);
     	Monde.LE_MONDE.ajouterJournal(this.getJournal());
+    	
     	
 
 	}
@@ -53,6 +59,7 @@ public class DistributeurUS implements IDistributeur{
 	
 	public void next(){
 		//System.out.println(Monde.LE_MONDE.getStep()+" "+this.getGestion().getDemande().demandeStep());
+		//DemandeMonde.vendusUS=this.getDemande().getCommande();
 		if (this.getGestion().getStock()>=this.getDemande().getCommande()){
 		
 			this.setStock(this.getGestion().getStock()-this.getDemande().getCommande());
@@ -96,6 +103,7 @@ public class DistributeurUS implements IDistributeur{
 
 	
 	public double getPrixMax(){
+		
 		return this.prixMax();
 	}
 	
@@ -107,7 +115,7 @@ public class DistributeurUS implements IDistributeur{
 	}
 
 	public String getNom() {
-		return "Distributeur USA";
+		return this.nom;
 	}
 
 	
@@ -134,7 +142,7 @@ public class DistributeurUS implements IDistributeur{
 		double prixmax=Math.random()*0.08;
 		//journalTest.ajouter("prixmax="+prixmax);
 		
-		
+		this.prixMax.setValeur(this, prixmax);
 		return prixmax;
 	}
 	
@@ -144,5 +152,26 @@ public class DistributeurUS implements IDistributeur{
 	public Journal getJournal(){
 		
 		return this.journalTest;
+	}
+
+
+	@Override
+	public double getMisEnVente() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+	@Override
+	public void notifVente() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public double getPrixClient() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }
