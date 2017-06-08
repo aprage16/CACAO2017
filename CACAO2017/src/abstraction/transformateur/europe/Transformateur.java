@@ -165,21 +165,6 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 		this.tresorerie.setValeur(this, this.tresorerie.getValeur()-cout);
 	}
 	
-	/**
-	 * @objectif: Prendre en compte que le chocolat se périmme
-	 * On considère notre stock de chocolat perissable en 10 semaines, 
-	 * le stockage dans une liste permet de supprimer la quantité produite 
-	 * il y a 10 semaines de notre stock
-	 */
-	public void modifPeremption(double quantite){  
-		double[] peremp=new double[peremption.length];
-		double estPerime=peremption[4];
-		peremp[0]=this.s.getStockCacao()*RATIO_CACAO_CHOCO;
-		for (int i=0;i<peremp.length-1;i++){
-			peremp[i+1]=peremption[i];
-		}
-		peremption=peremp;
-	}
 
 	
 	/**
@@ -202,6 +187,27 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 		quantiteAchetee+=quantite;
 	}
 
+	/**
+	 * @objectif: Prendre en compte que le chocolat se périmme
+	 * On considère notre stock de chocolat perissable en 10 semaines, 
+	 * le stockage dans une liste permet de supprimer la quantité produite 
+	 * il y a 10 semaines de notre stock
+	 */
+	public void modifPeremption(double quantite){  
+		double[] peremp=new double[peremption.length];
+		double estPerime=peremption[4];
+		peremp[0]=this.s.getStockCacao()*RATIO_CACAO_CHOCO;
+		for (int i=0;i<peremp.length-1;i++){
+			peremp[i+1]=peremption[i];
+		}
+		peremption=peremp;
+		if (estPerime>=quantite){
+			this.stockChocolat.setValeur(this, this.stockChocolat.getValeur()-estPerime);
+		}
+		else{
+			this.stockChocolat.setValeur(this, this.stockChocolat.getValeur()-quantite);
+		}
+	}
 	
 	/**
 	 * @objectif: Fonction utilisée dans le marché, elle nous indique 
@@ -213,7 +219,7 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 	public void notif(double prix, double quantite) {
 		//System.out.println("vendu au prix de : "+prix+" avec une quantité de : "+quantite);
 		prix=prix*1000000;
-		this.s.retraitChocolat(quantite);
+		modifPeremption(quantite);
 		double chiffreAffaire=prix*quantite;
 		this.compte.credit(chiffreAffaire);
 		this.tresorerie.setValeur(this, this.tresorerie.getValeur()+chiffreAffaire);
@@ -233,6 +239,9 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 		compteurAchat=0;
 		prixMoyendeVente=0;
 		compteurVente=0;
+		for (int i=0;i<14;i++){
+			date=date.lendemain();
+		}
 	}
 
 	
@@ -316,7 +325,6 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 	public void next(){
 		transformation();
 		CoutStock();
-		Journal();
 		Journal();
 		Miseajour();
 		//System.out.println("notre compte est de : "+this.compte.getCompte());
