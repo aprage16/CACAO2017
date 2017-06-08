@@ -19,12 +19,11 @@ import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
+import abstraction.producteur.cotedivoire.contrats.Devis;
 import abstraction.transformateur.usa.interfacemarche.transformateur;
 import abstraction.producteur.cotedivoire.contrats.*;
-import java.util.ArrayList;
 
-
-public class Transformateur implements transformateur, Acteur, IContratProd, IContratTrans  {
+public class Transformateur implements transformateur, Acteur, IContratTrans  {
 
 	private Stock s;
 	private Tresorerie compte;
@@ -257,14 +256,24 @@ public class Transformateur implements transformateur, Acteur, IContratProd, ICo
 		//modifPeremption();
 		//System.out.println(s.toString());
 	}
-	 /**
-	  * Contrats
-	  */
+	
+	/**
+	 * @objectif: Implémenter les contrats avec les producteurs
+	 */
+	
+	private List<Devis> p;
+	
+	@Override
+	public void envoieDevis(List<Devis> l) {
+		this.p=l;
+	}
+
 
 	@Override
 	public void qttVoulue() {
-		// TODO Auto-generated method stub
-		
+		for (Devis d : p){
+			d.setQttVoulue(0);
+		}
 	}
 
 
@@ -274,24 +283,4 @@ public class Transformateur implements transformateur, Acteur, IContratProd, ICo
 		
 	}
 
-
-	@Override
-	public void envoieDevis(List<Devis> l) {
-		/* List<Devis> p = new ArrayList<Devis>(); */
-		
-	}
-
-
-	@Override
-	public void qttLivrablePrix() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void notifContrat() {
-		// TODO Auto-generated method stub
-		
-	}
 }
