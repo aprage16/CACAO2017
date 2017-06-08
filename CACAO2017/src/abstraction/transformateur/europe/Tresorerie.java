@@ -1,5 +1,6 @@
 /* Classe gérant la trésorerie de notre acteur.
 
+
 authors : Blois Philippe, 
           Charloux Jean, 
           Halzuet Guillaume,
@@ -12,6 +13,8 @@ public class Tresorerie {
 
 	private double compte;
 	
+	public static final int COUT_SALARIE = 9500000;// 5000 employés coutant 1900€ par next.
+	public static final int COUT_TRANSFORMATION = 200; // Une tonne de chocolat nous coute 200€ à être transformée.
 	
 	/**
 	 * @objectif: Constructeur de la classe
@@ -60,7 +63,7 @@ public class Tresorerie {
 
 	
 	/** 
-	 * Objectif: Retirer au compte la valeur @param.
+	 * @Objectif: Retirer au compte la valeur @param.
 	 * 
 	 * @param montant
 	 */
@@ -68,6 +71,19 @@ public class Tresorerie {
 		if(montant>=0){
 			this.setCompte(this.getCompte()-montant);
 		}
+	}
+	
+	
+	/**
+	 * @objectif: Chiffrer le cout de transformation du cacao en chocolat,
+	 * cette fonction prendra en compte le nombre de salarié, nos infrastructures,
+	 * mais surtout la quantité de cacao achetée.
+	 * 
+	 * @param cacao
+	 */
+	public void cout_transformation(double cacao){
+		debit(COUT_SALARIE);// Chaque next on paie nos salariés
+		debit(COUT_TRANSFORMATION * cacao);
 	}
 	
 	

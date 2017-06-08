@@ -1,6 +1,5 @@
 
-/* Classe gérant le stock de chocolat et de cacao
- * 
+/* Classe gérant le stock de chocolat et de cacao 
 authors : Blois Philippe, 
           Charloux Jean, 
           Halzuet Guillaume,
