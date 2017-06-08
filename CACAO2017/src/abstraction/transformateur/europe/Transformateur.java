@@ -25,7 +25,7 @@ public class Transformateur implements transformateur, Acteur  {
 	private Stock s;
 	private Tresorerie compte;
 	private double prixmin;
-	private double[] peremption=new double[Stock.DATE_PEREMPTION];
+	private double[] peremption=new double[Stock.DATE_PEREMPTION]; //va stocker le chocolat pour définir la priorité de vente en fonction de la date de péremption 
 	private Date date= new Date();
 	
 	private double quantiteVendue=0; // Pour le journal
@@ -85,8 +85,8 @@ public class Transformateur implements transformateur, Acteur  {
 			return 1000000;
 		}
 		else{
-			this.prixmin=PRIX_MIN+PRIX_MIN*Stock.STOCK_MIN/this.s.getStockChocolat(); //calcul le nouveau prix minimum auquel on souhaite vendre
-			System.out.println("prix min de transfo eu : "+prixmin);				  // en tenant compte du stock de chocolat que l'on a.
+			this.prixmin=PRIX_MIN+0.5*PRIX_MIN*Stock.STOCK_MIN/this.s.getStockChocolat(); //calcul le nouveau prix minimum auquel on souhaite vendre
+			//System.out.println("prix min de transfo eu : "+prixmin);				  // en tenant compte du stock de chocolat que l'on a.
 			return this.prixmin;
 			}
 	}
@@ -151,6 +151,14 @@ public class Transformateur implements transformateur, Acteur  {
 		}
 	
 	
+	public void CoutStock(){
+		double cout=0;
+		if (this.stockChocolat.getValeur()>=CHOCOLAT_NECESSAIRE){
+			cout=(this.stockChocolat.getValeur()-CHOCOLAT_NECESSAIRE)*10000;
+			//System.out.println(cout+"est le cout des stock");
+		}
+		this.tresorerie.setValeur(this, this.tresorerie.getValeur()-cout);
+	}
 	
 	/**
 	 * @objectif: Prendre en compte que le chocolat se périmme
@@ -158,7 +166,7 @@ public class Transformateur implements transformateur, Acteur  {
 	 * le stockage dans une liste permet de supprimer la quantité produite 
 	 * il y a 10 semaines de notre stock
 	 */
-	public void modifPeremption(){  
+	public void modifPeremption(double quantite){  
 		double[] peremp=new double[peremption.length];
 		double estPerime=peremption[4];
 		peremp[0]=this.s.getStockCacao()*RATIO_CACAO_CHOCO;
@@ -166,7 +174,6 @@ public class Transformateur implements transformateur, Acteur  {
 			peremp[i+1]=peremption[i];
 		}
 		peremption=peremp;
-		this.s.retraitChocolat(estPerime);
 	}
 
 	
@@ -184,7 +191,7 @@ public class Transformateur implements transformateur, Acteur  {
 					// le retrait de cette ligne désactive le payement aux producteurs: on ne gagne que 11000€
 		                          // de ventes alors qu'on paye 10^7 : unités à revoir
 		this.stockChocolat.setValeur(this, this.s.getStockChocolat());
-		this.tresorerie.setValeur(this, this.compte.getCompte());
+		this.tresorerie.setValeur(this, this.tresorerie.getValeur()-achat);
 		prixMoyendAchat+=prix;
 		compteurAchat+=1;
 		quantiteAchetee+=quantite;
@@ -204,7 +211,7 @@ public class Transformateur implements transformateur, Acteur  {
 		this.s.retraitChocolat(quantite);
 		double chiffreAffaire=prix*quantite;
 		this.compte.credit(chiffreAffaire);
-		this.tresorerie.setValeur(this, this.compte.getCompte());
+		this.tresorerie.setValeur(this, this.tresorerie.getValeur()+chiffreAffaire);
 		quantiteVendue+=quantite;
 		prixMoyendeVente+=prix;
 		compteurVente+=1;
@@ -233,9 +240,9 @@ public class Transformateur implements transformateur, Acteur  {
 	public void Journal (){
 		this.journal.ajouter("<b> La date du jour est : "+date+"</b>");
 		this.journal.ajouter("");
-		this.journal.ajouter("Une <b>quantité</b> de : <b><font color =\"red\"> "+quantiteAchetee+"</font></b> de cacao a été acheté au <b>prix unitaire</b> de : <font color=\"red\"> "+prixMoyendAchat/compteurAchat+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
+		this.journal.ajouter("Une <b>quantité</b> de : <b><font color =\"red\"> "+(int)quantiteAchetee+"</font></b> de cacao a été acheté au <b>prix unitaire</b> de : <font color=\"red\"> "+(int)prixMoyendAchat/compteurAchat+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
 		this.journal.ajouter(" ");
-		this.journal.ajouter("Une <b>quantité</b> de : <b><font color=\"green\">"+quantiteVendue+"</font></b> de chocolat a été vendu au <b>prix unitaire</b> de : <font color=\"green\"> "+prixMoyendeVente/compteurVente+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
+		this.journal.ajouter("Une <b>quantité</b> de : <b><font color=\"green\">"+(int)quantiteVendue+"</font></b> de chocolat a été vendu au <b>prix unitaire</b> de : <font color=\"green\"> "+prixMoyendeVente/compteurVente+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
 		this.journal.ajouter(" ");
 		this.journal.ajouter(this.s.toString());
 		this.journal.ajouter(" ");
@@ -252,9 +259,10 @@ public class Transformateur implements transformateur, Acteur  {
 	 */
 	public void next(){
 		transformation();
+		CoutStock();
 		Journal();
 		Miseajour();
-		//modifPeremption();
-		//System.out.println(s.toString());
+		System.out.println("notre compte est de : "+this.compte.getCompte());
+		System.out.println(this.tresorerie.getValeur()+"est la veleur de la tresorerie en tant qu'indicateur");
 	}
 }
