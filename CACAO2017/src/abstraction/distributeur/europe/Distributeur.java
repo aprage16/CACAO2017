@@ -94,4 +94,12 @@ public class Distributeur implements Acteur,IDistributeur{
 	public String getNom(){
 		return "Distributeur Europe";
 	}
+	
+	public double getPrixClient(){
+		double prixEnVente;
+		prixEnVente=this.getDerniereVente().getPrix()*1.2;
+		return(prixEnVente);
+	}
+	
+
 }
