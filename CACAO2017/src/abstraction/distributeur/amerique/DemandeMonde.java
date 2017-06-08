@@ -1,5 +1,6 @@
-package abstraction.distributeur.amerique;
+/*package abstraction.distributeur.amerique;//A améliorer, remplacer les deux distrib
 
+import abstraction.distributeur.europe.IDistributeur;
 import abstraction.fourni.Monde;
 
 public class DemandeMonde {
@@ -12,8 +13,8 @@ public class DemandeMonde {
 	public static double commandesStepFixe=(commandesAnneeTotales-commandesAnneeTotales*(augStVal+augPaques+augHalloween+augNoel))/nbStepAnnees;
 	public static double pourcentageFixe=0.40;
 	public static double pourcentageFluctuantTotal=0.2;
-	public static double pourcentageFluctuantUS=pourcentageFluctuantTotal*0.5;
-	public static double pourcentageFluctuantEU=pourcentageFluctuantTotal*0.5;
+	public static double vendusUS;
+	public static double vendusEU;
 	
 	
 	private double demandeUS;
@@ -40,13 +41,7 @@ public class DemandeMonde {
 	}
 	
 	/* A Calculer, dépend de la fidélité (on fait tourner le monde une fois sans rien pour avoir la demande du client, 
-	*/
-	public double getFluctuantUS(){
-		return pourcentageFluctuantUS;
-	}
-	public double getFluctuantEU(){
-		return pourcentageFluctuantEU;
-	}
+	
 	
 	public void calculDemandes(){
 		double augSaisonniere=0;
@@ -65,8 +60,19 @@ public class DemandeMonde {
 		}
 		
 		double commandesTotalesStep=(commandesStepFixe+augSaisonniere*commandesAnneeTotales)*DistributeurUS.coefAleatoire;
-		this.setDemandeUS(commandesTotalesStep*(pourcentageFixe+pourcentageFluctuantUS));
-		this.setDemandeEU(commandesTotalesStep*(pourcentageFixe+pourcentageFluctuantEU));
+		double prixUS=(((DistribClient) Monde.LE_MONDE.getActeur("distributeurUS")).getPrixClient());
+		double prixEU=(((DistribClient) Monde.LE_MONDE.getActeur("Distributeur europe")).getPrixClient());
+		double p=prixEU/(prixUS+prixEU);
+		
+		//double satisfactionUS=(((DistribClient) Monde.LE_MONDE.getActeur("distributeurUS")).getVendu())/vendusUS;
+		//double satisfactionEU=(((DistribClient) Monde.LE_MONDE.getActeur("distributeurUS")).getVendu())/vendusUS;
+		double satisfactionTotale=satisfactionUS/(satisfactionUS+satisfactionEU);
+		
+		double fluctuant= pourcentageFluctuantTotal*(0.5*p+0.3*satisfactionTotale+0.2*DistributeurUS.coefAleatoire);
+		
+		this.setDemandeUS(commandesTotalesStep*(pourcentageFixe+this.calculFluctuant()));
+		this.setDemandeEU(commandesTotalesStep*(1-this.getDemandeUS()));
 	}
 	
-}
+	
+}*/

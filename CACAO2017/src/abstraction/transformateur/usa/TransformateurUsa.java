@@ -17,9 +17,9 @@ public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 	private static final int Uniteventechocolat=1000;//10000 tonnes
 	private static final double Bornesmax=0.008;//Une unité d'argent =1 million d'euro
 	private static final double Bornesmin=0.004;
-	private static final double Stockdesire=100*Uniteventechocolat;
+	private double Stockdesire;
 	private static final double Prixstockage=0.25*Bornesmin/(24);//Le prix du stokage par an est de 25% de la valeur des marchandises stockées
-	private static final double CoutFixe=300;
+	private static final double CoutFixe=200;
 	private ArrayList<Double> prixmatprem;
 	private double venteChocolat;
 	private double achatCacao;
@@ -29,6 +29,7 @@ public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 	public static Journal LE_JOURNAL_USA;
 	private double step;
 	private List<Devis> devis;
+	private Decision priseDecisions;
 
 	/* Nos indicateurs sont :
 	 * -Compte courant de la Trésorie
@@ -68,6 +69,8 @@ public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 		this.solde=new Indicateur("5_TRAN_USA_solde",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur(this.solde);	
 		Monde.LE_MONDE.ajouterJournal(LE_JOURNAL_USA);
+		this.priseDecisions=new Decision();
+		Stockdesire=400*Uniteventechocolat;
 	}
 
 	public void next(){
@@ -79,9 +82,15 @@ public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 		miseAJourJournal();
 		if(this.achats!=null){
 			this.achats.setValeur(this, this.getAchatCacao());
-			this.ventes.setValeur(this, this.MiseAJourVente());
+			double vente=this.MiseAJourVente();
+			this.priseDecisions.ajouterVente(vente);
+			this.ventes.setValeur(this, vente);
 			this.solde.setValeur(this, this.tresorerie.getCompteCourant());
 			this.achatCacao=0;
+		}
+		if ((Monde.LE_MONDE.getStep()%12)==0 && Monde.LE_MONDE.getStep()!=0){
+			this.Stockdesire=this.priseDecisions.getStockDesire();
+			System.out.println(this.priseDecisions.getStockDesire());
 		}
 	}
 	//souchu
@@ -125,23 +134,25 @@ public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 	}
 
 	public double getprixMin(){
-		if (finis.getStockChocolat()<Uniteventechocolat){
-			//LE_JOURNAL_USA.ajouter("Prix min="+Bornesmax+1);
+		if (finis.getStockChocolat()<=Uniteventechocolat){
+			//LE_JOURNAL_USA.ajouter("1Prix min="+Bornesmax+1);
 			return Bornesmax+1;
 		}
 		else if (finis.getStockChocolat()<Stockdesire){
-			double prix= Bornesmax-((finis.getStockChocolat()-1*Uniteventechocolat)/((Stockdesire/Uniteventechocolat-1)*Uniteventechocolat)*(Bornesmax-Bornesmin));
-			//LE_JOURNAL_USA.ajouter("Prix min="+prix);
+			double prix= Bornesmax-((finis.getStockChocolat()-Uniteventechocolat)/((Stockdesire/Uniteventechocolat-1)*Uniteventechocolat)*(Bornesmax-Bornesmin));
+			//LE_JOURNAL_USA.ajouter("2Prix min="+prix);
+			//LE_JOURNAL_USA.ajouter(""+(finis.getStockChocolat()));
 			return prix;
 		}
 		else{
-			//LE_JOURNAL_USA.ajouter("Prix min="+Bornesmin);
 			return Bornesmin;
 		}
 	}
+	
+	
+	
 	@Override
 	public void notif(double prix, double quantite) {
-		//this.LE_JOURNAL_USA.ajouter("On a vendu a tel prix: "+prix+"   tand de tonne de Cacao: "+quantite);
 		this.venteChocolat+=quantite;
 		this.finis.enleverChoco(quantite);
 		this.tresorerie.setCompteCourant(this.tresorerie.getCompteCourant()+quantite*prix);	
@@ -163,6 +174,8 @@ public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 
 	public void notificationAchat(double achete, double prix){
 		LE_JOURNAL_USA.ajouter("On a acheté pour un prix unitaire de  "+prix/1000000+"Et tant de tonne  "+achete);
+		LE_JOURNAL_USA.ajouter(""+this.priseDecisions);
+		this.priseDecisions.ajouterAchat(achete);
 		this.tresorerie.setCompteCourant(tresorerie.getCompteCourant()-prix*achete/1000000);
 		this.premiere.setCacao(premiere.getCacao()+achete);
 		this.achatCacao+=achete;
@@ -189,21 +202,43 @@ public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 
 	@Override
 	public void envoieDevis(List<Devis> l) {
-		this.devis=l;
-		// TODO Auto-generated method stub
-		
+		this.devis=l;	
 	}
 
 	@Override
 	public void qttVoulue() {
-		// TODO Auto-generated method stub
-		
+		for (Devis d:devis){
+			d.setQttVoulue(this.priseDecisions.getQuantiteVoulue());
+		}
 	}
 
 	@Override
+	//Souchu
 	public void finContrat() {
-		// TODO Auto-generated method stub
-		
+		double minPrix=1000;int meilleurPartenaire=0;double quantitévoulue=this.priseDecisions.getQuantiteVoulue();
+		for (int i=0;i<this.devis.size();i++){//On cherche le partenaire le moins cher, on considère que c'est le meilleur
+			if (devis.get(i).getPrix()<minPrix){
+				meilleurPartenaire=i;
+			}
+		}
+		if (devis.get(meilleurPartenaire).getQttLivrable()>=0.8*quantitévoulue){ // Le meilleurPartenaire peut livrer 80% du Cacao désiré
+			devis.get(meilleurPartenaire).setQttFinale(0.8*quantitévoulue);//On lui commande donc cette quantité
+			if (devis.get(Math.abs(meilleurPartenaire-1)).getQttLivrable()>=0.2*quantitévoulue){
+				devis.get(Math.abs(meilleurPartenaire-1)).setQttFinale(0.2*quantitévoulue);//Si l'autre producteur peut produire le reste, on lui commande le reste (20% du Cacao désiré)
+			}
+			else {
+				devis.get(Math.abs(meilleurPartenaire-1)).setQttFinale(devis.get(Math.abs(meilleurPartenaire-1)).getQttLivrable());//Sinon on lui commande le reste (moins de 20% du Cacao désiré)
+			}
+		}
+		else{
+			devis.get(meilleurPartenaire).setQttFinale(devis.get(meilleurPartenaire).qttLivrable);//Si le meilleurPartenaire n'est pas en mesure de fournir 80% de ce que l'on veut,on commande tout ce qu'il a et on se rabat sur l'autre
+			if (devis.get(Math.abs(meilleurPartenaire-1)).getQttLivrable()>=(quantitévoulue-devis.get(meilleurPartenaire).qttLivrable)){//On regarde si le deuxième choix de partenaire est capable de nosu fournir
+				devis.get(Math.abs(meilleurPartenaire-1)).setQttFinale((quantitévoulue-devis.get(meilleurPartenaire).qttLivrable));
+			}
+			else {
+				devis.get(Math.abs(meilleurPartenaire-1)).setQttFinale(devis.get(Math.abs(meilleurPartenaire-1)).getQttLivrable());//Sinon, on prend tout ce qu'il lui reste
+			}
+		}
 	}
 
 }
