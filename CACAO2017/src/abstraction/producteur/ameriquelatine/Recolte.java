@@ -1,3 +1,4 @@
+
 package abstraction.producteur.ameriquelatine;
 
 import abstraction.distributeur.europe.MondeV1;
@@ -40,3 +41,4 @@ public class Recolte {
 		
 	
 }
+
