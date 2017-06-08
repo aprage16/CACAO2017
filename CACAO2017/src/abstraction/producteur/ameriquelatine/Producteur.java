@@ -1,13 +1,19 @@
 package abstraction.producteur.ameriquelatine;
 //26/04 Adrien
 
+import java.util.ArrayList;
+import java.util.List;
+
 import abstraction.distributeur.europe.MondeV1;
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
+import abstraction.producteur.cotedivoire.contrats.Devis;
+import abstraction.producteur.cotedivoire.contrats.IContratProd;
 
-public class Producteur implements IProducteur, Acteur {
+
+public class Producteur implements IProducteur, Acteur, IContratProd  {
 	public String nom;
 	private Tresorerie treso;
 	private double qtevendue;
@@ -20,7 +26,7 @@ public class Producteur implements IProducteur, Acteur {
 	private Indicateur qtemiseenvente;
 	private Indicateur production;
 	private Journal journal;
-//	private ArrayList<devis> ldevis ;
+	public List<Devis> ldevis ;
 	
 	public Producteur(){
 		this.nom="Producteur AmeriqueLatine" ;
@@ -88,4 +94,21 @@ public class Producteur implements IProducteur, Acteur {
 		journal.ajouter("ajout recolte :"+this.recolte.getQterecoltee()+"--> "+this.stock.getStock());
 		this.treso.decaissement(treso.cout());
 			}
+	@Override
+	public void envoieDevis(List<Devis> l) {
+		// TODO Auto-generated method stub
+		this.ldevis=l;
+	}
+	@Override
+	public void qttLivrablePrix() {
+		for (int i=0; i<this.ldevis.size(); i++){
+		this.ldevis.get(i).setQttLivrable(2000);
+		this.ldevis.get(i).setPrix(2000);
+		}
+	}
+	@Override
+	public void notifContrat() {
+		// TODO Auto-generated method stub
+		// Mettre prix et qté finale en tant que variable?
+	}
 }
