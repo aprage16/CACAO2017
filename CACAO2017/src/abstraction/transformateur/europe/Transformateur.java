@@ -26,6 +26,7 @@ public class Transformateur implements transformateur, Acteur  {
 	private Tresorerie compte;
 	private double prixmin;
 	private double[] peremption=new double[Stock.DATE_PEREMPTION];
+	private Date date= new Date();
 	
 	private double quantiteVendue=0; // Pour le journal
 	private double quantiteAchetee=0;// Pour le journal
@@ -165,8 +166,6 @@ public class Transformateur implements transformateur, Acteur  {
 			peremp[i+1]=peremption[i];
 		}
 		peremption=peremp;
-		//System.out.println(peremp[4]);
-		//System.out.println(estPerime);
 		this.s.retraitChocolat(estPerime);
 	}
 
@@ -222,13 +221,18 @@ public class Transformateur implements transformateur, Acteur  {
 		compteurAchat=0;
 		prixMoyendeVente=0;
 		compteurVente=0;
+		for (int i=0;i<14;i++){
+			date=date.lendemain();
+		}
 	}
 
 	
 	/**
 	 * @objectif: Fonction permetant de remplir les différents élements de notre journal
 	 */
-	public void Transactions (){
+	public void Journal (){
+		this.journal.ajouter("<b> La date du jour est : "+date+"</b>");
+		this.journal.ajouter("");
 		this.journal.ajouter("Une <b>quantité</b> de : <b><font color =\"red\"> "+quantiteAchetee+"</font></b> de cacao a été acheté au <b>prix unitaire</b> de : <font color=\"red\"> "+prixMoyendAchat/compteurAchat+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
 		this.journal.ajouter(" ");
 		this.journal.ajouter("Une <b>quantité</b> de : <b><font color=\"green\">"+quantiteVendue+"</font></b> de chocolat a été vendu au <b>prix unitaire</b> de : <font color=\"green\"> "+prixMoyendeVente/compteurVente+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
@@ -248,7 +252,7 @@ public class Transformateur implements transformateur, Acteur  {
 	 */
 	public void next(){
 		transformation();
-		Transactions();
+		Journal();
 		Miseajour();
 		//modifPeremption();
 		//System.out.println(s.toString());
