@@ -13,20 +13,25 @@ authors : Blois Philippe,
 
 
 package abstraction.transformateur.europe;
+import java.util.List;
+import java.util.ArrayList;
+
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
+import abstraction.producteur.cotedivoire.contrats.Devis;
 import abstraction.transformateur.usa.interfacemarche.transformateur;
+import abstraction.producteur.cotedivoire.contrats.*;
 
-
-public class Transformateur implements transformateur, Acteur  {
+public class Transformateur implements transformateur, Acteur, IContratTrans  {
 
 	private Stock s;
 	private Tresorerie compte;
 	private double prixmin;
 	private double[] peremption=new double[Stock.DATE_PEREMPTION]; //va stocker le chocolat pour définir la priorité de vente en fonction de la date de péremption 
 	private Date date= new Date();
+
 	
 	private double quantiteVendue=0; // Pour le journal
 	private double quantiteAchetee=0;// Pour le journal
@@ -228,9 +233,6 @@ public class Transformateur implements transformateur, Acteur  {
 		compteurAchat=0;
 		prixMoyendeVente=0;
 		compteurVente=0;
-		for (int i=0;i<14;i++){
-			date=date.lendemain();
-		}
 	}
 
 	
@@ -252,7 +254,42 @@ public class Transformateur implements transformateur, Acteur  {
 		this.journal.ajouter(" ");
 		this.journal.ajouter(" ");
 	}
+	
+	/**
+	 * @objectif: Implémenter les contrats avec les producteurs
+	 */
+	
+	private List<Devis> l;
+	
+	@Override
+	public void envoieDevis(List<Devis> l) { //récupère la liste des différents devis
+		this.l=l;
+	}
 
+
+	@Override
+	public void qttVoulue() { //quantité demandée aux producteurs
+		
+		int i=0;
+		double q[]=new double[l.size()];
+		double p[]=new double[l.size()];
+		
+		for (Devis d : l){
+			q[i]=d.getQttLivrable();
+			p[i]=d.getPrix();
+			if (true){
+				d.setQttVoulue(0);
+			}
+			i++;
+		}
+	}
+
+
+	@Override
+	public void finContrat() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	/**
 	 * @objectif: Passer à l'étape suivante en mettant à jour
@@ -261,8 +298,10 @@ public class Transformateur implements transformateur, Acteur  {
 		transformation();
 		CoutStock();
 		Journal();
+		Journal();
 		Miseajour();
-		System.out.println("notre compte est de : "+this.compte.getCompte());
-		System.out.println(this.tresorerie.getValeur()+"est la veleur de la tresorerie en tant qu'indicateur");
+		//System.out.println("notre compte est de : "+this.compte.getCompte());
+		//System.out.println(this.tresorerie.getValeur()+"est la veleur de la tresorerie en tant qu'indicateur");
 	}
+
 }
