@@ -98,6 +98,7 @@ public class Distributeur implements Acteur,IDistributeur{
 	public String getNom(){
 		return "Distributeur Europe";
 	}
+
 	
 	public double getPrixClient(){
 		double prixEnVente;
@@ -108,5 +109,6 @@ public class Distributeur implements Acteur,IDistributeur{
 	public double getMisEnVente(){
 		return 0;
 	}
+
 
 }
