@@ -9,5 +9,4 @@ public interface IDistributeur extends Acteur{
 	public Indicateur getIndicateurStock();
 	public Indicateur getSolde();
 	public int hashCode();
-	public double getPrixClient();
 }
