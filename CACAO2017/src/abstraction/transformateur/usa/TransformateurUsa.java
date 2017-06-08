@@ -1,13 +1,15 @@
 package abstraction.transformateur.usa;
 import java.util.ArrayList;
+import java.util.List;
 
+import abstraction.producteur.cotedivoire.contrats.*;
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
 import abstraction.transformateur.usa.interfacemarche.*;
 //Souchu
-public class TransformateurUsa implements transformateur,Acteur{
+public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 	private StockProduitsFinis finis;
 	private StockMatPremiere premiere;
 	private TransfoChocolat transfo;
@@ -26,6 +28,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 	private Indicateur solde;
 	public static Journal LE_JOURNAL_USA;
 	private double step;
+	private List<Devis> devis;
 
 	/* Nos indicateurs sont :
 	 * -Compte courant de la Trésorie
@@ -182,6 +185,25 @@ public class TransformateurUsa implements transformateur,Acteur{
 	public void testPrixMin(){
 		System.out.println("Prixmin= "+this.getprixMin());
 		this.notif(10000, Uniteventechocolat);
+	}
+
+	@Override
+	public void envoieDevis(List<Devis> l) {
+		this.devis=l;
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void qttVoulue() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void finContrat() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
