@@ -2,6 +2,7 @@ package presentation;
 import abstraction.distributeur.europe.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -92,7 +93,9 @@ public class FenetrePrincipale extends JFrame {
 			
 			// Champ de saisie permettant de modifier la valeur de l'indicateur
 			JTextField tIndic = new JTextField(20);
-			tIndic.setText(i.getValeur()+"");
+			DecimalFormat dc = new DecimalFormat("0.00");
+			String formattedText = dc.format(i.getValeur());
+			tIndic.setText(formattedText);
 			CtrlJTextField controlJTextField = new CtrlJTextField(tIndic, i);
 			tIndic.addActionListener(controlJTextField);
 			i.addObserver(controlJTextField);

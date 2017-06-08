@@ -2,6 +2,7 @@ package control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -33,7 +34,9 @@ public class CtrlJTextField  implements Observer, ActionListener {
 	}
 
 	public void update(Observable o, Object arg) {
-		this.field.setText(""+this.ind.getValeur());
+		DecimalFormat dc = new DecimalFormat("0.00");
+		String formattedText = dc.format(ind.getValeur());
+		this.field.setText(formattedText);
 	}
 
 }
