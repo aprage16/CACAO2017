@@ -127,8 +127,11 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 				}
 			}
 		}
-		this.production=(int)prod; // ajout dans la liste de production
 		this.stock.addStock((int)prod);
+		while(this.stock.getStock()==Stock.STOCK_MAX){ 
+			prod = prod/2;   
+		}
+		this.production=(int)prod; // ajout dans la liste de production
 		this.productionIndicateur.setValeur(this, (int)prod);
 		this.journal.ajouter("Valeur de Production: "+this.production+" à l'étape du Monde: "+Monde.LE_MONDE.getStep());
 	}
