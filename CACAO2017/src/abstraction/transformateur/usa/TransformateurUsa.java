@@ -29,7 +29,7 @@ public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 	public static Journal LE_JOURNAL_USA;
 	private double step;
 	private List<Devis> devis;
-	private Decision ContratCacao;
+	private Decision priseDecisions;
 
 	/* Nos indicateurs sont :
 	 * -Compte courant de la Trésorie
@@ -69,7 +69,7 @@ public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 		this.solde=new Indicateur("5_TRAN_USA_solde",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur(this.solde);	
 		Monde.LE_MONDE.ajouterJournal(LE_JOURNAL_USA);
-		this.ContratCacao=new Decision();
+		this.priseDecisions=new Decision();
 		Stockdesire=400*Uniteventechocolat;
 	}
 
@@ -82,9 +82,15 @@ public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 		miseAJourJournal();
 		if(this.achats!=null){
 			this.achats.setValeur(this, this.getAchatCacao());
-			this.ventes.setValeur(this, this.MiseAJourVente());
+			double vente=this.MiseAJourVente();
+			this.priseDecisions.ajouterVente(vente);
+			this.ventes.setValeur(this, vente);
 			this.solde.setValeur(this, this.tresorerie.getCompteCourant());
 			this.achatCacao=0;
+		}
+		if ((Monde.LE_MONDE.getStep()%12)==0 && Monde.LE_MONDE.getStep()!=0){
+			this.Stockdesire=this.priseDecisions.getStockDesire();
+			System.out.println(this.priseDecisions.getStockDesire());
 		}
 	}
 	//souchu
@@ -167,8 +173,8 @@ public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 
 	public void notificationAchat(double achete, double prix){
 		LE_JOURNAL_USA.ajouter("On a acheté pour un prix unitaire de  "+prix/1000000+"Et tant de tonne  "+achete);
-		LE_JOURNAL_USA.ajouter(""+this.ContratCacao);
-		this.ContratCacao.ajouterAchat(achete);
+		LE_JOURNAL_USA.ajouter(""+this.priseDecisions);
+		this.priseDecisions.ajouterAchat(achete);
 		this.tresorerie.setCompteCourant(tresorerie.getCompteCourant()-prix*achete/1000000);
 		this.premiere.setCacao(premiere.getCacao()+achete);
 		this.achatCacao+=achete;
@@ -201,14 +207,14 @@ public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 	@Override
 	public void qttVoulue() {
 		for (Devis d:devis){
-			d.setQttVoulue(this.ContratCacao.getQuantiteVoulue());
+			d.setQttVoulue(this.priseDecisions.getQuantiteVoulue());
 		}
 	}
 
 	@Override
 	//Souchu
 	public void finContrat() {
-		double minPrix=1000;int meilleurPartenaire=0;double quantitévoulue=this.ContratCacao.getQuantiteVoulue();
+		double minPrix=1000;int meilleurPartenaire=0;double quantitévoulue=this.priseDecisions.getQuantiteVoulue();
 		for (int i=0;i<this.devis.size();i++){//On cherche le partenaire le moins cher, on considère que c'est le meilleur
 			if (devis.get(i).getPrix()<minPrix){
 				meilleurPartenaire=i;
