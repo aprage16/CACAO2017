@@ -131,6 +131,9 @@ public class TransformateurUsa implements transformateur,Acteur{
 			return Bornesmin;
 		}
 	}
+	
+	
+	
 	@Override
 	public void notif(double prix, double quantite) {
 		//System.out.println(prix+"    "+quantité);
