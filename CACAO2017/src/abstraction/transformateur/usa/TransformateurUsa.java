@@ -1,13 +1,15 @@
 package abstraction.transformateur.usa;
 import java.util.ArrayList;
+import java.util.List;
 
+import abstraction.producteur.cotedivoire.contrats.*;
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
 import abstraction.transformateur.usa.interfacemarche.*;
 //Souchu
-public class TransformateurUsa implements transformateur,Acteur{
+public class TransformateurUsa implements transformateur,Acteur, IContratTrans{
 	private StockProduitsFinis finis;
 	private StockMatPremiere premiere;
 	private TransfoChocolat transfo;
@@ -26,6 +28,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 	private Indicateur solde;
 	public static Journal LE_JOURNAL_USA;
 	private double step;
+	private List<Devis> devis;
 
 	/* Nos indicateurs sont :
 	 * -Compte courant de la Trésorie
@@ -123,22 +126,22 @@ public class TransformateurUsa implements transformateur,Acteur{
 
 	public double getprixMin(){
 		if (finis.getStockChocolat()<Uniteventechocolat){
-			LE_JOURNAL_USA.ajouter("Prix min="+Bornesmax+1);
+			//LE_JOURNAL_USA.ajouter("Prix min="+Bornesmax+1);
 			return Bornesmax+1;
 		}
 		else if (finis.getStockChocolat()<Stockdesire){
 			double prix= Bornesmax-((finis.getStockChocolat()-1*Uniteventechocolat)/((Stockdesire/Uniteventechocolat-1)*Uniteventechocolat)*(Bornesmax-Bornesmin));
-			LE_JOURNAL_USA.ajouter("Prix min="+prix);
+			//LE_JOURNAL_USA.ajouter("Prix min="+prix);
 			return prix;
 		}
 		else{
-			LE_JOURNAL_USA.ajouter("Prix min="+Bornesmin);
+			//LE_JOURNAL_USA.ajouter("Prix min="+Bornesmin);
 			return Bornesmin;
 		}
 	}
 	@Override
 	public void notif(double prix, double quantite) {
-		this.LE_JOURNAL_USA.ajouter("On a vendu a tel prix: "+prix+"   tand de tonne de Cacao: "+quantite);
+		//this.LE_JOURNAL_USA.ajouter("On a vendu a tel prix: "+prix+"   tand de tonne de Cacao: "+quantite);
 		this.venteChocolat+=quantite;
 		this.finis.enleverChoco(quantite);
 		this.tresorerie.setCompteCourant(this.tresorerie.getCompteCourant()+quantite*prix);	
@@ -182,6 +185,25 @@ public class TransformateurUsa implements transformateur,Acteur{
 	public void testPrixMin(){
 		System.out.println("Prixmin= "+this.getprixMin());
 		this.notif(10000, Uniteventechocolat);
+	}
+
+	@Override
+	public void envoieDevis(List<Devis> l) {
+		this.devis=l;
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void qttVoulue() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void finContrat() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
