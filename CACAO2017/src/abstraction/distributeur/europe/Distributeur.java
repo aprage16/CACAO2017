@@ -13,6 +13,7 @@ public class Distributeur implements Acteur,IDistributeur{
 	private String nom;
 	private double fonds;
 	private Journal journal;
+	private int increment;
 
 	
 	public Distributeur(Vente vente, Stock stock, double qteDemandee){ // penser à redocoder en enlevant les arguments du constructeur
@@ -28,7 +29,7 @@ public class Distributeur implements Acteur,IDistributeur{
 		this.fonds = 80000;
  	    this.journal = new Journal("Journal de "+this.nom);
  	    Monde.LE_MONDE.ajouterJournal(this.journal);
-		
+		this.increment = 0;
 		this.fondsI = new Indicateur("2_DISTR_EU_fonds", this, 80000);
 		this.stockI = new Indicateur("2_DISTR_EU_stocks", this, 40000);
     	Monde.LE_MONDE.ajouterIndicateur( this.fondsI );
@@ -37,6 +38,13 @@ public class Distributeur implements Acteur,IDistributeur{
         
 	}
 	
+	public void incrementer(){
+		this.increment++;
+	}
+	
+	public void incrementZero(){
+		this.increment=0;
+	}
 	public Indicateur getIndicateurStock(){
 		return this.fondsI;
 	}
@@ -63,12 +71,10 @@ public class Distributeur implements Acteur,IDistributeur{
 		double prixTransfo;
 		prixTransfo = this.getDerniereVente().getPrix();
 		if(this.stock.totalStock()>300){
-			//System.out.println("prix final = " + (((prixTransfo*1.2>0.007)&&(prixTransfo*1.2 <= 0.008)) ? prixTransfo*1.2 : 0.007));
 			return (((prixTransfo*1.2>0.007)&&(prixTransfo*1.2 <= 0.008)) ? prixTransfo*1.2 : 0.007);
 			
 		}
 		else{
-			//System.out.println("prix final = " +  ( (prixTransfo*1.2>0.007)&&(prixTransfo*1.5 <= 0.008) ? prixTransfo*1.5 : 0.007));
 			 return ( (prixTransfo*1.2>0.007)&&(prixTransfo*1.5 <= 0.008) ? prixTransfo*1.5 : 0.007);
 		}
 	}
@@ -86,7 +92,7 @@ public class Distributeur implements Acteur,IDistributeur{
 	}
 	
 	public void next(){
-		//this.stock.vieillirStock();
+		this.incrementZero();
 	}
 	
 	public String getNom(){
@@ -96,7 +102,7 @@ public class Distributeur implements Acteur,IDistributeur{
 	public double getPrixClient(){
 		double prixEnVente;
 		prixEnVente=this.getDerniereVente().getPrix()*1.2;
-		return(prixEnVente);
+		return (prixEnVente);
 	}
 	
 	public double getMisEnVente(){

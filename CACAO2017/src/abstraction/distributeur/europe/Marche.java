@@ -82,6 +82,9 @@ public class Marche implements Acteur{
 		
 		if (onEchange){
 			prioD= this.distributeurActif.get(this.indiceMaximum());
+			if (prioD instanceof Distributeur){
+				((Distributeur) prioD).incrementer();
+			}
 			this.journal.ajouter("Le distributeur a remporte le marche : " + prioD.getNom());
 			prioT=this.transformateurActif.get(this.indiceMinimum());
 			this.journal.ajouter("Le transformateur a remporte le marche : " + prioT.getprixMin());

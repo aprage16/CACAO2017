@@ -68,10 +68,13 @@ public class Stock {
 public class Stock{
 	
 	private double[] stock;
+	private double[] prix;
 	
 	public Stock(){
 		double[] tableau = new double[6];
+		double[] prix = new double[6];
 		this.stock=tableau;
+		this.prix = prix;
 	}
 	
 	
