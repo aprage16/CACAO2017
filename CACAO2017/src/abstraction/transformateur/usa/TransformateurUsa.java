@@ -17,6 +17,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 	private static final double Bornesmin=0.004;
 	private static final double Stockdesire=100*Uniteventechocolat;
 	private static final double Prixstockage=0.25*Bornesmin/(24);//Le prix du stokage par an est de 25% de la valeur des marchandises stockées
+	private static final double CoutFixe=300;
 	private ArrayList<Double> prixmatprem;
 	private double venteChocolat;
 	private double achatCacao;
@@ -46,7 +47,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 	public TransformateurUsa(){
 		step=0;
 		LE_JOURNAL_USA=new Journal("Journal de Transformateur USA");
-		this.tresorerie=new Tresorerie(100);
+		this.tresorerie=new Tresorerie(1000);
 		prixmatprem = new ArrayList<Double>();
 		prixmatprem.add(0.000350);//Prix matière première à la tonne en euros.
 		prixmatprem.add(0.000025);
@@ -70,6 +71,7 @@ public class TransformateurUsa implements transformateur,Acteur{
 		this.finis.miseAJour();
 		produirechocolat();		
 		payerstock();
+		payerCoutFixes();
 		achetermatierepremiere();
 		miseAJourJournal();
 		if(this.achats!=null){
@@ -92,10 +94,14 @@ public class TransformateurUsa implements transformateur,Acteur{
 		LE_JOURNAL_USA.ajouter("Notre Stock de Sucre est "+this.premiere.getIngredient(2));
 		LE_JOURNAL_USA.ajouter("Notre Stock de Lecitine est "+this.premiere.getIngredient(3));
 	}
+	
+	private void payerCoutFixes(){
+		this.tresorerie.removeMoney(this.CoutFixe);
+	}
 
 	private void payerstock(){
 		double avant=this.tresorerie.getCompteCourant();
-		this.tresorerie.removeMoney(this.finis.getStockChocolat()*Prixstockage*Bornesmin);	
+		this.tresorerie.removeMoney(this.finis.getStockChocolat()*Prixstockage);	
 		for (int i=0;i<3;i++){
 			this.tresorerie.removeMoney(this.premiere.getIngredient(i)*Prixstockage);	
 		}
@@ -116,25 +122,23 @@ public class TransformateurUsa implements transformateur,Acteur{
 	}
 
 	public double getprixMin(){
-		if (finis.getStockChocolat()<=Uniteventechocolat){
-			LE_JOURNAL_USA.ajouter("1Prix min="+Bornesmax+1);
+		if (finis.getStockChocolat()<Uniteventechocolat){
+			LE_JOURNAL_USA.ajouter("Prix min="+Bornesmax+1);
 			return Bornesmax+1;
 		}
 		else if (finis.getStockChocolat()<Stockdesire){
-			double prix= Bornesmax-((finis.getStockChocolat()-Uniteventechocolat)/((Stockdesire/Uniteventechocolat-1)*Uniteventechocolat)*(Bornesmax-Bornesmin));
-			LE_JOURNAL_USA.ajouter("2Prix min="+prix);
-			LE_JOURNAL_USA.ajouter(""+(finis.getStockChocolat()));
+			double prix= Bornesmax-((finis.getStockChocolat()-1*Uniteventechocolat)/((Stockdesire/Uniteventechocolat-1)*Uniteventechocolat)*(Bornesmax-Bornesmin));
+			LE_JOURNAL_USA.ajouter("Prix min="+prix);
 			return prix;
 		}
 		else{
-			LE_JOURNAL_USA.ajouter("3Prix min="+Bornesmin);
+			LE_JOURNAL_USA.ajouter("Prix min="+Bornesmin);
 			return Bornesmin;
 		}
 	}
 	@Override
 	public void notif(double prix, double quantite) {
-		//System.out.println(prix+"    "+quantité);
-		LE_JOURNAL_USA.ajouter(""+quantite);
+		this.LE_JOURNAL_USA.ajouter("On a vendu a tel prix: "+prix+"   tand de tonne de Cacao: "+quantite);
 		this.venteChocolat+=quantite;
 		this.finis.enleverChoco(quantite);
 		this.tresorerie.setCompteCourant(this.tresorerie.getCompteCourant()+quantite*prix);	
