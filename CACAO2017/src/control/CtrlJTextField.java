@@ -2,6 +2,10 @@ package control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -28,12 +32,21 @@ public class CtrlJTextField  implements Observer, ActionListener {
     }
     
 	public void actionPerformed(ActionEvent e) {
-		if (this.ind.getValeur()!=Double.parseDouble(this.field.getText()))
-			this.ind.setValeur(new Utilisateur(), Double.parseDouble(this.field.getText()) );
+		NumberFormat dc = NumberFormat.getInstance(Locale.FRANCE);
+		dc.setMaximumFractionDigits(2);
+		try {
+			if (this.ind.getValeur()!=dc.parse(this.field.getText()).doubleValue())
+				this.ind.setValeur(new Utilisateur(), dc.parse(this.field.getText()).doubleValue() );
+		} catch (NumberFormatException | ParseException e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	public void update(Observable o, Object arg) {
-		this.field.setText(""+this.ind.getValeur());
+		NumberFormat dc = NumberFormat.getInstance(Locale.FRANCE);
+		dc.setMaximumFractionDigits(2);
+		String formattedText = dc.format(ind.getValeur());
+		this.field.setText(formattedText);
 	}
 
 }

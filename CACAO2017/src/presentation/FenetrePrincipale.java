@@ -2,7 +2,9 @@ package presentation;
 import abstraction.distributeur.europe.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -92,7 +94,10 @@ public class FenetrePrincipale extends JFrame {
 			
 			// Champ de saisie permettant de modifier la valeur de l'indicateur
 			JTextField tIndic = new JTextField(20);
-			tIndic.setText(i.getValeur()+"");
+			NumberFormat dc = NumberFormat.getInstance(Locale.FRANCE);
+			dc.setMaximumFractionDigits(2);
+			String formattedText = dc.format(i.getValeur());
+			tIndic.setText(formattedText);
 			CtrlJTextField controlJTextField = new CtrlJTextField(tIndic, i);
 			tIndic.addActionListener(controlJTextField);
 			i.addObserver(controlJTextField);
