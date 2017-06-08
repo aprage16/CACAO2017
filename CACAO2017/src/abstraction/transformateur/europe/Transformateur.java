@@ -14,6 +14,7 @@ authors : Blois Philippe,
 
 package abstraction.transformateur.europe;
 import java.util.List;
+import java.util.ArrayList;
 
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
@@ -244,7 +245,42 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 		this.journal.ajouter(" ");
 		this.journal.ajouter(" ");
 	}
+	
+	/**
+	 * @objectif: Implémenter les contrats avec les producteurs
+	 */
+	
+	private List<Devis> l;
+	
+	@Override
+	public void envoieDevis(List<Devis> l) { //récupère la liste des différents devis
+		this.l=l;
+	}
 
+
+	@Override
+	public void qttVoulue() { //quantité demandée aux producteurs
+		
+		int i=0;
+		double q[]=new double[l.size()];
+		double p[]=new double[l.size()];
+		
+		for (Devis d : l){
+			q[i]=d.getQttLivrable();
+			p[i]=d.getPrix();
+			if (true){
+				d.setQttVoulue(0);
+			}
+			i++;
+		}
+	}
+
+
+	@Override
+	public void finContrat() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	/**
 	 * @objectif: Passer à l'étape suivante en mettant à jour
@@ -255,32 +291,6 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 		Miseajour();
 		//modifPeremption();
 		//System.out.println(s.toString());
-	}
-	
-	/**
-	 * @objectif: Implémenter les contrats avec les producteurs
-	 */
-	
-	private List<Devis> p;
-	
-	@Override
-	public void envoieDevis(List<Devis> l) {
-		this.p=l;
-	}
-
-
-	@Override
-	public void qttVoulue() {
-		for (Devis d : p){
-			d.setQttVoulue(0);
-		}
-	}
-
-
-	@Override
-	public void finContrat() {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
