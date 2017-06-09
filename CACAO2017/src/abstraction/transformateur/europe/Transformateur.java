@@ -290,36 +290,30 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 
 		double q[]=new double[l.size()];
 		double p[]=new double[l.size()];
-
+		double qttVoulue=l.get(0).getQttVoulue();
 		q[0]=l.get(0).getQttLivrable();
 		q[1]=l.get(1).getQttLivrable();
 		p[0]=l.get(0).getPrix();
 		p[1]=l.get(1).getPrix();
 		
 		//distribution des 90 points restants
-		if (p[0]<p[1] && q[0]>=CACAO_NECESSAIRE*0.95){ //prix de zero inf a prix de un et qte de zero suffisante
-			l.get(0).setQttFinale(0.95*CACAO_NECESSAIRE);
-			l.get(1).setQttFinale(0.05*CACAO_NECESSAIRE);
-		} else if (p[0]<p[1] && q[0]<=CACAO_NECESSAIRE*0.95) { //prix de zero inf a prix de un et qte de zero insuffisante
+		if (p[0]<p[1] && q[0]>=qttVoulue*0.95){ //prix de zero inf a prix de un et qte de zero suffisante
+			l.get(0).setQttFinale(0.95*qttVoulue);
+			l.get(1).setQttFinale(0.05*qttVoulue);
+		} else if (p[0]<p[1] && q[0]<=qttVoulue*0.95) { //prix de zero inf a prix de un et qte de zero insuffisante
 			l.get(0).setQttFinale(q[0]);
-			l.get(1).setQttFinale(0.05*CACAO_NECESSAIRE);
-		} else if (p[1]<p[0] && q[1]>=CACAO_NECESSAIRE*0.95){ //prix de un inf a prix de zero et qte un suffisante
+			l.get(1).setQttFinale(0.05*qttVoulue);
+		} else if (p[1]<p[0] && q[1]>=qttVoulue*0.95){ //prix de un inf a prix de zero et qte un suffisante
 
-			l.get(0).setQttFinale(0.5*CACAO_NECESSAIRE);
-			l.get(1).setQttFinale(0.95*CACAO_NECESSAIRE);
-		} else if (p[1]<p[0] && q[1]<=CACAO_NECESSAIRE*0.95) { //prix de un inf a prix de zero et qte un insuffisante
+			l.get(0).setQttFinale(0.05*qttVoulue);
+			l.get(1).setQttFinale(0.95*qttVoulue);
+		} else if (p[1]<p[0] && q[1]<=qttVoulue*0.95) { //prix de un inf a prix de zero et qte un insuffisante
 			l.get(1).setQttFinale(q[1]);
-			l.get(0).setQttFinale(0.05*CACAO_NECESSAIRE);
-		} else if (p[1]==p[0] && q[1]>=CACAO_NECESSAIRE*0.50 && q[0]>=CACAO_NECESSAIRE*0.50) { //prix égal et qtes suffisantes
-			l.get(0).setQttFinale(0.5*CACAO_NECESSAIRE);
-			l.get(1).setQttFinale(0.5*CACAO_NECESSAIRE);
-		} else if (p[1]==p[0] && q[1]<=CACAO_NECESSAIRE*0.50 && q[0]>=CACAO_NECESSAIRE*0.50) { //prix égal et qte de un insuffisante
-			l.get(0).setQttFinale(q[0]);
-			l.get(1).setQttFinale(q[1]);
-		} else if (p[1]==p[0] && q[1]>=CACAO_NECESSAIRE*0.50 && q[0]<=CACAO_NECESSAIRE*0.50) { //prix égal et qte de zero insuffisante
-			l.get(0).setQttFinale(q[0]);
-			l.get(1).setQttFinale(q[1]);
-		} else if (p[1]==p[0] && q[1]<=CACAO_NECESSAIRE*0.50 && q[0]<=CACAO_NECESSAIRE*0.50) { //prix égal et qte de un et zero insuffisante
+			l.get(0).setQttFinale(0.05*qttVoulue);
+		} else if (p[1]==p[0] && q[1]>=qttVoulue*0.50 && q[0]>=qttVoulue*0.50) { //prix égal et qtes suffisantes
+			l.get(0).setQttFinale(0.5*qttVoulue);
+			l.get(1).setQttFinale(0.5*qttVoulue);
+		} else { //prix égal et qte de un et zero insuffisante
 			l.get(0).setQttFinale(q[0]);
 			l.get(1).setQttFinale(q[1]);
 		} 
