@@ -10,6 +10,7 @@ public class Stock{
 	private double stock; 
 	private ArrayList<Double> stocks; 		// variable d'instance représentant le stock
 	public static final double STOCK_MAX = 250000; //le stock physique maximal est de 250000 tonnes
+	public static final double COUT_STOCK = 300; 
 	/**
 	 * Constructeur de Stock
 	 * @param stock
