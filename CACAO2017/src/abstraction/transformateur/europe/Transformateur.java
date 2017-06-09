@@ -21,11 +21,16 @@ import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
+<<<<<<< HEAD
 import abstraction.producteur.cotedivoire.contrats.Devis;
 import abstraction.transformateur.usa.interfacemarche.transformateur;
 import abstraction.producteur.cotedivoire.contrats.*;
 
 public class Transformateur implements transformateur, Acteur, IContratTrans  {
+=======
+import abstraction.transformateur.usa.*;
+public class Transformateur implements ITransformateurMarcheDistrib, Acteur  {
+>>>>>>> CACAO2017/master
 
 	private Stock s;
 	private Tresorerie compte;

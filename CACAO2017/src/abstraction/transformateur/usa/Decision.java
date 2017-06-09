@@ -47,7 +47,7 @@ public class Decision {
 		for (double s:historiqueAchat){
 			somme+=s;
 		}
-		return (0.7*somme/this.historiqueAchat.size());
+		return (0.7*(somme/this.historiqueAchat.size()));
 	}
 	
 	public double getStockDesire(){
@@ -57,7 +57,7 @@ public class Decision {
 				maxVente=this.historiqueVente.get(i);
 			}
 		}
-		return maxVente*1.5;
+		return maxVente*1.2;
 	}
 	public String toString(){
 		String s="";
