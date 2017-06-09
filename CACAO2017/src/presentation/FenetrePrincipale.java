@@ -46,7 +46,6 @@ public class FenetrePrincipale extends JFrame {
 		Monde.LE_MONDE.peupler();
 		this.setLayout(new BorderLayout());
 
-	
 		// LABEL Etape indiquant l'etape a laquelle on est.
 		JLabel labelEtape = new JLabel("Etape : 0");
 		Monde.LE_MONDE.addObserver(new CtrlLabelEtape(labelEtape));
