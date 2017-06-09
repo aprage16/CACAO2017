@@ -12,11 +12,10 @@
 		   Stourm Théo 
  */
 
-
 package abstraction.transformateur.europe;
+
 import java.util.List;
 import java.util.ArrayList;
-
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
@@ -225,12 +224,6 @@ public class Transformateur implements ITransformateurMarcheDistrib,ITransformat
 		prixMoyendeVente+=prix;
 		compteurVente+=1;
 	}
-
-<<<<<<< HEAD
-=======
-
-
->>>>>>> origin/master
 	/**
 	 * @objectif: Remet toutes nos variables à 0
 	 */
