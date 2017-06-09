@@ -21,11 +21,10 @@ import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
-import abstraction.producteur.cotedivoire.contrats.Devis;
-import abstraction.transformateur.usa.interfacemarche.transformateur;
+import abstraction.transformateur.usa.*;
 import abstraction.producteur.cotedivoire.contrats.*;
 
-public class Transformateur implements transformateur, Acteur, IContratTrans  {
+public class Transformateur implements ITransformateurMarcheDistrib,ITransformateurMarcheProducteur, Acteur, IContratTrans  {
 
 	private Stock s;
 	private Tresorerie compte;
@@ -218,7 +217,7 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 	 * @param quantite, la quantité de chocolat vendu
 	 * @param prix, le prix unitaire du chocolat vendu
 	 */
-	public void notif(double prix, double quantite) {
+	public void notificationvente(double prix, double quantite) {
 		prix=prix*1000000;
 		this.s.retraitChocolat(quantite);
 		this.compte.credit(prix*quantite);
@@ -226,13 +225,6 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 		prixMoyendeVente+=prix;
 		compteurVente+=1;
 	}
-
-	
-	private void setCompte(double valeur) {
-		// TODO Auto-generated method stub
-		
-	}
-
 
 	/**
 	 * @objectif: Remet toutes nos variables à 0
@@ -290,7 +282,7 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 		for (Devis d : l){
 			d.setQttVoulue(CACAO_NECESSAIRE*0.5);
 		}
-
+	}
 
 	@Override
 	public void finContrat() {
