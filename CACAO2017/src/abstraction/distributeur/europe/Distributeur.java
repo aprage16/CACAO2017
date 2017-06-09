@@ -89,8 +89,8 @@ public class Distributeur implements Acteur,IDistributeur{
 		this.fondsI.setValeur(this, this.fonds-vente.getPrix()*vente.getQuantite());
 		this.stockI.setValeur(this, this.stock.totalStock());
 		
-		//journal.ajouter("Opération Réalisée "+vente.toString());
-		//journal.ajouter("Fonds "+fonds);
+		journal.ajouter("Opération Réalisée "+vente.toString());
+		journal.ajouter("Fonds "+fonds);
 
 	}
 	
@@ -99,9 +99,6 @@ public class Distributeur implements Acteur,IDistributeur{
 		this.prixMoyen = 0;
 		this.incrementZero();
 		this.stock.setPrix(prixStock);
-		journal.ajouter(this.stock.afficherStock());
-		journal.ajouter(this.stock.afficherPrix());
-		journal.ajouter("" + this.getPrixClient());
 		this.stock.vieillirStock();
 	}
 	
