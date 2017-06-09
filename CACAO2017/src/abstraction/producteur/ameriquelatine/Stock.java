@@ -15,29 +15,37 @@ public class Stock {
 	public Stock() {
 		this.stock=10000;
 		this.prod=new ArrayList<Integer>(19);
+		for (int i=0; i<19; i++){
+			prod.add(0);
+		}
 	}
 	public void ajout(int a, int i){
-		this.prod.add(i, a);
+		this.prod.set(i, a); 
 	}
 	
 	public void retrait(int a){ 
 		int i=0;
 		int b=a-this.prod.get(i);
 		if (this.prod.get(i)<=a){
-			this.prod.add(i, 0);
+			this.prod.set(i, 0);
 		}
 		else {
-			this.prod.add(i, this.prod.get(i)-a);
+			this.prod.set(i, this.prod.get(i)-a);
 		}
 		while (this.prod.get(i)==0){
-			i++;
-			if (this.prod.get(i)<b){
-				this.prod.add(i, 0);
+			if (this.prod.get(i+1)<=b){
+				i++;
+				//Integer element = this.prod.get(i);
+				//this.prod.remove(element);
 				b=b-this.prod.get(i);
+				this.prod.set(i,0);
 			}
 			else {
-				this.prod.add(i, this.prod.get(i)-b);
-			}
+				i++;
+				//Integer element = this.prod.get(i);
+				//this.prod.remove(element);
+				this.prod.set(i, this.prod.get(i)-b);
+			}	
 		}
 	}
 	
