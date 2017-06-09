@@ -50,6 +50,8 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 
 
 	public TransformateurUsa(){
+		StockdesireMatierePremiere=400*Uniteventechocolat;
+		StockdesireChocolat=400*Uniteventechocolat;
 		step=0;
 		LE_JOURNAL_USA=new Journal("Journal de Transformateur USA");
 		this.tresorerie=new Tresorerie(100000);
@@ -70,8 +72,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		Monde.LE_MONDE.ajouterIndicateur(this.stockChoco);	
 		Monde.LE_MONDE.ajouterJournal(LE_JOURNAL_USA);
 		this.priseDecisions=new Decision();
-		StockdesireMatierePremiere=400*Uniteventechocolat;
-		StockdesireChocolat=400*Uniteventechocolat;
+		
 	}
 
 	public void next(){	
