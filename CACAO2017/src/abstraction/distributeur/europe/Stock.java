@@ -66,13 +66,13 @@ public class Stock {
 
 
 public class Stock{
-	
+	public int PERENITE = 8;
 	private double[] stock;
 	private double[] prix;
 	
 	public Stock(){
-		double[] tableau = new double[6];
-		double[] prix = new double[6];
+		double[] tableau = new double[this.PERENITE];
+		double[] prix = new double[this.PERENITE];
 		this.stock=tableau;
 		this.prix = prix;
 	}
@@ -81,15 +81,12 @@ public class Stock{
 		this.prix[0] = prix;
 	}
 
-	public String getPrix(){
-		return "" + this.prix[0] + this.prix[1] + this.prix[2] + this.prix[3];
-	}
-	
+
 	public void vieillirStock(){
 		double[] var = this.stock;
 		double[] var2=this.prix;
 		
-		for (int i=1;i<6;i++){
+		for (int i=1;i<this.PERENITE;i++){
 			this.stock[i]=var[i-1];
 			this.prix[i]=var2[i-1];
 		}
@@ -105,7 +102,7 @@ public class Stock{
 		double var = demande;
 		int i=0;
 		
-		while (i<6 && var>0){
+		while (i<this.PERENITE && var>0){
 			
 			if (stock[i]-var>=0){
 				stock[i]=stock[i]-demande;
@@ -123,7 +120,7 @@ public class Stock{
 	}
 	public String afficherStock(){
 		String res = "";
-		for (int i=0; i<6; i++){
+		for (int i=0; i<this.PERENITE; i++){
 			res = res + " , " + this.stock[i];
 		}
 		return res;
@@ -131,7 +128,7 @@ public class Stock{
 
 	public String afficherPrix(){
 		String res = "";
-		for (int i=0; i<6; i++){
+		for (int i=0; i<this.PERENITE; i++){
 			res = res + " , " + this.prix[i];
 		}
 		return res;
@@ -140,12 +137,12 @@ public class Stock{
 	public double getPrixVente(){
 		double prixVente = 0;
 		double total = 0;
-		for (int i=0; i<6; i++){
+		for (int i=0; i<this.PERENITE; i++){
 			if (this.stock[i]!=0){
 				total = total + this.stock[i];
 			}
 		}
-		for (int i=0; i<6; i++){
+		for (int i=0; i<this.PERENITE; i++){
 			if (this.stock[i]!=0){
 				prixVente = prixVente + this.prix[i]*(this.stock[i]/total);
 			}
@@ -156,7 +153,7 @@ public class Stock{
 	public double totalStock(){
 		double total=0;
 		
-		for (int i=0;i<6;i++){
+		for (int i=0;i<this.PERENITE;i++){
 			total+=this.stock[i];
 		}
 		return total;
