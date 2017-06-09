@@ -2,12 +2,13 @@ package abstraction.transformateur.usa;
 import java.util.ArrayList;
 import java.util.List;
 
-import abstraction.producteur.cotedivoire.contrats.*;
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
-import abstraction.transformateur.usa.interfacemarche.*;
+import abstraction.producteur.cotedivoire.contrats.Devis;
+import abstraction.producteur.cotedivoire.contrats.IContratTrans;
+
 //Souchu
 public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransformateurMarcheProducteur,Acteur, IContratTrans{
 	private StockProduitsFinis stockChocolat;

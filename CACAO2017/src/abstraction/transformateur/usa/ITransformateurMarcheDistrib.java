@@ -6,6 +6,7 @@ public interface ITransformateurMarcheDistrib {
 	
 	public void notif(double prix,double quantité);
 	
-	
+	public void notificationAchat(double prix, double qte);
 
+	public double QteSouhaite();
 }

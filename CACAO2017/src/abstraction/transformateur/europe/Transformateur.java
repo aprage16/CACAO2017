@@ -12,9 +12,8 @@ import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
-import abstraction.transformateur.usa.interfacemarche.transformateur;
-
-public class Transformateur implements transformateur, Acteur  {
+import abstraction.transformateur.usa.*;
+public class Transformateur implements ITransformateurMarcheDistrib, Acteur  {
 
 	private Stock s;
 	private Tresorerie compte;
