@@ -14,6 +14,7 @@ public class Distributeur implements Acteur,IDistributeur{
 	private double fonds;
 	private Journal journal;
 	private int increment;
+	private double prixMoyen;
 
 	
 	public Distributeur(Vente vente, Stock stock, double qteDemandee){ // penser à redocoder en enlevant les arguments du constructeur
@@ -30,6 +31,7 @@ public class Distributeur implements Acteur,IDistributeur{
  	    this.journal = new Journal("Journal de "+this.nom);
  	    Monde.LE_MONDE.ajouterJournal(this.journal);
 		this.increment = 0;
+		this.prixMoyen = 0;
 		this.fondsI = new Indicateur("2_DISTR_EU_fonds", this, 80000);
 		this.stockI = new Indicateur("2_DISTR_EU_stocks", this, 40000);
     	Monde.LE_MONDE.ajouterIndicateur( this.fondsI );
@@ -82,17 +84,23 @@ public class Distributeur implements Acteur,IDistributeur{
 	public void notif(Vente vente){
 		this.setVente(vente);
 		this.stock.ajoutStock(1000);
+		this.prixMoyen = this.prixMoyen + vente.getPrix();
 		this.fonds = this.fonds-vente.getPrix()*vente.getQuantite();
 		this.fondsI.setValeur(this, this.fonds-vente.getPrix()*vente.getQuantite());
 		this.stockI.setValeur(this, this.stock.totalStock());
 		
-		journal.ajouter("Opération Réalisée "+vente.toString());
-		journal.ajouter("Fonds "+fonds);
+		//journal.ajouter("Opération Réalisée "+vente.toString());
+		//journal.ajouter("Fonds "+fonds);
 
 	}
 	
 	public void next(){
+		double prixStock = this.prixMoyen/this.increment;
+		this.prixMoyen = 0;
 		this.incrementZero();
+		this.stock.setPrix(prixStock);
+		journal.ajouter("Stocks "+this.stock.getPrix());
+		this.stock.vieillirStock();
 	}
 	
 	public String getNom(){

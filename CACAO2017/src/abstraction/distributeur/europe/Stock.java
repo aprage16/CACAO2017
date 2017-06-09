@@ -77,15 +77,24 @@ public class Stock{
 		this.prix = prix;
 	}
 	
+	public void setPrix(double prix){
+		this.prix[0] = prix;
+	}
+
+	public String getPrix(){
+		return "" + this.prix[0] + this.prix[1] + this.prix[2] + this.prix[3];
+	}
 	
 	public void vieillirStock(){
-		double[] var = new double[6];
-		var=this.stock;
+		double[] var = this.stock;
+		double[] var2=this.prix;
 		
 		for (int i=1;i<6;i++){
 			this.stock[i]=var[i-1];
+			this.prix[i]=var2[i-1];
 		}
 		this.stock[0]=0;
+		this.prix[0]=0;
 	}
 	public void ajoutStock(double s){
 		
