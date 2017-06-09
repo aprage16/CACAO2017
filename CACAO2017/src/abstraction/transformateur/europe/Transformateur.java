@@ -164,7 +164,7 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 			cout=(this.s.getStockChocolat()-CHOCOLAT_NECESSAIRE)*10000;
 			System.out.println(cout+"est le cout des stock");
 		}
-		this.tresorerie.setValeur(this, this.tresorerie.getValeur()-cout);
+		this.compte.debit(cout);
 	}
 	
 
@@ -227,11 +227,6 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 		compteurVente+=1;
 	}
 
-	
-	private void setCompte(double valeur) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	/**
@@ -330,9 +325,9 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 	 * @objectif: Passer à l'étape suivante en mettant à jour
 	 */
 	public void next(){
-		//CoutStock();
 		Journal();
 		transformation();
+		CoutStock();
 		Miseajour();
 		//System.out.println("notre compte est de : "+this.compte.getCompte());
 		//System.out.println(this.tresorerie.getValeur()+"est la veleur de la tresorerie en tant qu'indicateur");
