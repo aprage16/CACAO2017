@@ -90,7 +90,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	public void next() {
 		recolte.miseAJourIndice();
 		if (Monde.LE_MONDE.getStep()<=19){ // Avant le step 19, on ajoute à chaque step dans prod
-			this.stock.ajout(this.recolte.getQterecoltee(), Monde.LE_MONDE.getStep());
+			this.stock.ajout(this.recolte.getQterecoltee(), Monde.LE_MONDE.getStep()-1);
 		}
 		else {
 			ArrayList<Integer> copie=new ArrayList<Integer>(stock.getProd());
@@ -101,7 +101,8 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		}
 		journal.ajouter("ajout recolte :"+this.recolte.getQterecoltee()+"--> "+this.stock.getStock());
 		this.treso.decaissement(treso.cout());
-			}
+		}
+	
 	@Override
 	public void envoieDevis(List<Devis> l) {
 		// TODO Auto-generated method stub
@@ -110,8 +111,8 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	@Override
 	public void qttLivrablePrix() {
 		for (int i=0; i<this.ldevis.size(); i++){
-		this.ldevis.get(i).setQttLivrable(2000);
-		this.ldevis.get(i).setPrix(2000);
+			this.ldevis.get(i).setQttLivrable(2000);
+			this.ldevis.get(i).setPrix(2000);
 		}
 	}
 	@Override

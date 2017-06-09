@@ -68,21 +68,33 @@ public class Stock {
 public class Stock{
 	
 	private double[] stock;
+	private double[] prix;
 	
 	public Stock(){
 		double[] tableau = new double[6];
+		double[] prix = new double[6];
 		this.stock=tableau;
+		this.prix = prix;
 	}
 	
+	public void setPrix(double prix){
+		this.prix[0] = prix;
+	}
+
+	public String getPrix(){
+		return "" + this.prix[0] + this.prix[1] + this.prix[2] + this.prix[3];
+	}
 	
 	public void vieillirStock(){
-		double[] var = new double[6];
-		var=this.stock;
+		double[] var = this.stock;
+		double[] var2=this.prix;
 		
 		for (int i=1;i<6;i++){
 			this.stock[i]=var[i-1];
+			this.prix[i]=var2[i-1];
 		}
 		this.stock[0]=0;
+		this.prix[0]=0;
 	}
 	public void ajoutStock(double s){
 		
@@ -108,6 +120,37 @@ public class Stock{
 			i++;
 			
 		}
+	}
+	public String afficherStock(){
+		String res = "";
+		for (int i=0; i<6; i++){
+			res = res + " , " + this.stock[i];
+		}
+		return res;
+	}
+
+	public String afficherPrix(){
+		String res = "";
+		for (int i=0; i<6; i++){
+			res = res + " , " + this.prix[i];
+		}
+		return res;
+	}	
+	
+	public double getPrixVente(){
+		double prixVente = 0;
+		double total = 0;
+		for (int i=0; i<6; i++){
+			if (this.stock[i]!=0){
+				total = total + this.stock[i];
+			}
+		}
+		for (int i=0; i<6; i++){
+			if (this.stock[i]!=0){
+				prixVente = prixVente + this.prix[i]*(this.stock[i]/total);
+			}
+		}
+		return prixVente;
 	}
 	
 	public double totalStock(){
