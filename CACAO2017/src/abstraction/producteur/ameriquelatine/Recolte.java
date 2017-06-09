@@ -11,7 +11,7 @@ import abstraction.distributeur.europe.MondeV1;
 import java.util.Random;
 
 public class Recolte {
-	public final static int SURFACE_CULTIVABLE=15000; //(realite 30000) Constante : surface cultivable max en hectare
+	public final static int SURFACE_CULTIVABLE=30000; //(realite 30000) Constante : surface cultivable max en hectare
 	private double indiceRecolte; // Indicateur variant entre 0 et 1 : pourcentage pour fixer nb de fèves totales
 	
 	public Recolte(double indiceRecolte){// indice initial
@@ -28,6 +28,7 @@ public class Recolte {
 	}
 	
 	public void miseAJourIndice() {
+	
 	//* une année = 26 next
 		if(intemperie()==52){
 			this.indiceRecolte=0;

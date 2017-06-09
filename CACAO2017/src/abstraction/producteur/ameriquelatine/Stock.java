@@ -2,6 +2,10 @@ package abstraction.producteur.ameriquelatine;
 
 import java.util.ArrayList;
 
+import abstraction.distributeur.europe.MondeV1;
+import abstraction.fourni.Acteur;
+import abstraction.fourni.Indicateur;
+
 //modidifié et créé par swerne16
 	// 07/04/2017 modifié par lolotteisyoung
 	// 14/04/17 modifié par lolotteisyoung et AnaisBel
@@ -9,11 +13,14 @@ import java.util.ArrayList;
 public class Stock {
 	
 // tout ce qui est produit est stocké, on gère les ventes à partir des stocks.
-	private int stock; 
+	private Acteur act;
+	private Indicateur stock; 
 	private ArrayList<Integer> prod;
 
-	public Stock() {
-		this.stock=10000;
+	public Stock(Acteur a) {
+		this.act=a;
+		this.stock= new Indicateur("4_PROD_AMER_stock", a ,10000);
+		MondeV1.LE_MONDE.ajouterIndicateur(this.stock);
 		this.prod=new ArrayList<Integer>(19);
 		for (int i=0; i<19; i++){
 			prod.add(0);
@@ -50,7 +57,7 @@ public class Stock {
 	}
 	
 	public void miseAJourStock(int stock) {
-		this.stock=stock;
+		this.stock.setValeur(this.act, stock);
 	}
 	public ArrayList<Integer> getProd(){
 		return this.prod;
@@ -64,8 +71,8 @@ public class Stock {
 		for (int i=0; i<this.prod.size(); i++){
 			S+=this.prod.get(i);
 		}
-		this.stock=S;
-		return stock;
+		this.stock.setValeur(this.act,S);
+		return (int)(stock.getValeur());
 	}
 	
 }
