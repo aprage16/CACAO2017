@@ -6,14 +6,14 @@ import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
 
-public class DistributeurUS implements IDistributeur, DistribClient{
+public class DistributeurUS implements IDistributeur{
 	public static String  nomIndicateurStock = "1_DISTR_US_stock";
 	public static String nomIndicateurFonds = "1_DISTR_US_fonds";
 	public static double fondsIni = 500000.0;
 	public static double stockIni = 6.25;
 	public static double prixKg=10*Math.pow(10,-6);
 	public static double uniteChoc=10000;
-	public static double coefAleatoire=0;
+	public static double coefAleatoire=0.9+Math.random()*0.2;;
 	
 	private Gestion gestion;
 	private Demande demande;
@@ -138,7 +138,7 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	/*	double aacheter=this.getDemande().demandeStep()-this.getGestion().getStock();
 		double prixmax=this.getGestion().getFonds()/aacheter;*/
 		double prixmax=Math.random()*0.08;
-		//journalTest.ajouter("prixmax="+prixmax);
+		//journalTest.ajouter("prixmax="+prixmax)
 		return prixmax;
 	}
 	
@@ -151,23 +151,5 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	}
 
 
-	@Override
-	public double getMisEnVente() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
-
-	@Override
-	public void notifVente() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public double getPrixClient() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }
