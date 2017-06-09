@@ -16,7 +16,8 @@ public class Stock{
 	 */
 	public Stock(){ 
 		this.stock=0; 
-		this.stocks= new ArrayList<Double>(0);  
+		this.stocks= new ArrayList<Double>();  
+		this.stocks.add(0.0);
 	}
 
 	/**

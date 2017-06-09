@@ -169,6 +169,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	
 	public void next() {
 		this.variationProduction(Monde.LE_MONDE.getStep());
+		this.stock.perissabiliteStock();
 		this.stockIndicateur.setValeur(this,this.stock.getStock());
 	}
 
