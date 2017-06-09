@@ -81,17 +81,13 @@ public class Stock{
 		this.prix[0] = prix;
 	}
 
-	public String getPrix(){
-		return "" + this.prix[0] + this.prix[1] + this.prix[2] + this.prix[3];
-	}
 	
 	public void vieillirStock(){
-		double[] var = this.stock;
-		double[] var2=this.prix;
 		
-		for (int i=1;i<6;i++){
-			this.stock[i]=var[i-1];
-			this.prix[i]=var2[i-1];
+		
+		for (int i=5;i>0;i--){
+			this.stock[i]=this.stock[i-1];
+			this.prix[i]=this.prix[i-1];
 		}
 		this.stock[0]=0;
 		this.prix[0]=0;
@@ -103,21 +99,21 @@ public class Stock{
 	public void retraitStock(double demande){
 		
 		double var = demande;
-		int i=0;
+		int i=6;
 		
-		while (i<6 && var>0){
+		while (i>=0 && var>0){
 			
 			if (stock[i]-var>=0){
 				stock[i]=stock[i]-demande;
 				var=0;
 			}
 			else{
-				double var2=var;
-				var2=var-stock[i];
-				stock[i]=stock[i]-var;
-				var2=var;
+				//double var2;//=var;
+				var=var-stock[i];
+				stock[i]=0;
+				//var2=var;
 			}
-			i++;
+			i--;
 			
 		}
 	}
