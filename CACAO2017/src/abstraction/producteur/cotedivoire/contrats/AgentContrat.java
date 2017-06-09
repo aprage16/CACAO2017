@@ -9,11 +9,13 @@ import abstraction.fourni.Monde;
 public class AgentContrat implements Acteur{
 	private List<IContratProd> producteurs; 
 	private List<IContratTrans> transformateurs;
+	public List<IContratTrans> demandeurs;
 	
 	
 	public AgentContrat () {
 		this.producteurs= new ArrayList<IContratProd>(); 
 		this.transformateurs= new ArrayList<IContratTrans>(); 
+		this.demandeurs= new ArrayList<IContratTrans>();
 	}
 	
 	public List<IContratProd> getProducteurs() {
@@ -29,6 +31,12 @@ public class AgentContrat implements Acteur{
 	}
 	public void addTrans(IContratTrans trans){
 		this.getTransformateurs().add(trans);
+	}
+	public List<IContratTrans> getDemandeurs () {
+		return this.demandeurs;
+	}
+	public void demandeDeContrat(IContratTrans t) {
+		this.getDemandeurs().add(t);
 	}
 
 	@Override
@@ -69,6 +77,9 @@ public class AgentContrat implements Acteur{
 			}
 			for(IContratProd p : this.getProducteurs()){  // Les prod vont modifiés prix et qttLivrable en fct de qttVoulue et de leur possibilité
 				p.qttLivrablePrix();
+			}
+			for (Devis d : l){
+				d.setVerrouillage();
 			}
 			for (IContratTrans t : this.getTransformateurs()){     // Transfo modifient la qttFinale qui sera la valeur recu chaque next pdt 1an.
 				t.finContrat();
