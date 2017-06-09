@@ -37,8 +37,8 @@ public class Stock{
 	 * @param stock double positif ou negatif
 	 */
 	public void setStocks(double d){
-		double val = this.getStocks().get(this.getStocks().size());
-		this.getStocks().remove(this.getStocks().size());
+		double val = this.getStocks().get(this.getStocks().size()-1);
+		this.getStocks().remove(this.getStocks().size()-1);
 		this.getStocks().add(d+val);
 		
 	}
@@ -50,7 +50,7 @@ public class Stock{
 				setStocks(stock);
 			}
 			else {
-				this.getStocks().add(stock-this.getStocks().get(this.getStocks().size()));
+				this.getStocks().add(stock-this.getStocks().get(this.getStocks().size()-1));
 			}
 		}else{
 			this.stock = STOCK_MAX;  
