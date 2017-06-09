@@ -122,6 +122,24 @@ public class Stock{
 		}
 	}
 	
+	public double getPrixVente(){
+		double prixVente = 0;
+		double total = 0;
+		double compteur = 0;
+		for (int i=0; i<6; i++){
+			if (this.stock[i]!=0){
+				total = total + this.stock[i];
+				compteur ++;
+			}
+		}
+		for (int i=0; i<6; i++){
+			if (this.stock[i]!=0){
+				prixVente = this.prix[i]*(this.stock[i]/total);
+			}
+		}
+		return prixVente/compteur;
+	}
+	
 	public double totalStock(){
 		double total=0;
 		
