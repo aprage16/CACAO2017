@@ -4,12 +4,13 @@
 	- Ventes et Achat, 
 	- Péremption, 
 	- Indicateurs et notifications 
-
-authors : Blois Philippe, 
-          Charloux Jean, 
-          Halzuet Guillaume,
-		  Stourm Théo 
 */
+/**
+ * @authors Blois Philippe, 
+           Charloux Jean, 
+           Halzuet Guillaume,
+		   Stourm Théo 
+ */
 
 
 package abstraction.transformateur.europe;
@@ -269,45 +270,42 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 
 	@Override
 	public void qttVoulue() { //quantité demandée aux producteurs
-		
-		int i=0;
-		int c=0;
-		double q[]=new double[l.size()];
-		double p[]=new double[l.size()];
-		int points[]=new int[l.size()];
-		
-		for (Devis d : l){ //récupération des prix et qte des différents devis
-			q[i]=d.getQttLivrable();
-			p[i]=d.getPrix();
-			i++;
-		}
-		
-		for (int j=0;j<l.size();j++){ //distribution de 5 points d'office aux deux producteurs
-			points[j]=5;
-		}
-		//distribution des 90 points restants
-		if (p[0]<p[1] && q[0]>q[1] && q[0]<=CACAO_NECESSAIRE){
-			points[0]+=90;
-			points[1]+=0;
-		}
-		if (p[1]<p[0] && q[1]>q[0] && q[1]<=CACAO_NECESSAIRE){
-			points[1]+=90;
-			points[0]+=0;
-		}
-		points[0]=points[0]/100; //passage des points aux pourcentages
-		points[1]=points[1]/100;
-		
-		for (Devis d : l){ //set des qte voulues aux deux distributeurs selon le système de points
-			d.setQttVoulue(points[c]*CACAO_NECESSAIRE);
-			c++;
+		for (Devis d : l){
+			d.setQttVoulue(CACAO_NECESSAIRE);
 		}
 	}
 
 
 	@Override
 	public void finContrat() {
-		// TODO Auto-generated method stub
+
+		double q[]=new double[l.size()];
+		double p[]=new double[l.size()];
+		int points[]=new int[l.size()];
+
+		q[0]=l.get(0).getQttLivrable();
+		q[1]=l.get(1).getQttLivrable();
+		p[0]=l.get(0).getPrix();
+		p[1]=l.get(1).getPrix();
 		
+		for (int j=0;j<l.size();j++){ //distribution de 5 points d'office aux deux producteurs
+			points[j]=5;
+		}
+		//distribution des 90 points restants
+		if (p[0]<p[1] && q[0]>q[1]){
+			points[0]+=90;
+			points[1]+=0;
+		} else if (p[1]<p[0] && q[1]>q[0]){
+			points[1]+=90;
+			points[0]+=0;
+		}
+		
+		//
+		points[0]=points[0]/100; //passage des points aux pourcentages
+		points[1]=points[1]/100;
+		
+		l.get(0).setQttFinale(points[0]*CACAO_NECESSAIRE);
+		l.get(1).setQttFinale(points[1]*CACAO_NECESSAIRE);
 	}
 	
 	/**

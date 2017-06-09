@@ -1,6 +1,7 @@
 /* Classe gérant la trésorerie de notre acteur.
+*/
 
-authors : Blois Philippe, 
+/** @authors : Blois Philippe, 
           Charloux Jean, 
           Halzuet Guillaume,
 		  Stourm Théo 
