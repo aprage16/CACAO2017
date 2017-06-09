@@ -6,7 +6,7 @@ import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
 
-public class DistributeurUS implements IDistributeur, DistribClient{
+public class DistributeurUS implements IDistributeur{
 	public static String  nomIndicateurStock = "1_DISTR_US_stock";
 	public static String nomIndicateurFonds = "1_DISTR_US_fonds";
 	public static double fondsIni = 500000.0;
@@ -151,23 +151,5 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	}
 
 
-	@Override
-	public double getMisEnVente() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
-
-	@Override
-	public void notifVente() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public double getPrixClient() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 }
