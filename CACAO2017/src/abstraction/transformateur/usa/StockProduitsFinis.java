@@ -19,7 +19,7 @@ public class StockProduitsFinis {
 	public StockProduitsFinis(){
 		ArrayList<Double> a=new ArrayList<Double>(6);
 		for(int i=0;i<6;i++){
-			a.add(0.0);
+			a.add(40000.);
 		}
 		this.chocolat=a;
 	}
@@ -45,11 +45,12 @@ public class StockProduitsFinis {
 	}
 	
 	public void ajouterChocolat(double chocolat){
+		TransformateurUsa.LE_JOURNAL_USA.ajouter("Production chocolat = "+chocolat);
 		this.chocolat.set(0,chocolat);
 	}
 
 	public void enleverChoco(double chocolatAEnlever){
-		for (int i=5;i>=0;i--){
+		for (int i=5;i>-1;i--){
 			if (chocolatAEnlever>this.chocolat.get(i)){
 				chocolatAEnlever-=this.chocolat.get(i);
 				this.chocolat.set(i, 0.0);
@@ -59,6 +60,14 @@ public class StockProduitsFinis {
 				chocolatAEnlever=0;
 			}
 		}
+	}
+	
+	public String toString(){
+		String s="Stock de Chocolat :";
+		for(int i=0;i<6;i++){
+			s+=this.chocolat.get(i)+"---";
+		}
+		return s;
 	}
 
 }
