@@ -13,6 +13,9 @@ public class Distributeur implements Acteur,IDistributeur{
 	private String nom;
 	private double fonds;
 	private Journal journal;
+	private int increment;
+	private double prixMoyen;
+
 	
 	public Distributeur(Vente vente, Stock stock, double qteDemandee){ // penser à redocoder en enlevant les arguments du constructeur
 		this.derniereVente = vente;
@@ -27,15 +30,23 @@ public class Distributeur implements Acteur,IDistributeur{
 		this.fonds = 80000;
  	    this.journal = new Journal("Journal de "+this.nom);
  	    Monde.LE_MONDE.ajouterJournal(this.journal);
-		
+		this.increment = 0;
+		this.prixMoyen = 0;
 		this.fondsI = new Indicateur("2_DISTR_EU_fonds", this, 80000);
 		this.stockI = new Indicateur("2_DISTR_EU_stocks", this, 40000);
-		
     	Monde.LE_MONDE.ajouterIndicateur( this.fondsI );
     	Monde.LE_MONDE.ajouterIndicateur( this.stockI );
+
         
 	}
 	
+	public void incrementer(){
+		this.increment++;
+	}
+	
+	public void incrementZero(){
+		this.increment=0;
+	}
 	public Indicateur getIndicateurStock(){
 		return this.fondsI;
 	}
@@ -62,12 +73,10 @@ public class Distributeur implements Acteur,IDistributeur{
 		double prixTransfo;
 		prixTransfo = this.getDerniereVente().getPrix();
 		if(this.stock.totalStock()>300){
-			//System.out.println("prix final = " + (((prixTransfo*1.2>0.007)&&(prixTransfo*1.2 <= 0.008)) ? prixTransfo*1.2 : 0.007));
 			return (((prixTransfo*1.2>0.007)&&(prixTransfo*1.2 <= 0.008)) ? prixTransfo*1.2 : 0.007);
 			
 		}
 		else{
-			//System.out.println("prix final = " +  ( (prixTransfo*1.2>0.007)&&(prixTransfo*1.5 <= 0.008) ? prixTransfo*1.5 : 0.007));
 			 return ( (prixTransfo*1.2>0.007)&&(prixTransfo*1.5 <= 0.008) ? prixTransfo*1.5 : 0.007);
 		}
 	}
@@ -75,6 +84,7 @@ public class Distributeur implements Acteur,IDistributeur{
 	public void notif(Vente vente){
 		this.setVente(vente);
 		this.stock.ajoutStock(1000);
+		this.prixMoyen = this.prixMoyen + vente.getPrix();
 		this.fonds = this.fonds-vente.getPrix()*vente.getQuantite();
 		this.fondsI.setValeur(this, this.fonds-vente.getPrix()*vente.getQuantite());
 		this.stockI.setValeur(this, this.stock.totalStock());
@@ -85,15 +95,25 @@ public class Distributeur implements Acteur,IDistributeur{
 	}
 	
 	public void next(){
-		//this.stock.vieillirStock();
+		double prixStock = this.prixMoyen/this.increment;
+		this.prixMoyen = 0;
+		this.incrementZero();
+		this.stock.setPrix(prixStock);
+		this.stock.vieillirStock();
 	}
 	
 	public String getNom(){
 		return "Distributeur Europe";
 	}
 
-	public double getPrixClient() {
-		// TODO Auto-generated method stub
+	
+	public double getPrixClient(){
+		return this.stock.getPrixVente()*1.2;
+	}
+	
+	public double getMisEnVente(){
 		return 0;
 	}
+
+
 }
