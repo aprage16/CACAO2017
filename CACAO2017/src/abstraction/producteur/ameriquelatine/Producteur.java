@@ -21,8 +21,6 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	private Recolte recolte ;
 	private double coursActuel;
 	private Indicateur quantiteVendue;
-	private Indicateur solde; //Trésorerie
-	//private Indicateur stockind ;
 	private Indicateur qtemiseenvente;
 	private Indicateur production;
 	private Journal journal;
@@ -35,10 +33,6 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		this.treso=new Tresorerie(stock, recolte, this);
 		this.quantiteVendue=new Indicateur("4_PROD_AMER_quantiteVendue", this,qtevendue);
 		MondeV1.LE_MONDE.ajouterIndicateur(this.quantiteVendue) ;
-		//this.solde=new Indicateur("4_PROD_AMER_solde", this, treso.getTresorerie()) ;
-		//MondeV1.LE_MONDE.ajouterIndicateur(this.solde);
-		//this.stockind=new Indicateur("4_PROD_AMER_stock", this,this.stock.getStock()) ;
-		//MondeV1.LE_MONDE.ajouterIndicateur(this.stockind);
 		this.journal=new Journal("Journal de Prod Amerique Latine");
 		this.qtemiseenvente=new Indicateur("4_PROD_AMER_qtemiseenvente", this,0);//this.quantiteMiseEnvente()) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.qtemiseenvente);
@@ -64,13 +58,11 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	}
 	public void notificationVente(double quantite, double coursActuel) {
 		this.journal.ajouter("--- notif vente ---");
-/*a modiifier*/		this.stock.retrait((int)quantite);
+		this.stock.retrait((int)quantite);
 		this.treso.encaissement(coursActuel*quantite);
 	
 		this.journal.ajouter(" retrait de Stock  =  "+(int)quantite+" --> "+this.stock.getStock());//<font color=\"maroon\">"+stock+"</font> tonnes de fèves au <b>step</b> "+Monde.LE_MONDE.getStep());
 		this.quantiteVendue.setValeur(this, quantite);
-		//this.solde.setValeur(this, this.treso.getTresorerie());
-		//this.stockind.setValeur(this, this.stock.getStock());
 		this.production.setValeur(this, this.recolte.getQterecoltee());
 		this.setCoursActuel(coursActuel);
 		String stock=new String(""+this.stock.getStock());
