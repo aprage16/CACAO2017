@@ -83,7 +83,7 @@ public class Tresorerie {
 	 */
 	public void cout_transformation(double cacao){
 		debit(COUT_SALARIE);// Chaque next on paie nos salariés
-		debit(COUT_TRANSFORMATION * cacao);
+		debit(COUT_TRANSFORMATION * cacao);// Chaque next on paie le cout de transformation
 	}
 	
 	
