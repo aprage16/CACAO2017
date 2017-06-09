@@ -51,7 +51,7 @@ public class StockProduitsFinis {
 
 	public void enleverChoco(double chocolatAEnlever){
 		for (int i=5;i>-1;i--){
-			if (chocolatAEnlever>this.chocolat.get(i)){
+			if (chocolatAEnlever>=this.chocolat.get(i)){
 				chocolatAEnlever-=this.chocolat.get(i);
 				this.chocolat.set(i, 0.0);
 			}
@@ -68,6 +68,22 @@ public class StockProduitsFinis {
 			s+=this.chocolat.get(i)+"---";
 		}
 		return s;
+	}
+	
+	public static void main(String[] args) {
+		StockProduitsFinis test = new StockProduitsFinis();
+		System.out.println(test);
+		test.miseAJour();
+		System.out.println(test);
+		test.miseAJour();
+		System.out.println(test);
+		test.ajouterChocolat(15000);
+		System.out.println(test);
+		test.miseAJour();
+		System.out.println(test);
+		System.out.println(test.getStockChocolat());
+		test.enleverChoco(125000);
+		System.out.println(test.getStockChocolat());
 	}
 
 }
