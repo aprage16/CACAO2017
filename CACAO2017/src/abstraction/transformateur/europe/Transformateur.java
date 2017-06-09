@@ -52,6 +52,7 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 	private Indicateur stockChocolat;
 	private Indicateur tresorerie;
 	private Indicateur commande;
+	private Indicateur prixdevente;
 
 	
 	/** 
@@ -67,9 +68,11 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 		this.commande=new Indicateur("3_TRAN_EU_commande_actuelle",this,0.0);
 		this.tresorerie=new Indicateur("3_TRAN_EU_solde",this,this.compte.getCompte());
 		this.journal = new Journal("Journal de Transformateur Europe");
+		this.prixdevente=new Indicateur("3_TRAN_EU_prixdevente",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur( this.stockChocolat );
 		Monde.LE_MONDE.ajouterIndicateur( this.commande );
 		Monde.LE_MONDE.ajouterIndicateur( this.tresorerie );
+		Monde.LE_MONDE.ajouterIndicateur(this.prixdevente);
 		Monde.LE_MONDE.ajouterJournal(this.journal);
 	}
 
@@ -254,6 +257,7 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 		this.stockChocolat.setValeur(this, this.s.getStockChocolat());
 		this.commande.setValeur(this, (int)quantiteAchetee );
 		this.tresorerie.setValeur(this, this.compte.getCompte());
+		this.prixdevente.setValeur(this, this.prixMoyendeVente);
 		this.journal.ajouter("<b> La date du jour est : "+date+"</b>");
 		this.journal.ajouter("");
 		this.journal.ajouter("Une <b>quantité</b> de : <b><font color =\"red\"> "+(int)quantiteAchetee+"</font></b> de cacao a été acheté au <b>prix unitaire</b> de : <font color=\"red\"> "+(int)prixMoyendAchat/compteurAchat+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
