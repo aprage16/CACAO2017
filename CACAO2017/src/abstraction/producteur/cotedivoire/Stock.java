@@ -2,7 +2,6 @@ package abstraction.producteur.cotedivoire;
 
 import java.util.ArrayList;
 
-import abstraction.fourni.Monde;
 
 // by fcadre 
 
