@@ -1,12 +1,11 @@
-/* Classe gérant le stock de chocolat et de cacao 
-*/
 
-/**
- * @authors : Blois Philippe, 
-              Charloux Jean, 
-              Halzuet Guillaume,
-		      Stourm Théo
- */
+/* Classe gérant le stock de chocolat et de cacao
+ * 
+authors : Blois Philippe, 
+          Charloux Jean, 
+          Halzuet Guillaume,
+		  Stourm Théo 
+*/
 
 package abstraction.transformateur.europe;
 import abstraction.fourni.Journal;

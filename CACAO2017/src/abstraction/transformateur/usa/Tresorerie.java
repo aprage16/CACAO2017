@@ -25,10 +25,11 @@ public class Tresorerie {
 	}
 
 	public void removeMoney(double montant){
-		if (montant>=0){
+		if (montant>=-1){
 			this.comptecourant-=montant;
 		}
 		else{
+			System.out.print(montant);
 			throw new Error();
 		}
 		
