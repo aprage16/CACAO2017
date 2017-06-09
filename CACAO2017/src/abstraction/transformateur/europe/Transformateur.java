@@ -163,7 +163,7 @@ public class Transformateur implements ITransformateurMarcheDistrib,ITransformat
 			cout=(this.s.getStockChocolat()-CHOCOLAT_NECESSAIRE)*10000;
 			System.out.println(cout+"est le cout des stock");
 		}
-		this.tresorerie.setValeur(this, this.tresorerie.getValeur()-cout);
+		this.compte.debit(cout);
 	}
 	
 
@@ -226,6 +226,11 @@ public class Transformateur implements ITransformateurMarcheDistrib,ITransformat
 		compteurVente+=1;
 	}
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> origin/master
 	/**
 	 * @objectif: Remet toutes nos variables à 0
 	 */
@@ -322,9 +327,9 @@ public class Transformateur implements ITransformateurMarcheDistrib,ITransformat
 	 * @objectif: Passer à l'étape suivante en mettant à jour
 	 */
 	public void next(){
-		//CoutStock();
 		Journal();
 		transformation();
+		CoutStock();
 		Miseajour();
 		//System.out.println("notre compte est de : "+this.compte.getCompte());
 		//System.out.println(this.tresorerie.getValeur()+"est la veleur de la tresorerie en tant qu'indicateur");
