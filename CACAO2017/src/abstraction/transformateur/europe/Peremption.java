@@ -4,30 +4,30 @@ import java.util.ArrayList;
 
 public class Peremption {
 	
-	private ArrayList<Double> Liste_Stock;
+	private ArrayList<Double> listeStock;
 	public static final int TEMPS_PEREMPTION=10;
 	
 	
 	public Peremption() {
-		this.Liste_Stock= new ArrayList<Double>(10);
-		for (int i=0; i<Liste_Stock.size(); i++) {
-			this.Liste_Stock.add(i,0.0);
+		listeStock=new ArrayList<Double>(0);
+		for (int i=0; i<=TEMPS_PEREMPTION; i++) {
+			this.listeStock.add((double) 0);
 		}
 	}
 	public double getValeurIndice (int i) {
-		return this.Liste_Stock.get(i);
+		return this.listeStock.get(i);
 	}
 	
 	public ArrayList<Double> getListe() {
-		return this.Liste_Stock;
+		return this.listeStock;
 	}
 	
 	public void setListe (ArrayList<Double> L) {
-		this.Liste_Stock=L;
+		this.listeStock=L;
 	}
 	
 	public void setListeIndice (int i, double valeur) {
-		this.Liste_Stock.set(i, valeur);
+		this.listeStock.set(i, valeur);
 	}
 	
 	public void MiseAJourNext(Transformateur T) {
@@ -42,11 +42,11 @@ public class Peremption {
 	
 	public void RetraitVente(double QteVendue) {
 		double a=QteVendue;
-		int i=0;
-		while (a>0) {
-			a=a-this.Liste_Stock.get(i);
+		int i=9;
+		while (a>=0 && i>=0) {
+			a-=this.getValeurIndice(i);
 			this.setListeIndice(i, 0);
-			i=i-1;
+			i--;
 		}
 		this.setListeIndice(i+1, -a);
 	}

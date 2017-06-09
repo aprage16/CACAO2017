@@ -12,23 +12,24 @@
 		   Stourm Théo 
  */
 
-package abstraction.transformateur.europe;
 
+package abstraction.transformateur.europe;
 import java.util.List;
 import java.util.ArrayList;
+
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
-import abstraction.transformateur.usa.*;
+import abstraction.producteur.cotedivoire.contrats.Devis;
+import abstraction.transformateur.usa.interfacemarche.transformateur;
 import abstraction.producteur.cotedivoire.contrats.*;
 
-public class Transformateur implements ITransformateurMarcheDistrib,ITransformateurMarcheProducteur, Acteur, IContratTrans  {
+public class Transformateur implements transformateur, Acteur, IContratTrans  {
 
 	private Stock s;
 	private Tresorerie compte;
 	private double prixmin;
-	private double[] peremption=new double[Stock.DATE_PEREMPTION]; //va stocker le chocolat pour définir la priorité de vente en fonction de la date de péremption 
 	private Date date= new Date();
 
 	
@@ -39,6 +40,7 @@ public class Transformateur implements ITransformateurMarcheDistrib,ITransformat
 	private double prixMoyendAchat=0;// Pour le journal 
 	private double compteurAchat=0;// Pour le journal 
 	private double compteurVente=0;// Pour le journal 
+	private Peremption peremp= new Peremption();
 	
 	public static final int CACAO_NECESSAIRE = 30800; // Stock nécessaire par mois pour avoir 44000 chocolats
 	public static final int CHOCOLAT_NECESSAIRE = 44000; // Stock nécessaire par mois à vendre (calculé selon la demande européenne)
@@ -193,7 +195,8 @@ public class Transformateur implements ITransformateurMarcheDistrib,ITransformat
 	 * le stockage dans une liste permet de supprimer la quantité produite 
 	 * il y a 10 semaines de notre stock
 	 */
-	public void modifPeremption(double quantite){  
+	
+	/*public void modifPeremption(double quantite){  
 		double[] peremp=new double[peremption.length];
 		double estPerime=peremption[4];
 		peremp[0]=this.s.getStockCacao()*RATIO_CACAO_CHOCO;
@@ -207,7 +210,7 @@ public class Transformateur implements ITransformateurMarcheDistrib,ITransformat
 		else{
 			this.stockChocolat.setValeur(this, this.stockChocolat.getValeur()-quantite);
 		}
-	}
+	}*/
 	
 	/**
 	 * @objectif: Fonction utilisée dans le marché, elle nous indique 
@@ -216,7 +219,7 @@ public class Transformateur implements ITransformateurMarcheDistrib,ITransformat
 	 * @param quantite, la quantité de chocolat vendu
 	 * @param prix, le prix unitaire du chocolat vendu
 	 */
-	public void notificationvente(double prix, double quantite) {
+	public void notif(double prix, double quantite) {
 		prix=prix*1000000;
 		this.s.retraitChocolat(quantite);
 		this.compte.credit(prix*quantite);
@@ -224,6 +227,9 @@ public class Transformateur implements ITransformateurMarcheDistrib,ITransformat
 		prixMoyendeVente+=prix;
 		compteurVente+=1;
 	}
+
+
+
 	/**
 	 * @objectif: Remet toutes nos variables à 0
 	 */
@@ -320,6 +326,8 @@ public class Transformateur implements ITransformateurMarcheDistrib,ITransformat
 	 * @objectif: Passer à l'étape suivante en mettant à jour
 	 */
 	public void next(){
+		peremp.RetraitVente(quantiteVendue);
+		peremp.MiseAJourNext(this);
 		Journal();
 		transformation();
 		CoutStock();
