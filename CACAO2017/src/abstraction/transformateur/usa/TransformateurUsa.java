@@ -58,7 +58,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		prixmatprem.add(0.000025);
 		prixmatprem.add(0.000400);
 		stockChocolat = new StockProduitsFinis();
-		stockMatierePremiere =new StockMatPremiere(StockdesireMatierePremiere/2,StockdesireMatierePremiere,StockdesireMatierePremiere,StockdesireMatierePremiere);
+		stockMatierePremiere =new StockMatPremiere(StockdesireMatierePremiere,StockdesireMatierePremiere/2,StockdesireMatierePremiere,StockdesireMatierePremiere);
 		transfo =new TransfoChocolat(stockMatierePremiere,stockChocolat);
 		this.venteChocolat=0;
 		this.achatCacao=0;
@@ -75,6 +75,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 	}
 
 	public void next(){	
+		this.stockChocolat.miseAJour();
 		produirechocolat();		
 		payerstock();
 		payerCoutFixes();

@@ -69,5 +69,21 @@ public class StockProduitsFinis {
 		}
 		return s;
 	}
+	
+	public static void main(String[] args) {
+		StockProduitsFinis test = new StockProduitsFinis();
+		System.out.println(test);
+		test.miseAJour();
+		System.out.println(test);
+		test.miseAJour();
+		System.out.println(test);
+		test.ajouterChocolat(15000);
+		System.out.println(test);
+		test.miseAJour();
+		System.out.println(test);
+		System.out.println(test.getStockChocolat());
+		test.enleverChoco(125000);
+		System.out.println(test.getStockChocolat());
+	}
 
 }

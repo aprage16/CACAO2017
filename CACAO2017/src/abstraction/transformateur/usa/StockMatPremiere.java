@@ -35,6 +35,7 @@ public class StockMatPremiere {
 	}
 	
 	public void setIngredient(int i,double quantite){
+		System.out.println(i+" quantité"+quantite);
 		switch(i){
 		case 0:this.setCacao(quantite);
 		case 1:this.setLait(quantite);
