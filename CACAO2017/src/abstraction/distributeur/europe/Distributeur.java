@@ -112,7 +112,7 @@ public class Distributeur implements Acteur,IDistributeur{
 	}
 	
 	public double getMisEnVente(){
-		return 0;
+		return this.stock.totalStock();
 	}
 
 
