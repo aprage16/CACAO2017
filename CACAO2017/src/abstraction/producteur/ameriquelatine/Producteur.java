@@ -97,7 +97,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 			for (int i=0; i<this.stock.getProd().size()-1;i++){
 				this.stock.setProd(i, copie.get(i+1)); // On  crée une copie où on décale toutes les valeurs
 			}
-			this.stock.ajout(this.recolte.getQterecoltee(), this.stock.getProd().size()); // On ajoute les futures récoltes à la fin de la liste (les plus récentes)
+			this.stock.ajout(this.recolte.getQterecoltee(), this.stock.getProd().size()-1); // On ajoute les futures récoltes à la fin de la liste (les plus récentes)
 		}
 		journal.ajouter("ajout recolte :"+this.recolte.getQterecoltee()+"--> "+this.stock.getStock());
 		this.treso.decaissement(treso.cout());
