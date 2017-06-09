@@ -31,8 +31,8 @@ public class Peremption {
 	}
 	
 	public void MiseAJourNext(Transformateur T) {
-		if (this.getValeurIndice(10)>0){
-			T.getStock().retraitChocolat(this.getValeurIndice(10));
+		if (this.getValeurIndice(9)>0){
+			T.getStock().retraitChocolat(this.getValeurIndice(9));
 		}
 		for (int i=1; i<this.getListe().size(); i++) {
 			this.setListeIndice(i, this.getValeurIndice(i-1));
