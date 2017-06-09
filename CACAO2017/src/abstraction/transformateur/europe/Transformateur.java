@@ -46,6 +46,7 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 	public static final int CHOCOLAT_NECESSAIRE = 44000; // Stock nécessaire par mois à vendre (calculé selon la demande européenne)
 	public static final double RATIO_CACAO_CHOCO=0.7; // Ratio de transformation entre le cacao et le chocolat
 	public static final double PRIX_MIN=0.004; // Prix minimum de vente du chocolat sur le marché
+	public static final double PRIX_MAX=0.008;
 	
 	private Journal journal;
 	private Indicateur stockChocolat;
@@ -87,11 +88,11 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 	 */
 	public double getprixMin() {
 		double stockChocolat=this.s.getStockChocolat();
-		if (stockChocolat<Stock.STOCK_MIN){ // On se fixe un stock minimum de "secours" et si on le dépasse on renvoie une valeur qui doit couper la boucle du marché.
-			return 1000000;
+		if (stockChocolat<Stock.STOCK_MIN || prixmin<0.004){ // On se fixe un stock minimum de "secours" et si on le dépasse on renvoie une valeur qui doit couper la boucle du marché.
+			return 1000000000;
 		}
 		else{
-			this.prixmin=PRIX_MIN+0.5*PRIX_MIN*Stock.STOCK_MIN/this.s.getStockChocolat(); //calcul le nouveau prix minimum auquel on souhaite vendre
+			this.prixmin=PRIX_MAX-PRIX_MAX*Stock.STOCK_MIN/this.stockChocolat.getValeur(); //calcul le nouveau prix minimum auquel on souhaite vendre
 			//System.out.println("prix min de transfo eu : "+prixmin);				  // en tenant compte du stock de chocolat que l'on a.
 			return this.prixmin;
 			}
@@ -160,8 +161,8 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 	public void CoutStock(){
 		double cout=0;
 		if (this.stockChocolat.getValeur()>=CHOCOLAT_NECESSAIRE){
-			cout=(this.stockChocolat.getValeur()-CHOCOLAT_NECESSAIRE)*10000;
-			//System.out.println(cout+"est le cout des stock");
+			cout=(this.s.getStockChocolat()-CHOCOLAT_NECESSAIRE)*10000;
+			System.out.println(cout+"est le cout des stock");
 		}
 		this.tresorerie.setValeur(this, this.tresorerie.getValeur()-cout);
 	}
@@ -181,8 +182,8 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 		this.compte.debit(achat); //mettre cette ligne en commentaire pour observer la tréso 
 					// le retrait de cette ligne désactive le payement aux producteurs: on ne gagne que 11000€
 		                          // de ventes alors qu'on paye 10^7 : unités à revoir
-		this.stockChocolat.setValeur(this, this.s.getStockChocolat());
-		this.tresorerie.setValeur(this, this.tresorerie.getValeur()-achat);
+		this.s.ajoutCacao(quantite);
+		this.compte.credit(achat);
 		prixMoyendAchat+=prix;
 		compteurAchat+=1;
 		quantiteAchetee+=quantite;
@@ -202,7 +203,7 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 			peremp[i+1]=peremption[i];
 		}
 		peremption=peremp;
-		if (estPerime>=quantite){
+		if (estPerime>=quantite && this.stockChocolat.getValeur()-estPerime>=0){
 			this.stockChocolat.setValeur(this, this.stockChocolat.getValeur()-estPerime);
 		}
 		else{
@@ -218,18 +219,21 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 	 * @param prix, le prix unitaire du chocolat vendu
 	 */
 	public void notif(double prix, double quantite) {
-		//System.out.println("vendu au prix de : "+prix+" avec une quantité de : "+quantite);
 		prix=prix*1000000;
-		modifPeremption(quantite);
-		double chiffreAffaire=prix*quantite;
-		this.compte.credit(chiffreAffaire);
-		this.tresorerie.setValeur(this, this.tresorerie.getValeur()+chiffreAffaire);
+		this.s.retraitChocolat(quantite);
+		this.compte.credit(prix*quantite);
 		quantiteVendue+=quantite;
 		prixMoyendeVente+=prix;
 		compteurVente+=1;
 	}
 
 	
+	private void setCompte(double valeur) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	/**
 	 * @objectif: Remet toutes nos variables à 0
 	 */
@@ -240,6 +244,7 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 		compteurAchat=0;
 		prixMoyendeVente=0;
 		compteurVente=0;
+		prixmin=PRIX_MAX;
 		for (int i=0;i<14;i++){
 			date=date.lendemain();
 		}
@@ -250,6 +255,9 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 	 * @objectif: Fonction permetant de remplir les différents élements de notre journal
 	 */
 	public void Journal (){
+		this.stockChocolat.setValeur(this, this.s.getStockChocolat());
+		this.commande.setValeur(this, (int)quantiteAchetee );
+		this.tresorerie.setValeur(this, this.compte.getCompte());
 		this.journal.ajouter("<b> La date du jour est : "+date+"</b>");
 		this.journal.ajouter("");
 		this.journal.ajouter("Une <b>quantité</b> de : <b><font color =\"red\"> "+(int)quantiteAchetee+"</font></b> de cacao a été acheté au <b>prix unitaire</b> de : <font color=\"red\"> "+(int)prixMoyendAchat/compteurAchat+"</font> euros à l'étape du Monde: "+Monde.LE_MONDE.getStep());
@@ -323,9 +331,9 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 	 * @objectif: Passer à l'étape suivante en mettant à jour
 	 */
 	public void next(){
-		transformation();
-		CoutStock();
+		//CoutStock();
 		Journal();
+		transformation();
 		Miseajour();
 		//System.out.println("notre compte est de : "+this.compte.getCompte());
 		//System.out.println(this.tresorerie.getValeur()+"est la veleur de la tresorerie en tant qu'indicateur");

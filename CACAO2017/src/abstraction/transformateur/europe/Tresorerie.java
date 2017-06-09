@@ -42,7 +42,7 @@ public class Tresorerie {
 	 * 
 	 * @param compte
 	 */
-	private void setCompte(double compte){
+	public void setCompte(double compte){
 		this.compte=compte;
 	}
 	
