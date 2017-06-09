@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import control.CtrlBtnNext;
 import control.CtrlCheckBoxHistorique;
@@ -56,9 +57,6 @@ public class FenetrePrincipale extends JFrame {
 		pGauche.add(Box.createVerticalGlue());
 		ArrayList<Indicateur> indicateurs = Monde.LE_MONDE.getIndicateurs();
 
-		JPanel pLab = new JPanel();
-		pLab.setLayout(new BoxLayout(pLab, BoxLayout.Y_AXIS));
-		pLab.add(Box.createRigidArea(new Dimension(10,9)));
 		for (Indicateur i : indicateurs){
 			JPanel pIndic = new JPanel();
 			pIndic.setLayout(new BorderLayout());
@@ -94,6 +92,7 @@ public class FenetrePrincipale extends JFrame {
 			
 			// Champ de saisie permettant de modifier la valeur de l'indicateur
 			JTextField tIndic = new JTextField(20);
+			tIndic.setHorizontalAlignment(SwingConstants.RIGHT);
 			NumberFormat dc = NumberFormat.getInstance(Locale.FRANCE);
 			dc.setMaximumFractionDigits(2);
 			dc.setMinimumFractionDigits(2);
@@ -114,7 +113,6 @@ public class FenetrePrincipale extends JFrame {
 		pIndicateurs.setBorder(BorderFactory.createTitledBorder("Indicateurs"));
 
 		pIndicateurs.setLayout(new BorderLayout());
-		pIndicateurs.add(pLab, BorderLayout.WEST);
 		pIndicateurs.add(pGauche, BorderLayout.CENTER);
 		this.add(pIndicateurs, BorderLayout.CENTER);
 
