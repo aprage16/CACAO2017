@@ -121,6 +121,21 @@ public class Stock{
 			
 		}
 	}
+	public String afficherStock(){
+		String res = "";
+		for (int i=0; i<6; i++){
+			res = res + " , " + this.stock[i];
+		}
+		return res;
+	}
+
+	public String afficherPrix(){
+		String res = "";
+		for (int i=0; i<6; i++){
+			res = res + " , " + this.prix[i];
+		}
+		return res;
+	}	
 	
 	public double getPrixVente(){
 		double prixVente = 0;
@@ -134,10 +149,10 @@ public class Stock{
 		}
 		for (int i=0; i<6; i++){
 			if (this.stock[i]!=0){
-				prixVente = this.prix[i]*(this.stock[i]/total);
+				prixVente = prixVente + this.prix[i]*(this.stock[i]/total);
 			}
 		}
-		return prixVente/compteur;
+		return prixVente;
 	}
 	
 	public double totalStock(){

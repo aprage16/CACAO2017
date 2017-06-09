@@ -99,6 +99,8 @@ public class Distributeur implements Acteur,IDistributeur{
 		this.prixMoyen = 0;
 		this.incrementZero();
 		this.stock.setPrix(prixStock);
+		journal.ajouter(this.stock.afficherStock());
+		journal.ajouter(this.stock.afficherPrix());
 		journal.ajouter("" + this.getPrixClient());
 		this.stock.vieillirStock();
 	}
