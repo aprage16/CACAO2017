@@ -307,7 +307,7 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 			l.get(0).setQttFinale(q[0]);
 			l.get(1).setQttFinale(0.05*qttVoulue);
 		} else if (p[1]<p[0] && q[1]>=qttVoulue*0.95){ //prix de un inf a prix de zero et qte un suffisante
-
+			
 			l.get(0).setQttFinale(0.05*qttVoulue);
 			l.get(1).setQttFinale(0.95*qttVoulue);
 		} else if (p[1]<p[0] && q[1]<=qttVoulue*0.95) { //prix de un inf a prix de zero et qte un insuffisante
