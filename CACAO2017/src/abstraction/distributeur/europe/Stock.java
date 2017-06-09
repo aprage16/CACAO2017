@@ -90,6 +90,7 @@ public class Stock{
 			this.stock[i]=var[i-1];
 			this.prix[i]=var2[i-1];
 		}
+		
 		this.stock[0]=0;
 		this.prix[0]=0;
 	}
@@ -115,7 +116,6 @@ public class Stock{
 				var2=var;
 			}
 			i++;
-			
 		}
 	}
 	public String afficherStock(){
