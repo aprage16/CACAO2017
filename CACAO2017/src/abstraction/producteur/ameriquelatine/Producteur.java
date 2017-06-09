@@ -90,7 +90,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	public void next() {
 		recolte.miseAJourIndice();
 		if (Monde.LE_MONDE.getStep()<=19){ // Avant le step 19, on ajoute à chaque step dans prod
-			this.stock.ajout(this.recolte.getQterecoltee(), Monde.LE_MONDE.getStep());
+			this.stock.ajout(this.recolte.getQterecoltee(), Monde.LE_MONDE.getStep()-1);
 		}
 		else {
 			ArrayList<Integer> copie=new ArrayList<Integer>(stock.getProd());

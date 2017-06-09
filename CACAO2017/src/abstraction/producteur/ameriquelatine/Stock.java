@@ -22,6 +22,7 @@ public class Stock {
 	
 	public void retrait(int a){ 
 		int i=0;
+		int b=a-this.prod.get(i);
 		if (this.prod.get(i)<=a){
 			this.prod.add(i, 0);
 		}
@@ -29,10 +30,10 @@ public class Stock {
 			this.prod.add(i, this.prod.get(i)-a);
 		}
 		while (this.prod.get(i)==0){
-			int b=a-this.prod.get(i);
 			i++;
 			if (this.prod.get(i)<b){
 				this.prod.add(i, 0);
+				b=b-this.prod.get(i);
 			}
 			else {
 				this.prod.add(i, this.prod.get(i)-b);
