@@ -13,7 +13,7 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	public static double stockIni = 6.25;
 	public static double prixKg=10*Math.pow(10,-6);
 	public static double uniteChoc=10000;
-	public static double coefAleatoire=0;
+	public static double coefAleatoire=0.9+Math.random()*0.2;;
 	
 	private Gestion gestion;
 	private Demande demande;
@@ -138,7 +138,7 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	/*	double aacheter=this.getDemande().demandeStep()-this.getGestion().getStock();
 		double prixmax=this.getGestion().getFonds()/aacheter;*/
 		double prixmax=Math.random()*0.08;
-		//journalTest.ajouter("prixmax="+prixmax);
+		//journalTest.ajouter("prixmax="+prixmax)
 		return prixmax;
 	}
 	
