@@ -11,8 +11,8 @@ import abstraction.fourni.Indicateur;
 public class Tresorerie {
 	private Acteur act;
 	public final static int CHARGESPROD=5000000;// ($) charges fixes (hors coût de stock)
-	public final static double COUTSTOCK=500; // (plutôt 500~1000 dans la réalité)
-	public final static double COUTSALARIE=15800; // realite (47 400) ($) prix d'un salarie (recolte) par tonne de cacao récolté et par an
+	public final static double COUTSTOCK=700; // (plutôt 500~1000 dans la réalité)
+	public final static double COUTSALARIE=47400 ; //  prix d'un salarie (recolte) par tonne de cacao récolté et par an
 	private Indicateur tresorerie; // argent en banque
 	private Stock stock;
 	private Recolte recolte;

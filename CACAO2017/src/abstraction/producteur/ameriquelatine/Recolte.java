@@ -7,9 +7,6 @@ import abstraction.distributeur.europe.MondeV1;
 //MOdifié par Lolotteisyoung et AnaisBel
 //26/04 Adrien
 
-
-import java.util.Random;
-
 public class Recolte {
 	public final static int SURFACE_CULTIVABLE=30000; //(realite 30000) Constante : surface cultivable max en hectare
 	private double indiceRecolte; // Indicateur variant entre 0 et 1 : pourcentage pour fixer nb de fèves totales
@@ -22,15 +19,13 @@ public class Recolte {
 		return (int)(SURFACE_CULTIVABLE*indiceRecolte);
 	}
 	
-	public double intemperie(){
-		Random rnd = new Random(100);
-		return rnd.nextInt();
+	public int intemperie(){
+		return (int) (Math.random()*52);
 	}
 	
 	public void miseAJourIndice() {
-	
 	//* une année = 26 next
-		if(intemperie()==52){
+		if(intemperie()==50){
 			this.indiceRecolte=0;
 		}else{
 			int periode = MondeV1.LE_MONDE.getStep();
