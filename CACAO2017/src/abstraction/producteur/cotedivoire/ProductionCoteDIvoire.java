@@ -1,4 +1,7 @@
 package abstraction.producteur.cotedivoire;
+import abstraction.producteur.cotedivoire.contrats.*;
+
+import java.util.List;
 
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
@@ -10,7 +13,7 @@ import abstraction.producteur.ameriquelatine.IProducteur;
 
 // by fcadre, comments by antoineroson
 
-public class ProductionCoteDIvoire implements Acteur, IProducteur{
+public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	public static final int  PRODUCTIONMOYENNE = 1650000/26; //+ 42673; // Production moyenne de la cote d'ivoire en tonne + le reste du monde
 	public static final double VARIATIONALEATOIREPRODUCTION = 0.05; 
 	
@@ -23,6 +26,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	private Indicateur vente;	
 	private Journal journal;	//Introduction du Journal pour avoir une visibilité sur 
 								//l'évolution des différents paramètres.
+	private List<Devis> devisprod;
 	
 	//Cf marché
 	public int hashCode() {
@@ -123,8 +127,11 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 				}
 			}
 		}
-		this.production=(int)prod; // ajout dans la liste de production
 		this.stock.addStock((int)prod);
+		if(this.stock.getStock()>=Stock.STOCK_MAX){ 
+			prod = prod/4;   
+		}
+		this.production=(int)prod; // ajout dans la liste de production
 		this.productionIndicateur.setValeur(this, (int)prod);
 		this.journal.ajouter("Valeur de Production: "+this.production+" à l'étape du Monde: "+Monde.LE_MONDE.getStep());
 	}
@@ -151,5 +158,22 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur{
 	public void next() {
 		this.variationProduction(Monde.LE_MONDE.getStep());
 		this.stockIndicateur.setValeur(this,this.stock.getStock());
+	}
+
+	// GESTION des Contrats et Devis
+	
+	
+	public void envoieDevis(List<Devis> l) {
+		this.devisprod=l;
+	}
+
+	public void qttLivrablePrix() {
+		for (int i=0; i<this.devisprod.size();i++){
+			this.devisprod.get(i).setQttLivrable(10);
+			this.devisprod.get(i).setPrix(3000);
+		}
+	}
+
+	public void notifContrat() {
 	}
 }
