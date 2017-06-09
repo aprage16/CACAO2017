@@ -288,9 +288,8 @@ public class Transformateur implements transformateur, Acteur, IContratTrans  {
 	@Override
 	public void qttVoulue() { //quantité demandée aux producteurs
 		for (Devis d : l){
-			d.setQttVoulue(CACAO_NECESSAIRE);
+			d.setQttVoulue(CACAO_NECESSAIRE*0.5);
 		}
-	}
 
 
 	@Override
