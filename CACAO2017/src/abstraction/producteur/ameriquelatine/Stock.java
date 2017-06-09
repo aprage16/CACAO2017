@@ -56,7 +56,7 @@ public class Stock {
 		return this.prod;
 	}
 	public void setProd(int i, int a){
-		this.prod.add(i, a);
+		this.prod.set(i, a);
 	}
 	
 	public int getStock(){
