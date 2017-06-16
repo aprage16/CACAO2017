@@ -54,6 +54,11 @@ public class MondeV1 extends Monde {
 		MarcheDT.getTransfo().add(t1);
 		MarcheDT.getTransfo().add(t2);
 		this.ajouterActeur(MarcheDT);
+		
+		MarcheClients MarcheClients = new MarcheClients();
+		MarcheClients.addDistributeur(d1);
+		MarcheClients.addDistributeur(d2);
+		this.ajouterActeur(MarcheClients);
 	}
 	
 
