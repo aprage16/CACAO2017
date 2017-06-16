@@ -86,7 +86,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 			this.stock.ajout(this.recolte.getQterecoltee(), Monde.LE_MONDE.getStep()-1);
 		}
 		else {
-			ArrayList<Integer> copie=new ArrayList<Integer>(stock.getProd());
+			ArrayList<Double> copie=new ArrayList<Double>(stock.getProd());
 			for (int i=0; i<this.stock.getProd().size()-1;i++){
 				this.stock.setProd(i, copie.get(i+1)); // On  crée une copie où on décale toutes les valeurs
 			}
@@ -94,23 +94,37 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		}
 		journal.ajouter("ajout recolte :"+this.recolte.getQterecoltee()+"--> "+this.stock.getStock());
 		this.treso.decaissement(treso.cout());
+		
+		
+//		for (int i=0; i<this.ldevis.size(); i++){
+//			if(this.ldevis.get(i).getDebut() <= this.ldevis.get(i).getDebut()+26 ){
+//				this.stock.retrait(this.ldevis.get(i).getQttFinale());
+//				this.treso.encaissement(this.ldevis.get(i).getQttFinale()*this.ldevis.get(i).getPrix()) ;
+//				}
+//		}	
 		}
+		
 	
-	@Override
+
 	public void envoieDevis(Devis d) {
 		// TODO Auto-generated method stub
 		this.ldevis.add(d);
 	}
-	@Override
+
 	public void qttLivrablePrix() {
 		for (int i=0; i<this.ldevis.size(); i++){
-			this.ldevis.get(i).setQttLivrable(2000);
-			this.ldevis.get(i).setPrix(2000);
+			if (this.stock.getStock() > this.ldevis.get(i).getQttVoulue()){
+				this.ldevis.get(i).setQttLivrable(this.ldevis.get(i).getQttVoulue());
+			}
+			else{
+				this.ldevis.get(i).setQttLivrable(this.stock.getStock());
+			}
+			this.ldevis.get(i).setPrix(2500);
 		}
 	}
-	@Override
+
 	public void notifContrat() {
 		// TODO Auto-generated method stub
-		// Mettre prix et qté finale en tant que variable?
+		
 	}
 }
