@@ -20,7 +20,7 @@ public class Tresorerie {
 
 	public Tresorerie(Stock stock, Recolte recolte, Acteur a){
 		this.stock = stock ;
-		this.tresorerie = new Indicateur("4_PROD_AMER_solde", a,10000);
+		this.tresorerie = new Indicateur("4_PROD_AMER_solde", a,10000000);
 		MondeV1.LE_MONDE.ajouterIndicateur(this.tresorerie);
 		this.recolte=recolte;
 	}
