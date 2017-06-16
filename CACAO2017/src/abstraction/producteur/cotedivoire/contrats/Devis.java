@@ -1,5 +1,7 @@
 package abstraction.producteur.cotedivoire.contrats;
 
+import abstraction.fourni.Monde;
+
 public class Devis {
 	private IContratProd nomProd; 
 	private IContratTrans nomTrans; 
@@ -7,8 +9,8 @@ public class Devis {
 	public double qttLivrable; 
 	public double qttFinale; 
 	public double prix;
-	private boolean deverrouille; 
-	
+	private boolean deverrouille;
+	public int debut;
 	
 	public Devis(IContratProd nomProd, IContratTrans nomTrans) {
 		this.nomProd=nomProd; 
@@ -18,10 +20,15 @@ public class Devis {
 		this.qttFinale=0; 
 		this.prix=0;
 		this.deverrouille=true; 
+		this.debut=Monde.LE_MONDE.getStep();
 	}
 	
 	public void setVerrouillage () {
 		this.deverrouille= false;
+	}
+	
+	public int getDebut() {
+		return this.debut;
 	}
 
 	public double getQttVoulue() {
