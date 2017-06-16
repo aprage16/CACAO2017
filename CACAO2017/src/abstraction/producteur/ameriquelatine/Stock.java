@@ -27,7 +27,11 @@ public class Stock {
 		}
 	}
 	public void ajout(int a, int i){
-		this.prod.set(i, a); 
+		if(this.getStock()>=40000){
+			this.prod.set(i, 0);
+		}else{
+			this.prod.set(i, a); 
+		}
 	}
 	
 	public void retrait(int a){ 
