@@ -17,13 +17,13 @@ public class Tresorerie{
 	
 	public void paiement(double p){
 		if(p>=0){
-			variationTreso(p);
+			variationTreso(-p);
 		}
 	}
 	
 	public void encaissement(double e){
 		if(e>=0){
-			variationTreso(-e);
+			variationTreso(e);
 		}
 	}
 
