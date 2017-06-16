@@ -11,6 +11,7 @@ import abstraction.producteur.cotedivoire.contrats.IContratTrans;
 
 //Souchu
 public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransformateurMarcheProducteur,Acteur, IContratTrans{
+//public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransformateurMarcheProducteur,Acteur, IContratTrans{
 	private StockProduitsFinis stockChocolat;
 	private StockMatPremiere stockMatierePremiere;
 	private TransfoChocolat transfo;
