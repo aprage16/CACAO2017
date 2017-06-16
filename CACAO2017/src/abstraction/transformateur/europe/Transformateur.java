@@ -164,8 +164,8 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	public void CoutStock(){
 		double cout=0;
 		if (this.stockChocolat.getValeur()>=CHOCOLAT_NECESSAIRE){
-			cout=(this.s.getStockChocolat()-CHOCOLAT_NECESSAIRE)*10000;
-			System.out.println(cout+"est le cout des stock");
+			cout=(this.s.getStockChocolat()-CHOCOLAT_NECESSAIRE)*5000;
+			//System.out.println(cout+"est le cout des stock");
 		}
 		this.compte.debit(cout);
 	}
@@ -198,22 +198,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	 * le stockage dans une liste permet de supprimer la quantité produite 
 	 * il y a 10 semaines de notre stock
 	 */
-	
-	/*public void modifPeremption(double quantite){  
-		double[] peremp=new double[peremption.length];
-		double estPerime=peremption[4];
-		peremp[0]=this.s.getStockCacao()*RATIO_CACAO_CHOCO;
-		for (int i=0;i<peremp.length-1;i++){
-			peremp[i+1]=peremption[i];
-		}
-		peremption=peremp;
-		if (estPerime>=quantite && this.stockChocolat.getValeur()-estPerime>=0){
-			this.stockChocolat.setValeur(this, this.stockChocolat.getValeur()-estPerime);
-		}
-		else{
-			this.stockChocolat.setValeur(this, this.stockChocolat.getValeur()-quantite);
-		}
-	}*/
+
 	
 	/**
 	 * @objectif: Fonction utilisée dans le marché, elle nous indique 

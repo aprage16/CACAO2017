@@ -75,6 +75,6 @@ public class Tresorerie {
 	 * Objectif: Afficher la valeur du compte, notamment dans le journal.
 	 */
 	public String toString(){
-		return ("L'état du <b>solde</b> actuellement est de : <b><font color=\"blue\">"+compte+"</font></b> euros");
+		return ("L'état du <b>solde</b> actuellement est de : <b><font color=\"blue\">"+(int)compte+"</font></b> euros");
 	}
 }

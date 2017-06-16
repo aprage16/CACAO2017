@@ -153,7 +153,7 @@ public class Stock {
 	 * @return un string affichant le stock de cacao et de chocolat
 	 */
 	public String toString(){
-		return "Le stock de <b>cacao</b> est de: <b><font color=\"purple\">"+this.getStockCacao()+"</font></b> , celui de <b>chocolat</b> est de: <b><font color=\"purple\">"+this.getStockChocolat()+"</font></b>";
+		return "Le stock de <b>cacao</b> est de: <b><font color=\"purple\">"+(int)this.getStockCacao()+"</font></b> , celui de <b>chocolat</b> est de: <b><font color=\"purple\">"+(int)this.getStockChocolat()+"</font></b>";
 	}
 	
 }
