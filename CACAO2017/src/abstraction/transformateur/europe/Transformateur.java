@@ -42,15 +42,17 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	private double compteurAchat=0;// Pour le journal 
 	private double compteurVente=0;// Pour le journal 
 	private Peremption peremp= new Peremption();
-	private ArrayList<Integer> cacaoNecessaire=new ArrayList<Integer>(26);
 	private int step=0;
 	
 	public static final int CACAO_NECESSAIRE = 30800; // Stock nécessaire par mois pour avoir 44000 chocolats
 	public static final int CHOCOLAT_NECESSAIRE = 44000; // Stock nécessaire par mois à vendre (calculé selon la demande européenne)
 	public static final double RATIO_CACAO_CHOCO=0.7; // Ratio de transformation entre le cacao et le chocolat
+	public static final double PART_MARCHE=0.4; // Part du marché mondiale que nous avons (les américains ont 1-PART_MARCHE)
 	public static final double PRIX_MIN=0.004; // Prix minimum de vente du chocolat sur le marché
 	public static final double PRIX_MAX=0.008;
 	public static final int COUT_ANNEXE=10000000; //couts annexes comportant les salaires et tout les couts potentiels autre que le cacao
+	//public static double[] CACAO_NECESSAIREL_PREVISION = prevision(abstraction.distributeur.amerique.DistributeurUS.CONSO_PREVUE);
+	public static final double RATIO_CONTRAT_PRODUCTEUR= 0.75; // Proportion de la quantité prévisionnelle minimum sur un an que l'on demande pour le contrat avec les producteurs
 	
 	private Journal journal;
 	private Indicateur stockChocolat;
@@ -261,7 +263,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	
 	private List<Devis> l;
 	
-	@Override
+	
 	public void envoieDevis(List<Devis> l) { //récupère la liste des différents devis
 		this.l=l;
 	}
@@ -270,8 +272,24 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	@Override
 	public void qttVoulue() { //quantité demandée aux producteurs
 		for (Devis d : l){
-			d.setQttVoulue(CACAO_NECESSAIRE*0.5);
+			d.setQttVoulue(1);
+	//		d.setQttVoulue(getmin_tab(CACAO_NECESSAIRE_PREVISION)*RATIO_CONTRAT_PRODUCTEUR);
 		}
+	}
+	
+	/**
+	 * 
+	 * @param tab
+	 * @return le minimum du tableau rentré en paramètre
+	 */
+	public double getmin_tab(double[] tab){
+		double res = tab[0];
+		for (int i=1;i<tab.length;i++){
+			if (tab[i]<res){
+				res=tab[i];
+			}
+		}
+		return res;
 	}
 
 	@Override
@@ -329,4 +347,21 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		//System.out.println(this.tresorerie.getValeur()+"est la veleur de la tresorerie en tant qu'indicateur");
 	}
 
+	/**
+	 * @objectif Faire une prevision du cacao à demander aux producteurs
+	 * @param arg
+	 * @return un tableau de 26 valeurs correspondant à la quantité previsionnelle de cacao qu'on doit demander tout les next aux producteurs (sans tenir compte des stocks)
+	 */
+	public double[] prevision(int[] arg){
+		int taille = arg.length;
+		double [] res = new double[taille];
+		for (int i=0; i<taille; i++){
+			res[i]=arg[i]*RATIO_CACAO_CHOCO*PART_MARCHE;
+		}
+		return res;
+	}
+	
+	
+		
 }
+
