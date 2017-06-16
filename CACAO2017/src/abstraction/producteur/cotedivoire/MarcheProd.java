@@ -1,5 +1,6 @@
 package abstraction.producteur.cotedivoire;
 import java.util.ArrayList;
+import abstraction.transformateur.usa.*;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,13 +8,13 @@ import abstraction.fourni.Acteur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
 import abstraction.producteur.ameriquelatine.IProducteur;
-import abstraction.transformateur.usa.interfacemarche.transformateur;
+
 
 
 public class MarcheProd implements Acteur{ // Kevin et Adrien.
 	
 	private ArrayList<IProducteur> producteurs; //liste des producteurs
-	private ArrayList<transformateur> transformateurs ; // liste des transformateurs
+	private ArrayList<ITransformateurMarcheDistrib> transformateurs ; // liste des transformateurs
 	public static final int COURSMIN = 2500 ; // prix min du cours du cacao par tonne
 	public static final int COURSMAX = 3500 ; // prix max du cours du cacao par tonne
 	
@@ -23,7 +24,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 	private Journal journal;
 
 	
-	public MarcheProd(ArrayList<IProducteur> producteurs,ArrayList<transformateur> transformateurs){
+	public MarcheProd(ArrayList<IProducteur> producteurs,ArrayList<ITransformateurMarcheDistrib> transformateurs){
 		this.producteurs=producteurs;
 		this.transformateurs=transformateurs;
 		this.quantiteAchetableGlobale=0.0;
@@ -32,7 +33,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 	}
 	public MarcheProd() {
 		this.producteurs= new ArrayList<IProducteur>();  // a modifier par IProducteur une fois que les interfaces seront créees.
-		this.transformateurs= new ArrayList<transformateur>(); // a modifier par ITransformateur une fois que les interfaces seront créees.
+		this.transformateurs= new ArrayList<ITransformateurMarcheDistrib>(); // a modifier par ITransformateur une fois que les interfaces seront créees.
 		this.quantiteAchetableGlobale=0.0;
 		this.quantiteVoulueGlobale=0.0;
 		this.coursActuel=3000;
@@ -43,7 +44,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 	public void addProducteur (IProducteur p) {
 		this.producteurs.add(p);
 	}
-	public void addTransformateur (transformateur t) {
+	public void addTransformateur (ITransformateurMarcheDistrib t) {
 		this.transformateurs.add(t);
 	}
 	public double getQuantiteAchetable() {
@@ -82,7 +83,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 		setQuantiteAchetableGlobale(0.0);
 		setQuantiteVoulueGlobale(0.0);
 		Map<IProducteur, Integer> Prod = new HashMap<IProducteur,Integer>();
-		Map<transformateur, Integer> Trans = new HashMap<transformateur, Integer>();
+		Map<ITransformateurMarcheDistrib, Integer> Trans = new HashMap<ITransformateurMarcheDistrib, Integer>();
 		//On creer une table de hashage qui correspond a un tableau IProd/ quantite 
 		
 		for (int i=0 ; i<this.producteurs.size(); i++) {
@@ -101,7 +102,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 		}
 		setQuantiteAchetableGlobale(qttEnVente);       //on définit la quantité globale en vente sur le marché.
 		int qttSouhaitee=0; 
-		for (transformateur t : Trans.keySet()){
+		for (ITransformateurMarcheDistrib t : Trans.keySet()){
 			if (Trans.get(t)>=0){
 				qttSouhaitee+= Trans.get(t); //ON ADDITIONNE QUE SI LES QUANTITES SONT POSITIVES evite de fausser les valeurs
 				
@@ -112,7 +113,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 		
 		//Ventes en pourcentages pour les producteur, Achats réalisés = Quantité souaitée
 		if (qttEnVente>=qttSouhaitee) {			
-			for (transformateur t : Trans.keySet()){	//Achats
+			for (ITransformateurMarcheDistrib t : Trans.keySet()){	//Achats
 				if (Trans.get(t)>=0){			//gestion des demandes négatives
 					t.notificationAchat(Trans.get(t),this.getCoursActuel());
 					this.journal.ajouter("<font color=\"blue\">"+((Acteur)t).getNom()+"</font><font color=\"green\"> ACHETE qqttEnvente>qttSouhaitee </font>"+Trans.get(t)+" A L ETAPE "+Monde.LE_MONDE.getStep());
@@ -133,7 +134,7 @@ public class MarcheProd implements Acteur{ // Kevin et Adrien.
 		
 		//Quantité en vente inférieure à la quantité souhaitée --> Les producteurs vendent tout 
 		else {
-			for (transformateur t : Trans.keySet()){	//Achats
+			for (ITransformateurMarcheDistrib t : Trans.keySet()){	//Achats
 				if (Trans.get(t)>=0){		//Gestion des demandes négatives
 					t.notificationAchat(((double)Trans.get(t)/qttSouhaitee)*qttEnVente,this.getCoursActuel());
 					this.journal.ajouter("<font color=\"blue\">"+((Acteur)t).getNom()+"</font><font color=\"green\"> ACHETE qqtEnvente inf  a qttSouhaitee </font>"+((double)Trans.get(t)/qttSouhaitee)*qttEnVente+" A L ETAPE "+Monde.LE_MONDE.getStep());
