@@ -98,7 +98,6 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	
 
 	public void envoieDevis(List<Devis> l) {
-		// TODO Auto-generated method stub
 		this.ldevis=l;
 	}
 
@@ -111,6 +110,6 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 
 	public void notifContrat() {
 		// TODO Auto-generated method stub
-		// Mettre prix et qté finale en tant que variable?
+		
 	}
 }
