@@ -96,12 +96,12 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		this.treso.decaissement(treso.cout());
 		
 		
-		for (int i=0; i<this.ldevis.size(); i++){
-			if(this.ldevis.get(i).getDebut() <= this.ldevis.get(i).getDebut()+26 ){
-				this.stock.retrait(this.ldevis.get(i).getQttFinale());
-				this.treso.encaissement(this.ldevis.get(i).getQttFinale()*this.ldevis.get(i).getPrix()) ;
-				}
-		}	
+//		for (int i=0; i<this.ldevis.size(); i++){
+//			if(this.ldevis.get(i).getDebut() <= this.ldevis.get(i).getDebut()+26 ){
+//				this.stock.retrait(this.ldevis.get(i).getQttFinale());
+//				this.treso.encaissement(this.ldevis.get(i).getQttFinale()*this.ldevis.get(i).getPrix()) ;
+//				}
+//		}	
 		}
 		
 	
