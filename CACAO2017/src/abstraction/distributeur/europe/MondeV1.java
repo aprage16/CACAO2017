@@ -5,7 +5,6 @@ import abstraction.producteur.ameriquelatine.*;
 import abstraction.producteur.cotedivoire.*;
 import abstraction.transformateur.europe.Transformateur;
 import abstraction.transformateur.usa.*;
-import abstraction.transformateur.usa.interfacemarche.*;
 import abstraction.distributeur.amerique.*;
 import java.util.ArrayList;
 import abstraction.fourni.Monde;
