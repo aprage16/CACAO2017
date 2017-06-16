@@ -7,7 +7,7 @@ public class Treso {
 	private ArrayList<Integer> benefmensuel;
 	private double ca; // Chiffre d'affaire sur la période d'un next
 	private double benefice;  
-	public static final int COUTS = 474; //coûts de logistique par tonne de cacao produite 
+	public static final int COUTS = 4740; //coûts de logistique par tonne de cacao produite 
 	
 	//On initialise la tréso de notre acteur à 0
 	public Treso(){

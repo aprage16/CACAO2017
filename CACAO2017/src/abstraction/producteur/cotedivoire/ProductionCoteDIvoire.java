@@ -144,7 +144,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 			}
 		}
 		this.production=(int)prod; // ajout dans la liste de production
-		this.tresorerie.addBenef(- prod*Stock.COUT_STOCK);
+		this.tresorerie.addBenef(- prod*Stock.COUT_STOCK);	
 		this.productionIndicateur.setValeur(this, (int)prod);
 		this.journal.ajouter("Valeur de Production: "+this.production+" à l'étape du Monde: "+Monde.LE_MONDE.getStep());
 	}
@@ -183,7 +183,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 
 	public void qttLivrablePrix() {
 		for (int i=0; i<this.devisprod.size();i++){
-			this.devisprod.get(i).setQttLivrable(10);
+			this.devisprod.get(i).setQttLivrable(10); 
 			this.devisprod.get(i).setPrix(3000);
 		}
 	}
