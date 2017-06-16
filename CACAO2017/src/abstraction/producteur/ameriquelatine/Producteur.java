@@ -86,7 +86,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 			this.stock.ajout(this.recolte.getQterecoltee(), Monde.LE_MONDE.getStep()-1);
 		}
 		else {
-			ArrayList<Integer> copie=new ArrayList<Integer>(stock.getProd());
+			ArrayList<Double> copie=new ArrayList<Double>(stock.getProd());
 			for (int i=0; i<this.stock.getProd().size()-1;i++){
 				this.stock.setProd(i, copie.get(i+1)); // On  crée une copie où on décale toutes les valeurs
 			}
