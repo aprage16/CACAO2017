@@ -23,15 +23,16 @@ import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
 import abstraction.producteur.cotedivoire.contrats.Devis;
 import abstraction.producteur.cotedivoire.contrats.*;
-
 import abstraction.transformateur.usa.*;
+
+
 public class Transformateur implements ITransformateurMarcheDistrib, Acteur,IContratTrans  {
 
 	private Stock s;
 	private Tresorerie compte;
 	private double prixmin;
 	private Date date= new Date();
-
+	
 	
 	private double quantiteVendue=0; // Pour le journal
 	private double quantiteAchetee=0;// Pour le journal
@@ -41,12 +42,15 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	private double compteurAchat=0;// Pour le journal 
 	private double compteurVente=0;// Pour le journal 
 	private Peremption peremp= new Peremption();
+	private ArrayList<Integer> cacaoNecessaire=new ArrayList<Integer>(26);
+	private int step=0;
 	
 	public static final int CACAO_NECESSAIRE = 30800; // Stock nécessaire par mois pour avoir 44000 chocolats
 	public static final int CHOCOLAT_NECESSAIRE = 44000; // Stock nécessaire par mois à vendre (calculé selon la demande européenne)
 	public static final double RATIO_CACAO_CHOCO=0.7; // Ratio de transformation entre le cacao et le chocolat
 	public static final double PRIX_MIN=0.004; // Prix minimum de vente du chocolat sur le marché
 	public static final double PRIX_MAX=0.008;
+	public static final int COUT_ANNEXE=10000000; //couts annexes comportant les salaires et tout les couts potentiels autre que le cacao
 	
 	private Journal journal;
 	private Indicateur stockChocolat;
@@ -164,7 +168,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	public void CoutStock(){
 		double cout=0;
 		if (this.stockChocolat.getValeur()>=CHOCOLAT_NECESSAIRE){
-			cout=(this.s.getStockChocolat()-CHOCOLAT_NECESSAIRE)*10000;
+			cout=(this.s.getStockChocolat()-CHOCOLAT_NECESSAIRE)*5000;
 			//System.out.println(cout+"est le cout des stock");
 		}
 		this.compte.debit(cout);
@@ -220,6 +224,10 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		prixmin=PRIX_MAX;
 		for (int i=0;i<14;i++){
 			date=date.lendemain();
+		}
+		this.step++;
+		if (step>26){
+			step=0;
 		}
 	}
 
@@ -298,6 +306,13 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 			l.get(0).setQttFinale(q[0]);
 			l.get(1).setQttFinale(q[1]);
 		} 
+	}
+	
+	
+	public void coutAnnexe(){
+		if (this.step%2==0){
+			this.compte.debit(COUT_ANNEXE);
+		}
 	}
 	
 	/**
