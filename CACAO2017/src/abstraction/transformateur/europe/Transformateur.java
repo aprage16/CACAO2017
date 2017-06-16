@@ -182,11 +182,8 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	public void notificationAchat(double quantite, double prix){
 		this.s.ajoutCacao(quantite);
 		double achat = prix*quantite;
-		this.compte.debit(achat); //mettre cette ligne en commentaire pour observer la tréso 
-					// le retrait de cette ligne désactive le payement aux producteurs: on ne gagne que 11000€
-		                          // de ventes alors qu'on paye 10^7 : unités à revoir
+		this.compte.debit(achat); 
 		this.s.ajoutCacao(quantite);
-		this.compte.credit(achat);
 		prixMoyendAchat+=prix;
 		compteurAchat+=1;
 		quantiteAchetee+=quantite;
