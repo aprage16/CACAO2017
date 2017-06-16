@@ -11,6 +11,7 @@ import abstraction.producteur.cotedivoire.contrats.IContratTrans;
 
 //Souchu
 public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransformateurMarcheProducteur,Acteur, IContratTrans{
+//public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransformateurMarcheProducteur,Acteur, IContratTrans{
 	private StockProduitsFinis stockChocolat;
 	private StockMatPremiere stockMatierePremiere;
 	private TransfoChocolat transfo;
@@ -75,9 +76,11 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		Monde.LE_MONDE.ajouterIndicateur(this.solde);	
 		Monde.LE_MONDE.ajouterIndicateur(this.stockCacao);
 		Monde.LE_MONDE.ajouterIndicateur(this.stockChoco);	
+		Monde.LE_MONDE.ajouterIndicateur(this.ventesChoco);
+		Monde.LE_MONDE.ajouterIndicateur(this.achatsCacao);	
 		Monde.LE_MONDE.ajouterJournal(LE_JOURNAL_USA);
 		this.priseDecisions=new Decision();
-		
+
 	}
 
 	public void next(){	
@@ -92,6 +95,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		LE_JOURNAL_USA.ajouter("Nous avons vendu "+vente+" de tonnes de chocolat");
 		this.priseDecisions.ajouterVente(vente);
 		this.solde.setValeur(this, this.tresorerie.getCompteCourant());
+		this.achatsCacao.setValeur(this, achatCacao);
 		this.achatCacao=0;
 		this.stockCacao.setValeur(this,this.stockMatierePremiere.getCacao());
 		this.stockChoco.setValeur(this, stockChocolat.getStockChocolat());
@@ -101,7 +105,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		}
 	}
 	//souchu
-	
+
 	private void miseAJourJournal(){
 		step++;
 		LE_JOURNAL_USA.ajouter("Journal Usa : step "+step);
@@ -112,7 +116,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		LE_JOURNAL_USA.ajouter("Notre Stock de Lait est "+this.stockMatierePremiere.getIngredient(1));
 		LE_JOURNAL_USA.ajouter("Notre Stock de Sucre est "+this.stockMatierePremiere.getIngredient(2));
 		LE_JOURNAL_USA.ajouter("Notre Stock de Lecitine est "+this.stockMatierePremiere.getIngredient(3));
-		
+
 		LE_JOURNAL_USA.ajouter("Notre stock de chocolat se présente comme ceci: "+this.stockChocolat);
 	}
 
@@ -212,7 +216,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 
 	@Override
 	public void qttVoulue() {
-		for (Devis d:devis){
+		for (Devis d:devis){ 
 			d.setQttVoulue(this.priseDecisions.getQuantiteVoulue());
 		}
 	}
