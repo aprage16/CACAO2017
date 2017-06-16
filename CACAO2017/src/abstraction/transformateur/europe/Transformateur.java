@@ -164,7 +164,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	public void CoutStock(){
 		double cout=0;
 		if (this.stockChocolat.getValeur()>=CHOCOLAT_NECESSAIRE){
-			cout=(this.s.getStockChocolat()-CHOCOLAT_NECESSAIRE)*5000;
+			cout=(this.s.getStockChocolat()-CHOCOLAT_NECESSAIRE)*10000;
 			//System.out.println(cout+"est le cout des stock");
 		}
 		this.compte.debit(cout);
@@ -188,14 +188,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		compteurAchat+=1;
 		quantiteAchetee+=quantite;
 	}
-
-	/**
-	 * @objectif: Prendre en compte que le chocolat se périmme
-	 * On considère notre stock de chocolat perissable en 10 semaines, 
-	 * le stockage dans une liste permet de supprimer la quantité produite 
-	 * il y a 10 semaines de notre stock
-	 */
-
 	
 	/**
 	 * @objectif: Fonction utilisée dans le marché, elle nous indique 
