@@ -22,7 +22,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	private Treso tresorerie;     // Représente notre trésorerie
 	private Indicateur productionIndicateur;	
 	//private Indicateur stockIndicateur;
-	private Indicateur tresoIndicateur;
+	//private Indicateur tresoIndicateur;
 	private Indicateur vente;	
 	private Journal journal;	//Introduction du Journal pour avoir une visibilité sur 
 								//l'évolution des différents paramètres.
@@ -43,13 +43,9 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	public ProductionCoteDIvoire() {
 		this.production = 0;
 		this.stock= new Stock(this);
-		this.tresorerie= new Treso();
+		this.tresorerie= new Treso(this);
 		this.productionIndicateur=new Indicateur("6_PROD_COT_production",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur( this.productionIndicateur );
-		//this.stockIndicateur = new Indicateur("6_PROD_COT_stock",this,0.0);
-		//Monde.LE_MONDE.ajouterIndicateur(this.stockIndicateur);
-		this.tresoIndicateur = new Indicateur("6_PROD_COT_treso",this,0.0);
-		Monde.LE_MONDE.ajouterIndicateur(this.tresoIndicateur);
 		this.vente= new Indicateur("6_PROD_COT_vente",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur(this.vente);
 		this.journal = new Journal("Journal de "+getNom());
@@ -169,7 +165,6 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 		this.stock.addStock(-quantite);
 		//System.out.println(this.stock.getStock()+"  après retrait des ventes");
 		this.tresorerie.addBenef(quantite*coursActuel - this.stock.getStock()*Treso.COUTS);
-		this.tresoIndicateur.setValeur(this,this.tresorerie.getCa());
 	}
 	
 	//NEXT "Centre du programme -> Passage à la période suivante" 
@@ -177,7 +172,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	public void next() {
 		this.variationProduction(Monde.LE_MONDE.getStep());
 		this.stock.perissabiliteStock();
-		//this.stockIndicateur.setValeur(this,this.stock.getStock());
+		livraisonDesContrats();
 	}
 
 	// GESTION des Contrats et Devis
@@ -189,11 +184,20 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 
 	public void qttLivrablePrix() {
 		for (int i=0; i<this.devisprod.size();i++){
-			this.devisprod.get(i).setQttLivrable(10); 
+			this.devisprod.get(i).setQttLivrable(1000); 
 			this.devisprod.get(i).setPrix(3000);
 		}
 	}
 
 	public void notifContrat() {
+	}
+	
+	public void livraisonDesContrats () {
+		for (Devis d : this.devisprod){
+			if (Monde.LE_MONDE.getStep()-d.getDebut()<26){
+				this.tresorerie.addBenef(d.getPrix()*d.getQttFinale());
+				this.stock.addStock(-d.getQttFinale());
+			}
+		}
 	}
 }
