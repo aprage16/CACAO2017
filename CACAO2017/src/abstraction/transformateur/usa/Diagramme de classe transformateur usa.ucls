@@ -77,48 +77,48 @@
   </interface>  
   <association id="9">    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="10" name="priseDecisions">        
-        <position height="0" width="0" x="206" y="-86"/>      
-      </attribute>      
-      <multiplicity id="11" minimum="0" maximum="1">        
-        <position height="0" width="0" x="206" y="-86"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="12">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="13" name="stockChocolat">        
+      <attribute id="10" name="stockChocolat">        
         <position height="0" width="0" x="25" y="-42"/>      
       </attribute>      
-      <multiplicity id="14" minimum="0" maximum="1">        
+      <multiplicity id="11" minimum="0" maximum="1">        
         <position height="0" width="0" x="25" y="-42"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <realization id="15">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="7"/>  
-  </realization>  
-  <realization id="16">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="8"/>  
-  </realization>  
-  <association id="17">    
+  <association id="12">    
     <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="18" name="tresorerie">        
+      <attribute id="13" name="tresorerie">        
         <position height="0" width="0" x="228" y="91"/>      
       </attribute>      
-      <multiplicity id="19" minimum="0" maximum="1">        
+      <multiplicity id="14" minimum="0" maximum="1">        
         <position height="0" width="0" x="228" y="91"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <association id="15">    
+    <end type="SOURCE" refId="3" navigable="false">      
+      <attribute id="16" name="finis">        
+        <position height="0" width="0" x="25" y="-42"/>      
+      </attribute>      
+      <multiplicity id="17" minimum="0" maximum="1">        
+        <position height="0" width="0" x="25" y="-42"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <realization id="18">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="8"/>  
+  </realization>  
+  <realization id="19">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="7"/>  
+  </realization>  
   <association id="20">    
     <end type="SOURCE" refId="2" navigable="false">      
       <attribute id="21" name="transfo">        
@@ -132,15 +132,15 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="23">    
-    <end type="SOURCE" refId="3" navigable="false">      
-      <attribute id="24" name="finis">        
-        <position height="0" width="0" x="25" y="-42"/>      
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="24" name="priseDecisions">        
+        <position height="0" width="0" x="206" y="-86"/>      
       </attribute>      
       <multiplicity id="25" minimum="0" maximum="1">        
-        <position height="0" width="0" x="25" y="-42"/>      
+        <position height="0" width="0" x="206" y="-86"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
+    <end type="TARGET" refId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
