@@ -97,9 +97,9 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		}
 	
 	@Override
-	public void envoieDevis(List<Devis> l) {
+	public void envoieDevis(Devis d) {
 		// TODO Auto-generated method stub
-		this.ldevis=l;
+		this.ldevis.add(d);
 	}
 	@Override
 	public void qttLivrablePrix() {
