@@ -183,8 +183,8 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	// GESTION des Contrats et Devis
 	
 	
-	public void envoieDevis(List<Devis> l) {
-		this.devisprod=l;
+	public void envoieDevis(Devis d) {
+		this.devisprod.add(d);
 	}
 
 	public void qttLivrablePrix() {
