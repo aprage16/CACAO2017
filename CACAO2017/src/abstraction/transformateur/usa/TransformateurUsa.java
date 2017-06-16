@@ -28,6 +28,8 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 	private Indicateur solde;
 	private Indicateur stockChoco;
 	private Indicateur stockCacao;
+	private Indicateur ventesChoco;
+	private Indicateur achatsCacao;
 	public static Journal LE_JOURNAL_USA;
 	private double step;
 	private List<Devis> devis;
@@ -61,12 +63,14 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		prixmatprem.add(0.000025);
 		prixmatprem.add(0.000400);
 		stockChocolat = new StockProduitsFinis();
-		stockMatierePremiere =new StockMatPremiere(StockdesireMatierePremiere,StockdesireMatierePremiere/2,StockdesireMatierePremiere,StockdesireMatierePremiere);
+		stockMatierePremiere =new StockMatPremiere(StockdesireMatierePremiere,StockdesireMatierePremiere,StockdesireMatierePremiere,StockdesireMatierePremiere);
 		transfo =new TransfoChocolat(stockMatierePremiere,stockChocolat);
 		this.venteChocolat=0;
 		this.achatCacao=0;
-		this.stockCacao=new Indicateur("5_TRAN_USA_stockCacao",this,0.0);
-		this.stockChoco=new Indicateur("5_TRAN_USA_stockChoco",this,0.0);
+		this.stockCacao=new Indicateur("5_TRAN_USA_stockCacao",this,40000.);
+		this.stockChoco=new Indicateur("5_TRAN_USA_stockChoco",this,StockdesireMatierePremiere);
+		this.achatsCacao=new Indicateur("5_TRAN_USA_achatCacao",this,0.0);
+		this.ventesChoco=new Indicateur("5_TRAN_USA_venteCacao",this,0.0);
 		this.solde=new Indicateur("5_TRAN_USA_solde",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur(this.solde);	
 		Monde.LE_MONDE.ajouterIndicateur(this.stockCacao);
@@ -84,6 +88,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		achetermatierepremiere();
 		miseAJourJournal();	
 		double vente=this.MiseAJourVente();
+		this.ventesChoco.setValeur(this, vente);
 		LE_JOURNAL_USA.ajouter("Nous avons vendu "+vente+" de tonnes de chocolat");
 		this.priseDecisions.ajouterVente(vente);
 		this.solde.setValeur(this, this.tresorerie.getCompteCourant());
@@ -96,7 +101,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		}
 	}
 	//souchu
-
+	
 	private void miseAJourJournal(){
 		step++;
 		LE_JOURNAL_USA.ajouter("Journal Usa : step "+step);
@@ -138,13 +143,10 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 
 	public double getprixMin(){
 		if (stockChocolat.getStockChocolat()<=Uniteventechocolat){
-			//LE_JOURNAL_USA.ajouter("1Prix min="+Bornesmax+1);
 			return Bornesmax+1;
 		}
 		else if (stockChocolat.getStockChocolat()<StockdesireChocolat){
 			double prix= Bornesmax-((stockChocolat.getStockChocolat()-Uniteventechocolat)/((StockdesireChocolat/Uniteventechocolat-1)*Uniteventechocolat)*(Bornesmax-Bornesmin));
-			//LE_JOURNAL_USA.ajouter("2Prix min="+prix);
-			//LE_JOURNAL_USA.ajouter(""+(finis.getStockChocolat()));
 			return prix;
 		}
 		else{
