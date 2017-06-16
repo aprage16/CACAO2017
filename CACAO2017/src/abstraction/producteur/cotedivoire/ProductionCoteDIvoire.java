@@ -1,6 +1,7 @@
 package abstraction.producteur.cotedivoire;
 import abstraction.producteur.cotedivoire.contrats.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import abstraction.fourni.Acteur;
@@ -50,6 +51,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 		Monde.LE_MONDE.ajouterIndicateur(this.vente);
 		this.journal = new Journal("Journal de "+getNom());
 		Monde.LE_MONDE.ajouterJournal(this.journal);
+		this.devisprod= new ArrayList<Devis>();
 		
 	}
 
