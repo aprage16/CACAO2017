@@ -1,20 +1,19 @@
 package abstraction.distributeur.europe;
 
 import java.util.ArrayList;
-import abstraction.transformateur.usa.interfacemarche.*;
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
-
+import abstraction.transformateur.usa.*;
 public class Marche implements Acteur{
 
 
 	private static double BORNESMIN=0.004;
 	private static double BORNESMAX=0.008;
 	private ArrayList<IDistributeur> distributeur;
-	private ArrayList<transformateur> transformateur;
+	private ArrayList<ITransformateurMarcheDistrib> transformateur;
 	private ArrayList<IDistributeur> distributeurActif;
-	private ArrayList<transformateur> transformateurActif;
+	private ArrayList<ITransformateurMarcheDistrib> transformateurActif;
 	private boolean onEchange;
 	private double prixMoyen;
 	private Journal journal;	
@@ -25,7 +24,7 @@ public class Marche implements Acteur{
 	public Marche(){
 		this.journal = new Journal("Journal du marche");
 		this.distributeur= new ArrayList<IDistributeur>();
-		this.transformateur= new ArrayList<transformateur>();
+		this.transformateur= new ArrayList<ITransformateurMarcheDistrib>();
 		Monde.LE_MONDE.ajouterJournal(this.journal);
 	}
 
@@ -33,7 +32,7 @@ public class Marche implements Acteur{
 		return this.distributeur;
 	}
 
-	public ArrayList<transformateur> getTransfo(){
+	public ArrayList<ITransformateurMarcheDistrib> getTransfo(){
 		return this.transformateur;
 	}
 
@@ -58,7 +57,7 @@ public class Marche implements Acteur{
 	public void Actif(){
 		
 		this.distributeurActif=new ArrayList<IDistributeur>();
-		this.transformateurActif=new ArrayList<transformateur>();
+		this.transformateurActif=new ArrayList<ITransformateurMarcheDistrib>();
 		for (int i=0; i<transformateur.size();i++){
 			if (transformateur.get(i).getprixMin()>=BORNESMIN&&transformateur.get(i).getprixMin()<=BORNESMAX){
 				transformateurActif.add(transformateur.get(i));
@@ -74,7 +73,7 @@ public class Marche implements Acteur{
 
 	public void Echanges(){
 		IDistributeur prioD;
-		transformateur prioT;
+		ITransformateurMarcheDistrib prioT;
 		this.Actif();
 		if (this.distributeurActif.isEmpty() || this.transformateurActif.isEmpty()){
 			this.onEchange=false;
