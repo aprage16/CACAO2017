@@ -94,6 +94,16 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		}
 		journal.ajouter("ajout recolte :"+this.recolte.getQterecoltee()+"--> "+this.stock.getStock());
 		this.treso.decaissement(treso.cout());
+		
+		for (int i=0; i<this.ldevis.size(); i++){
+			if (this.stock.getStock() > this.ldevis.get(i).getQttFinale()){
+//				this.stock.retrait(this.ldevis.get(i).getQttFinale());
+			}
+			else{
+				this.stock.retrait(this.stock.getStock());
+			}
+//			this.tresorerie.encaissement
+		}
 		}
 	
 
