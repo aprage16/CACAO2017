@@ -95,26 +95,29 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		journal.ajouter("ajout recolte :"+this.recolte.getQterecoltee()+"--> "+this.stock.getStock());
 		this.treso.decaissement(treso.cout());
 		
+		
 		for (int i=0; i<this.ldevis.size(); i++){
-			if (this.stock.getStock() > this.ldevis.get(i).getQttFinale()){
-//				this.stock.retrait(this.ldevis.get(i).getQttFinale());
-			}
-			else{
-				this.stock.retrait(this.stock.getStock());
-			}
-//			this.tresorerie.encaissement
+			if(this.ldevis.get(i).getDebut() <= this.ldevis.get(i).getDebut()+26 ){
+				this.stock.retrait(this.ldevis.get(i).getQttFinale());
+				this.treso.encaissement(this.ldevis.get(i).getQttFinale()*this.ldevis.get(i).getPrix()) ;
+				}
+		}	
 		}
-		}
+		
 	
-
-	public void envoieDevis(List<Devis> l) {
-		this.ldevis=l;
+	public void envoieDevis(List<Devis> l) { //à modifier en (Devis l) ; this.ldevis.add(l) ; pour que les contrats puissent etre demandés quand ils souhaitent
+		this.ldevis = l;
 	}
 
 	public void qttLivrablePrix() {
 		for (int i=0; i<this.ldevis.size(); i++){
-			this.ldevis.get(i).setQttLivrable(2000);
-			this.ldevis.get(i).setPrix(2000);
+			if (this.stock.getStock() > this.ldevis.get(i).getQttVoulue()){
+				this.ldevis.get(i).setQttLivrable(this.ldevis.get(i).getQttVoulue());
+			}
+			else{
+				this.ldevis.get(i).setQttLivrable(this.stock.getStock());
+			}
+			this.ldevis.get(i).setPrix(2500);
 		}
 	}
 
