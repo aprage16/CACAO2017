@@ -19,7 +19,7 @@ public class Stock {
 
 	public Stock(Acteur a) {
 		this.act=a;
-		this.stock= new Indicateur("4_PROD_AMER_stock", a ,10000);
+		this.stock= new Indicateur("4_PROD_AMER_stock", a ,1000);
 		MondeV1.LE_MONDE.ajouterIndicateur(this.stock);
 		this.prod=new ArrayList<Integer>(19);
 		for (int i=0; i<19; i++){
