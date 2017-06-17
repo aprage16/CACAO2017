@@ -34,6 +34,7 @@
             <classpath refid="CACAO2017.classpath"/>
         </javac>
     </target>
+    <target depends="build" name="test"/>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
     <target name="FenetreGraphique">
         <java classname="presentation.FenetreGraphique" failonerror="true" fork="yes">
