@@ -16,6 +16,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -64,12 +65,12 @@ public class FenetrePrincipale extends JFrame {
 
 		JLabel iChart = new JLabel(new ImageIcon("chart.png",
                 "Graphique"));
-		iChart.setBorder(new EmptyBorder(1, 1, 1, 1));
+		iChart.setBorder(new EmptyBorder(0, 1, 0, 1));
 		hIndic.add(iChart);
 
 		JLabel iHistory = new JLabel( new ImageIcon("history.png",
                 "Historique"));
-		iHistory.setBorder(new EmptyBorder(1, 1, 1, 1));
+		iHistory.setBorder(new EmptyBorder(0, 1, 0, 1));
 		hIndic.add(iHistory);
 
 		pGauche.add(hIndic);
@@ -136,8 +137,6 @@ public class FenetrePrincipale extends JFrame {
 
 		pIndicateurs.setLayout(new BorderLayout());
 		pIndicateurs.add(pGauche, BorderLayout.CENTER);
-		this.add(pIndicateurs, BorderLayout.CENTER);
-
 		
 		JPanel pDroit = new JPanel();
 		pDroit.setLayout(new BoxLayout(pDroit, BoxLayout.Y_AXIS));
@@ -145,7 +144,7 @@ public class FenetrePrincipale extends JFrame {
 		for (Journal j : Monde.LE_MONDE.getJournaux()) {
 			JPanel pJournal = new JPanel();
 			pJournal.setBorder(new EmptyBorder(0, 0, 0, 10));
-			JLabel lJournal = new JLabel( j.getNom());
+			JLabel lJournal = new JLabel(j.getNom());
 			lJournal.setAlignmentX(RIGHT_ALIGNMENT);
 			pJournal.setLayout(new BorderLayout());
 			pJournal.add(lJournal, BorderLayout.CENTER);
@@ -161,7 +160,14 @@ public class FenetrePrincipale extends JFrame {
 			pDroit.add(Box.createVerticalGlue());
 			pDroit.add(pJournal);
 		}
-		this.add(pDroit, BorderLayout.EAST);
+		
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				pIndicateurs, pDroit);
+		splitPane.setResizeWeight(0.5);
+		Dimension minimumSize = new Dimension(100, 100);
+		pIndicateurs.setMinimumSize(minimumSize);
+		pDroit.setMinimumSize(minimumSize);
+		this.add(splitPane, BorderLayout.CENTER);
 
 		JButton btnNext = new JButton("Next");
 		btnNext.addActionListener(new CtrlBtnNext(Monde.LE_MONDE));
