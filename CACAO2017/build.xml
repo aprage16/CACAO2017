@@ -5,20 +5,16 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="CACAO2017">
     <property environment="env"/>
-    <property name="ECLIPSE_HOME" value="/Users/max/Applications/eclipse/modeling-mars/Eclipse.app/Contents/Eclipse/"/>
     <property name="junit.output.dir" value="junit"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.7"/>
     <property name="source" value="1.7"/>
-    <path id="JUnit 4.libraryclasspath">
-        <pathelement location="${ECLIPSE_HOME}plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
-        <pathelement location="${ECLIPSE_HOME}plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
-    </path>
     <path id="CACAO2017.classpath">
         <pathelement location="bin"/>
-        <path refid="JUnit 4.libraryclasspath"/>
+        <pathelement location="lib/hamcrest-core-1.3.jar"/>
+        <pathelement location="lib/junit-4.11.jar"/>
     </path>
-    <target depends="build, MondeV1Test" name="test"/>
+	<target depends="build, MondeV1Test" name="test"/>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
@@ -68,7 +64,7 @@
     </target>
     <target name="MondeV1Test">
         <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" printsummary="withOutAndErr">
+        <junit fork="yes" haltonfailure="true" printsummary="withOutAndErr">
             <formatter type="xml"/>
             <test name="abstraction.distributeur.europe.MondeV1Test" todir="${junit.output.dir}"/>
             <jvmarg line="-ea"/>
