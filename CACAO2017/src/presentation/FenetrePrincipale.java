@@ -2,6 +2,7 @@ package presentation;
 import abstraction.distributeur.europe.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -9,6 +10,7 @@ import java.util.Locale;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -57,6 +59,20 @@ public class FenetrePrincipale extends JFrame {
 		pGauche.setLayout(new BoxLayout(pGauche, BoxLayout.Y_AXIS));
 		pGauche.add(Box.createVerticalGlue());
 		ArrayList<Indicateur> indicateurs = Monde.LE_MONDE.getIndicateurs();
+		
+		JPanel hIndic = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+
+		JLabel iChart = new JLabel(new ImageIcon("chart.png",
+                "Graphique"));
+		iChart.setBorder(new EmptyBorder(1, 1, 1, 1));
+		hIndic.add(iChart);
+
+		JLabel iHistory = new JLabel( new ImageIcon("history.png",
+                "Historique"));
+		iHistory.setBorder(new EmptyBorder(1, 1, 1, 1));
+		hIndic.add(iHistory);
+
+		pGauche.add(hIndic);
 
 		for (Indicateur i : indicateurs){
 			JPanel pIndic = new JPanel();
@@ -67,32 +83,9 @@ public class FenetrePrincipale extends JFrame {
 			JLabel lIndic = new JLabel( i.getNom());
 			lIndic.setAlignmentX(RIGHT_ALIGNMENT);
 			pReste.add(lIndic);
-			// Case a cocher "Graphique" permettant d'afficher/cacher le graphique de l'indicateur
-			JCheckBox cGraphiqueIndic = new JCheckBox("Graphique"); 
-			FenetreGraphique graphique = new FenetreGraphique(i.getNom(), 800, 600);
-            graphique.ajouter(i.getCourbe());
-			// Controleur permettant quand on clique sur la fermeture 
-			// de la fenetre graphique de mettre a jour la case a cocher "graphique"
-			// et quand on clique sur la case a cocher d'afficher/masquer le graphique
-			CtrlCheckBoxGraphique ctg = new CtrlCheckBoxGraphique(graphique, cGraphiqueIndic);
-            i.addObserver(ctg);
-			cGraphiqueIndic.addActionListener(ctg);
-			graphique.addWindowListener(ctg);
-			cGraphiqueIndic.setAlignmentX(RIGHT_ALIGNMENT);
-			pReste.add(cGraphiqueIndic);
-			
-			// Case a cocher "Historique" permettant d'afficher/cacher l'historique de l'indicateur
-			JCheckBox cHistorique = new JCheckBox("Historique");
-			FenetreHistorique fenetreHistorique = new FenetreHistorique(i);
-			CtrlCheckBoxHistorique cth = new CtrlCheckBoxHistorique(cHistorique, fenetreHistorique);
-			fenetreHistorique.addWindowListener(cth);
-			i.getHistorique().addObserver(cth);
-			cHistorique.addActionListener(cth);
-			cHistorique.setAlignmentX(RIGHT_ALIGNMENT);
-			pReste.add(cHistorique);
 			
 			// Champ de saisie permettant de modifier la valeur de l'indicateur
-			JTextField tIndic = new JTextField(20);
+			JTextField tIndic = new JTextField(12);
 			tIndic.setHorizontalAlignment(SwingConstants.RIGHT);
 			NumberFormat dc = NumberFormat.getInstance(Locale.FRANCE);
 			dc.setMaximumFractionDigits(2);
@@ -106,6 +99,34 @@ public class FenetrePrincipale extends JFrame {
 			tIndic.setAlignmentX(RIGHT_ALIGNMENT);
 			pReste.add(tIndic);
 			pIndic.add(pReste, BorderLayout.EAST);
+			
+			// Case a cocher "Graphique" permettant d'afficher/cacher le graphique de l'indicateur
+			JCheckBox cGraphiqueIndic = new JCheckBox(); 
+			FenetreGraphique graphique = new FenetreGraphique(i.getNom(), 800, 600);
+            graphique.ajouter(i.getCourbe());
+			// Controleur permettant quand on clique sur la fermeture 
+			// de la fenetre graphique de mettre a jour la case a cocher "graphique"
+			// et quand on clique sur la case a cocher d'afficher/masquer le graphique
+			CtrlCheckBoxGraphique ctg = new CtrlCheckBoxGraphique(graphique, cGraphiqueIndic);
+            i.addObserver(ctg);
+			cGraphiqueIndic.addActionListener(ctg);
+			graphique.addWindowListener(ctg);
+			cGraphiqueIndic.setAlignmentX(RIGHT_ALIGNMENT);
+			cGraphiqueIndic.setBorder(BorderFactory.createEmptyBorder());
+
+			pReste.add(cGraphiqueIndic);
+			
+			// Case a cocher "Historique" permettant d'afficher/cacher l'historique de l'indicateur
+			JCheckBox cHistorique = new JCheckBox();
+			FenetreHistorique fenetreHistorique = new FenetreHistorique(i);
+			CtrlCheckBoxHistorique cth = new CtrlCheckBoxHistorique(cHistorique, fenetreHistorique);
+			fenetreHistorique.addWindowListener(cth);
+			i.getHistorique().addObserver(cth);
+			cHistorique.addActionListener(cth);
+			cHistorique.setAlignmentX(RIGHT_ALIGNMENT);
+			cHistorique.setBorder(BorderFactory.createEmptyBorder());
+
+			pReste.add(cHistorique);
 
 			pGauche.add(Box.createVerticalGlue());
 			pGauche.add(pIndic);
