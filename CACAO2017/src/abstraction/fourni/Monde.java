@@ -149,5 +149,8 @@ public class Monde extends Observable {
 		for (Acteur a : this.acteurs) {
 			a.next();
 		}
+		for (Journal j : journaux) {
+			j.notifyObservers("endNext");
+		}
 	}
 }
