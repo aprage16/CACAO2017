@@ -81,9 +81,9 @@ public class Journal  extends Observable{
 	 * Cette methode est utilisee pour l'affichage
 	 */
 	public String toHtml() {
-		String s="<html>";
-		for (int i=0; i<this.getTaille(); i++) {
-			s+=this.get(i).toString()+"<br>";
+		String s="<html>...<br/>";
+		for (int i=Math.max(0,this.getTaille()-200); i<this.getTaille(); i++) {
+			s+=this.get(i).toString()+"<br/>";
 		}
 		return s+"</html>";
 	}
