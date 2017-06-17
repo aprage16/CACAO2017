@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import control.CtrlBtnNext;
 import control.CtrlCheckBoxHistorique;
@@ -122,11 +123,12 @@ public class FenetrePrincipale extends JFrame {
 		pDroit.setBorder(BorderFactory.createTitledBorder("Journaux"));
 		for (Journal j : Monde.LE_MONDE.getJournaux()) {
 			JPanel pJournal = new JPanel();
+			pJournal.setBorder(new EmptyBorder(0, 0, 0, 10));
 			JLabel lJournal = new JLabel( j.getNom());
 			lJournal.setAlignmentX(RIGHT_ALIGNMENT);
 			pJournal.setLayout(new BorderLayout());
 			pJournal.add(lJournal, BorderLayout.CENTER);
-			JCheckBox cJournal = new JCheckBox("visible"); 
+			JCheckBox cJournal = new JCheckBox(); 
 			FenetreJournal fenetreJournal = new FenetreJournal(j);
 			fenetreJournal.setCheckBox(cJournal);
 			CtrlCheckBoxJournal controlJournal = new CtrlCheckBoxJournal(cJournal, fenetreJournal);
@@ -134,7 +136,7 @@ public class FenetrePrincipale extends JFrame {
 			cJournal.addActionListener(controlJournal);
 
 			cJournal.setAlignmentX(RIGHT_ALIGNMENT);
-			pJournal.add(cJournal, BorderLayout.EAST);
+			pJournal.add(cJournal, BorderLayout.WEST);
 			pDroit.add(Box.createVerticalGlue());
 			pDroit.add(pJournal);
 		}
