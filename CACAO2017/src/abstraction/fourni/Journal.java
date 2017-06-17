@@ -46,7 +46,6 @@ public class Journal  extends Observable{
 	public void ajouter(String s) {
 		this.liste.add(s);
 		this.setChanged();
-		this.notifyObservers("setValeur");
 	}
 	/**
 	 * Si i>=0 et i<this.getTaille(), retourne le message d'index i.
