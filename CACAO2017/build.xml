@@ -5,16 +5,31 @@
               directory with the processing instruction <?eclipse.ant.import?>
               as the first entry and export the buildfile again. --><project basedir="." default="build" name="CACAO2017">
     <property environment="env"/>
+    <property name="ECLIPSE_HOME" value="/Users/max/Applications/eclipse/modeling-mars/Eclipse.app/Contents/Eclipse/"/>
+    <property name="junit.output.dir" value="junit"/>
     <property name="debuglevel" value="source,lines,vars"/>
     <property name="target" value="1.7"/>
     <property name="source" value="1.7"/>
+    <path id="JUnit 4.libraryclasspath">
+        <pathelement location="${ECLIPSE_HOME}plugins/org.junit_4.12.0.v201504281640/junit.jar"/>
+        <pathelement location="${ECLIPSE_HOME}plugins/org.hamcrest.core_1.3.0.v201303031735.jar"/>
+    </path>
     <path id="CACAO2017.classpath">
         <pathelement location="bin"/>
+        <path refid="JUnit 4.libraryclasspath"/>
     </path>
+    <target depends="build, MondeV1Test" name="test"/>
     <target name="init">
         <mkdir dir="bin"/>
         <copy includeemptydirs="false" todir="bin">
             <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.xtend"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="test">
                 <exclude name="**/*.launch"/>
                 <exclude name="**/*.xtend"/>
                 <exclude name="**/*.java"/>
@@ -31,10 +46,10 @@
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="true" debuglevel="${debuglevel}" destdir="bin" includeantruntime="false" source="${source}" target="${target}">
             <src path="src"/>
+            <src path="test"/>
             <classpath refid="CACAO2017.classpath"/>
         </javac>
     </target>
-    <target depends="build" name="test"/>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
     <target name="FenetreGraphique">
         <java classname="presentation.FenetreGraphique" failonerror="true" fork="yes">
@@ -50,5 +65,22 @@
         <java classname="abstraction.transformateur.usa.TransfoChocolat" failonerror="true" fork="yes">
             <classpath refid="CACAO2017.classpath"/>
         </java>
+    </target>
+    <target name="MondeV1Test">
+        <mkdir dir="${junit.output.dir}"/>
+        <junit fork="yes" printsummary="withOutAndErr">
+            <formatter type="xml"/>
+            <test name="abstraction.distributeur.europe.MondeV1Test" todir="${junit.output.dir}"/>
+            <jvmarg line="-ea"/>
+            <classpath refid="CACAO2017.classpath"/>
+        </junit>
+    </target>
+    <target name="junitreport">
+        <junitreport todir="${junit.output.dir}">
+            <fileset dir="${junit.output.dir}">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="${junit.output.dir}"/>
+        </junitreport>
     </target>
 </project>
