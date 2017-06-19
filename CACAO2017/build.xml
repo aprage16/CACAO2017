@@ -64,8 +64,8 @@
     </target>
     <target name="MondeV1Test">
         <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" haltonfailure="true" printsummary="withOutAndErr">
-            <formatter type="xml"/>
+        <junit fork="yes" haltonfailure="true">
+        	<formatter type="plain" usefile="false" /> 
             <test name="abstraction.distributeur.europe.MondeV1Test" todir="${junit.output.dir}"/>
             <jvmarg line="-ea"/>
             <classpath refid="CACAO2017.classpath"/>
@@ -73,8 +73,8 @@
     </target>
     <target name="FenetrePrincipaleTest">
         <mkdir dir="${junit.output.dir}"/>
-        <junit fork="yes" haltonfailure="true" printsummary="withOutAndErr">
-            <formatter type="xml"/>
+        <junit fork="yes" haltonfailure="true">
+        	<formatter type="plain" usefile="false" /> 
             <test name="presentation.FenetrePrincipaleTest" todir="${junit.output.dir}"/>
             <jvmarg line="-ea"/>
             <classpath refid="CACAO2017.classpath"/>
