@@ -172,7 +172,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 		//System.out.println(this.stock.getStock()+"  avant retrait des ventes");
 		this.stock.addStock(-quantite);
 		//System.out.println(this.stock.getStock()+"  après retrait des ventes");
-		this.tresorerie.addBenef(quantite*coursActuel - this.stock.getStock()*Treso.COUTS);
+		this.tresorerie.addBenef(quantite*coursActuel);
 		this.coursactuel=coursActuel;
 		
 	}
@@ -180,6 +180,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	//NEXT "Centre du programme -> Passage à la période suivante" 
 	
 	public void next() {
+		this.tresorerie.addBenef(- this.stock.getStock()*Treso.COUTS-Treso.COUTS_SALARIAUX);
 		this.variationProduction(Monde.LE_MONDE.getStep());
 		this.stock.perissabiliteStock();
 		livraisonDesContrats();
