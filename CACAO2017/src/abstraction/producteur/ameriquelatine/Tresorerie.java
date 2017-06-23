@@ -55,7 +55,7 @@ public class Tresorerie {
 	
 	public void recrutement(){
 		double solde=this.getTresorerie();
-		if ((solde>1000000000)&&(this.coutSalarie<=55000)){
+		if ((solde>1000000000)&&(this.coutSalarie<=65000)){
 			this.coutSalarie=this.coutSalarie+500;
 		}
 	}
