@@ -28,6 +28,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	private Journal journal;	//Introduction du Journal pour avoir une visibilité sur 
 								//l'évolution des différents paramètres.
 	private List<Devis> devisprod;
+	public double coursactuel;
 	
 	//Cf marché
 	public int hashCode() {
@@ -157,7 +158,12 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	}
 
 	public double quantiteMiseEnvente() {   // correspond a la quantité mise en vente//
-		return this.stock.getStock(); 
+		int s =0; 
+		for (Devis d : this.devisprod){
+			if (Monde.LE_MONDE.getStep()-d.getDebut()<26)
+				s+=d.getQttFinale();
+		}
+		return this.stock.getStock()-s; 
 	}
 
 
@@ -166,12 +172,15 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 		//System.out.println(this.stock.getStock()+"  avant retrait des ventes");
 		this.stock.addStock(-quantite);
 		//System.out.println(this.stock.getStock()+"  après retrait des ventes");
-		this.tresorerie.addBenef(quantite*coursActuel - this.stock.getStock()*Treso.COUTS);
+		this.tresorerie.addBenef(quantite*coursActuel);
+		this.coursactuel=coursActuel;
+		
 	}
 	
 	//NEXT "Centre du programme -> Passage à la période suivante" 
 	
 	public void next() {
+		this.tresorerie.addBenef(- this.stock.getStock()*Treso.COUTS-Treso.COUTS_SALARIAUX);
 		this.variationProduction(Monde.LE_MONDE.getStep());
 		this.stock.perissabiliteStock();
 		livraisonDesContrats();
@@ -185,9 +194,25 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	}
 
 	public void qttLivrablePrix() {
+		int s =0;
 		for (int i=0; i<this.devisprod.size();i++){
-			this.devisprod.get(i).setQttLivrable(1000); 
-			this.devisprod.get(i).setPrix(3000);
+			if (Monde.LE_MONDE.getStep()-this.devisprod.get(i).getDebut()<26){
+				this.devisprod.get(i).setPrix(0.9*this.coursactuel);
+				s+=this.devisprod.get(i).getQttFinale();
+				if(s>0.7*this.getQuantiteProd()){
+					this.devisprod.get(i).setQttLivrable(0);
+				}
+				else {
+					if (s+this.devisprod.get(i).getQttVoulue()<0.7*PRODUCTIONMOYENNE){
+						this.devisprod.get(i).setQttLivrable(this.devisprod.get(i).getQttVoulue());
+					}
+					else {
+						this.devisprod.get(i).setQttLivrable(0.7*PRODUCTIONMOYENNE-s);
+					}
+				}
+			}
+			
+			
 		}
 	}
 
