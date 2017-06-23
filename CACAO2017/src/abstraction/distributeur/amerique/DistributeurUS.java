@@ -1,4 +1,4 @@
-﻿package abstraction.distributeur.amerique;
+package abstraction.distributeur.amerique;
 
 import java.util.ArrayList;
 import java.util.List;
