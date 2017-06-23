@@ -122,7 +122,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 			else{
 				this.ldevis.get(i).setQttLivrable(this.stock.getStock());
 			}
-			this.ldevis.get(i).setPrix(2500);
+			this.ldevis.get(i).setPrix(this.coursActuel-(10/100)*this.coursActuel);
 		}
 	}
 
