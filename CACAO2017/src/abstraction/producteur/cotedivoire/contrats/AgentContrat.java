@@ -4,17 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import abstraction.fourni.Acteur;
+import abstraction.fourni.Journal;
+import abstraction.fourni.Monde;
 
 public class AgentContrat implements Acteur{
 	private List<IContratProd> producteurs; 
 	private List<IContratTrans> transformateurs;
 	public List<IContratTrans> demandeurs;
+	public Journal journal;
 	
 	
 	public AgentContrat () {
 		this.producteurs= new ArrayList<IContratProd>(); 
 		this.transformateurs= new ArrayList<IContratTrans>(); 
 		this.demandeurs= new ArrayList<IContratTrans>();
+		this.journal= new Journal ("Journal de "+this.getNom());
+		Monde.LE_MONDE.ajouterJournal(this.journal);
 	}
 	
 	public List<IContratProd> getProducteurs() {
@@ -52,25 +57,24 @@ public class AgentContrat implements Acteur{
 		for(IContratProd p : this.getProducteurs()) {     // Création de l'ensemble des devis.
 			for (IContratTrans t : this.getDemandeurs()){
 				l.add(new Devis(p,t));
+				this.journal.ajouter("Création du devis entre "+p.getClass().getName()+" et "+t.getClass().getName());
 			}
 		}
 		for (IContratTrans t : this.getDemandeurs()){  // Création et envoie de la list des devis dans lesquels t est impliqué.
 			List<Devis> lt = new ArrayList<Devis>();
 			for (Devis d : l){
 				if (d.getTrans()==t){
-					lt.add(d);
+					t.envoieDevis(d);
 				}
 			}
-			t.envoieDevis(lt);
 		}
 		for (IContratProd p : this.getProducteurs()){  // Création et envoie de la list des devis dans lesquels p est impliqué.
 			List<Devis> lp = new ArrayList<Devis>();
 			for (Devis d : l){
 				if (d.getProd()==p){
-					lp.add(d);
+					p.envoieDevis(d);
 				}
 			}
-			p.envoieDevis(lp);
 		}
 
 		for (IContratTrans t : this.getDemandeurs()){  // Les transfo vont modifiés la qttVoulue de chaque devis

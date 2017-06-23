@@ -105,8 +105,10 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		}
 		
 	
-	public void envoieDevis(List<Devis> l) { //à modifier en (Devis l) ; this.ldevis.add(l) ; pour que les contrats puissent etre demandés quand ils souhaitent
-		this.ldevis = l;
+
+	public void envoieDevis(Devis d) {
+		// TODO Auto-generated method stub
+		this.ldevis.add(d);
 	}
 
 	public void qttLivrablePrix() {

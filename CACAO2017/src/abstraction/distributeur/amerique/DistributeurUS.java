@@ -1,4 +1,4 @@
-﻿package abstraction.distributeur.amerique;
+package abstraction.distributeur.amerique;
 
 import abstraction.distributeur.europe.IDistributeur;
 import abstraction.distributeur.europe.Vente;
