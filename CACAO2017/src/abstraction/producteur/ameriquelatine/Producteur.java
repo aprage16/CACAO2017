@@ -81,6 +81,9 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	}
 	
 	public void next() {
+		if(Monde.LE_MONDE.getStep()%26==0){
+			treso.investissement();
+		}
 		recolte.miseAJourIndice();
 		if (Monde.LE_MONDE.getStep()<=19){ // Avant le step 19, on ajoute à chaque step dans prod
 			this.stock.ajout(this.recolte.getQterecoltee(), Monde.LE_MONDE.getStep()-1);
