@@ -264,9 +264,15 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	
 	private List<Devis> l;
 	
+<<<<<<< HEAD
 	
 	public void envoieDevis(List<Devis> l) { //récupère la liste des différents devis
 		this.l=l;
+=======
+	@Override
+	public void envoieDevis(Devis d) { //récupère la liste des différents devis
+		this.l.add(d);
+>>>>>>> CACAO2017/master
 	}
 
 

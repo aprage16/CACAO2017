@@ -24,12 +24,14 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	private Indicateur qtemiseenvente;
 	private Indicateur production;
 	private Journal journal;
-	public List<Devis> ldevis ;
+	public ArrayList<Devis> ldevis ;
+	private double prod_moy ;
 	
 	public Producteur(){
 		this.nom="Producteur AmeriqueLatine" ;
 		this.recolte=new Recolte(0.8) ;
 		this.stock=new Stock(this);
+		this.prod_moy = 20000 ;
 		this.treso=new Tresorerie(stock, recolte, this);
 		this.quantiteVendue=new Indicateur("4_PROD_AMER_quantiteVendue", this,qtevendue);
 		MondeV1.LE_MONDE.ajouterIndicateur(this.quantiteVendue) ;
@@ -39,6 +41,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		this.production=new Indicateur("4_PROD_AMER_production", this,this.recolte.getQterecoltee()) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.production);
 		MondeV1.LE_MONDE.ajouterJournal(this.journal);
+		this.ldevis = new ArrayList<Devis>() ;
 	}
 	public String getNom(){
 		return this.nom;
@@ -81,12 +84,15 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	}
 	
 	public void next() {
+		if(Monde.LE_MONDE.getStep()%26==0){
+			treso.investissement();
+		}
 		recolte.miseAJourIndice();
 		if (Monde.LE_MONDE.getStep()<=19){ // Avant le step 19, on ajoute à chaque step dans prod
 			this.stock.ajout(this.recolte.getQterecoltee(), Monde.LE_MONDE.getStep()-1);
 		}
 		else {
-			ArrayList<Integer> copie=new ArrayList<Integer>(stock.getProd());
+			ArrayList<Double> copie=new ArrayList<Double>(stock.getProd());
 			for (int i=0; i<this.stock.getProd().size()-1;i++){
 				this.stock.setProd(i, copie.get(i+1)); // On  crée une copie où on décale toutes les valeurs
 			}
@@ -94,23 +100,38 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		}
 		journal.ajouter("ajout recolte :"+this.recolte.getQterecoltee()+"--> "+this.stock.getStock());
 		this.treso.decaissement(treso.cout());
+		
+		
+//		for (int i=0; i<this.ldevis.size(); i++){
+//			if(this.ldevis.get(i).getDebut() <= this.ldevis.get(i).getDebut()+26 ){
+//				this.stock.retrait(this.ldevis.get(i).getQttFinale());
+//				this.treso.encaissement(this.ldevis.get(i).getQttFinale()*this.ldevis.get(i).getPrix()) ;
+//				}
+//		}	
 		}
+		
 	
-	@Override
-	public void envoieDevis(List<Devis> l) {
+
+	public void envoieDevis(Devis d) {
 		// TODO Auto-generated method stub
-		this.ldevis=l;
+		this.ldevis.add(d);
 	}
-	@Override
+
 	public void qttLivrablePrix() {
 		for (int i=0; i<this.ldevis.size(); i++){
-			this.ldevis.get(i).setQttLivrable(2000);
-			this.ldevis.get(i).setPrix(2000);
+			if (prod_moy/this.ldevis.size() > this.ldevis.get(i).getQttVoulue()){
+				this.ldevis.get(i).setQttLivrable(this.ldevis.get(i).getQttVoulue());
+			}
+			else{
+				this.ldevis.get(i).setQttLivrable(0.7*prod_moy);
+			}
+			this.ldevis.get(i).setPrix(0.9*this.coursActuel);
 		}
+		
 	}
-	@Override
+
 	public void notifContrat() {
 		// TODO Auto-generated method stub
-		// Mettre prix et qté finale en tant que variable?
+		
 	}
 }
