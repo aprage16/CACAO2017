@@ -8,7 +8,7 @@ import abstraction.distributeur.europe.MondeV1;
 //26/04 Adrien
 
 public class Recolte {
-	public final static int SURFACE_CULTIVABLE=30000; //(realite 30000) Constante : surface cultivable max en hectare
+	public final static int SURFACE_CULTIVABLE=35000; //(realite 30000) Constante : surface cultivable max en hectare
 	private double indiceRecolte; // Indicateur variant entre 0 et 1 : pourcentage pour fixer nb de fèves totales
 	
 	public Recolte(double indiceRecolte){// indice initial

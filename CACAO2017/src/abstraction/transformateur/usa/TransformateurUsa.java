@@ -210,8 +210,8 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 	}
 
 	@Override
-	public void envoieDevis(List<Devis> l) {
-		this.devis=l;	
+	public void envoieDevis(Devis d) {
+		this.devis.add(d);	
 	}
 
 	@Override
