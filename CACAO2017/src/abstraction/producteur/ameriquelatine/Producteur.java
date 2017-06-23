@@ -24,7 +24,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	private Indicateur qtemiseenvente;
 	private Indicateur production;
 	private Journal journal;
-	public List<Devis> ldevis ;
+	public ArrayList<Devis> ldevis ;
 	private double prod_moy ;
 	
 	public Producteur(){
@@ -41,6 +41,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		this.production=new Indicateur("4_PROD_AMER_production", this,this.recolte.getQterecoltee()) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.production);
 		MondeV1.LE_MONDE.ajouterJournal(this.journal);
+		this.ldevis = new ArrayList<Devis>() ;
 	}
 	public String getNom(){
 		return this.nom;
@@ -118,7 +119,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 
 	public void qttLivrablePrix() {
 		for (int i=0; i<this.ldevis.size(); i++){
-			if (prod_moy > this.ldevis.get(i).getQttVoulue()){
+			if (prod_moy/this.ldevis.size() > this.ldevis.get(i).getQttVoulue()){
 				this.ldevis.get(i).setQttLivrable(this.ldevis.get(i).getQttVoulue());
 			}
 			else{
@@ -126,6 +127,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 			}
 			this.ldevis.get(i).setPrix(0.9*this.coursActuel);
 		}
+		
 	}
 
 	public void notifContrat() {
