@@ -1,4 +1,4 @@
-﻿package abstraction.distributeur.amerique;
+package abstraction.distributeur.amerique;
 
 import abstraction.distributeur.europe.IDistributeur;
 import abstraction.distributeur.europe.Vente;
@@ -6,7 +6,7 @@ import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
 
-public class DistributeurUS implements IDistributeur{
+public class DistributeurUS implements IDistributeur, DistribClient{
 	public static String  nomIndicateurStock = "1_DISTR_US_stock";
 	public static String nomIndicateurFonds = "1_DISTR_US_fonds";
 	public static double fondsIni = 500000.0;
@@ -148,6 +148,28 @@ public class DistributeurUS implements IDistributeur{
 	public Journal getJournal(){
 		
 		return this.journalTest;
+	}
+
+
+	@Override
+	public double getPrixClient() {
+		// TODO Auto-generated method stub
+		return 10;
+	}
+
+
+	@Override
+	public double getMisEnVente() {
+		// TODO Auto-generated method stub
+		return this.getStock();
+	}
+
+
+	@Override
+	public void notifVente(Vente vente) {
+		// TODO Auto-generated method stub
+		this.setStock(this.getStock()-vente.getQuantite());
+		this.setFonds(this.getFonds()+vente.getPrix()*vente.getQuantite());
 	}
 
 

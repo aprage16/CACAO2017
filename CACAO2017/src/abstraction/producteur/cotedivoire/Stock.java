@@ -2,20 +2,30 @@ package abstraction.producteur.cotedivoire;
 
 import java.util.ArrayList;
 
+import abstraction.fourni.Acteur;
+import abstraction.fourni.Indicateur;
+import abstraction.fourni.Monde;
+
+
 // by fcadre 
 
 public class Stock{
 	
-	private double stock; 
+	private Acteur a;
+	public Indicateur stock; 
 	private ArrayList<Double> stocks; 		// variable d'instance représentant le stock
 	public static final double STOCK_MAX = 250000; //le stock physique maximal est de 250000 tonnes
+	public static final double COUT_STOCK = 300; 
 	/**
 	 * Constructeur de Stock
 	 * @param stock
 	 */
-	public Stock(){ 
-		this.stock=0; 
+	public Stock(Acteur a){ 
+		this.a=a;
+		this.stock=new Indicateur("6_PROD_COT_stock",a,0.0); 
+		Monde.LE_MONDE.ajouterIndicateur(this.stock);
 		this.stocks= new ArrayList<Double>();  
+		this.stocks.add(0.0);
 	}
 
 	/**
@@ -23,7 +33,7 @@ public class Stock{
 	 * @return la valeur du stock
 	 */
 	public double getStock(){ 
-		return this.stock; 
+		return this.stock.getValeur(); 
 	}
 	
 	public ArrayList<Double> getStocks(){ 
@@ -35,25 +45,33 @@ public class Stock{
 	 * ou enlever du stock la production vendue
 	 * @param stock double positif ou negatif
 	 */
+	public void setStocks(double d){
+		double val = this.getStocks().get(this.getStocks().size()-1);
+		this.getStocks().remove(this.getStocks().size()-1);
+		this.getStocks().add(d+val);
+		
+	}
+
 	public void addStock(double stock){ 
 		if(this.getStock()+stock<STOCK_MAX){
-			this.stock += stock;  
+			this.stock.setValeur(this.a, this.stock.getValeur()+stock);
+			if (stock<0){
+				setStocks(stock);
+			}
+			else {
+				this.getStocks().add(stock-this.getStocks().get(this.getStocks().size()-1));
+			}
 		}else{
-			this.stock = STOCK_MAX;  
+			this.stock.setValeur(this.a,STOCK_MAX) ;
+			this.getStocks().add(STOCK_MAX-this.getStock());
 		}
+		
 	}
 	
-	public void perissabiliteStock(double stock){ 
-		int taille = this.stocks.size();
-		double stockparstep = stock - this.getStocks().get(taille);
-		if(taille<18){  
-			this.addStock(stockparstep); 
-		}else{
-			this.addStock(stockparstep);
-			for(int i=taille+1; i>1; i++){   
-				this.stocks.add(i, this.getStocks().get(i-1));
-				this.stocks.remove(i-1); 
-			}
+	public void perissabiliteStock(){ 
+		int taille = this.getStocks().size();
+		if(taille>18){
+			this.getStocks().remove(0);
 		}
 	}
 }

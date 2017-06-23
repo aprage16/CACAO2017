@@ -21,7 +21,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	private Stock stock;          // Représente notre stock 
 	private Treso tresorerie;     // Représente notre trésorerie
 	private Indicateur productionIndicateur;	
-	private Indicateur stockIndicateur;
+	//private Indicateur stockIndicateur;
 	private Indicateur tresoIndicateur;
 	private Indicateur vente;	
 	private Journal journal;	//Introduction du Journal pour avoir une visibilité sur 
@@ -42,12 +42,12 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	//Constructeur sans paramètre
 	public ProductionCoteDIvoire() {
 		this.production = 0;
-		this.stock= new Stock();
+		this.stock= new Stock(this);
 		this.tresorerie= new Treso();
 		this.productionIndicateur=new Indicateur("6_PROD_COT_production",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur( this.productionIndicateur );
-		this.stockIndicateur = new Indicateur("6_PROD_COT_stock",this,0.0);
-		Monde.LE_MONDE.ajouterIndicateur(this.stockIndicateur);
+		//this.stockIndicateur = new Indicateur("6_PROD_COT_stock",this,0.0);
+		//Monde.LE_MONDE.ajouterIndicateur(this.stockIndicateur);
 		this.tresoIndicateur = new Indicateur("6_PROD_COT_treso",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur(this.tresoIndicateur);
 		this.vente= new Indicateur("6_PROD_COT_vente",this,0.0);
@@ -127,11 +127,28 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 				}
 			}
 		}
+		//System.out.println(this.stock.getStock()+"  avant ajout de production ");
 		this.stock.addStock((int)prod);
-		if(this.stock.getStock()>=Stock.STOCK_MAX){ 
-			prod = prod/4;   
+		//System.out.println(this.stock.getStock()+"  apres ajout de production ");
+		if(this.stock.getStock()>=Stock.STOCK_MAX){
+			//System.out.println("ca n'arrive jamais...");
+			//System.exit(0);
+			this.stock.addStock((int)-prod);
+			prod = prod/2;
+			this.stock.addStock((int)prod);
+			if(this.stock.getStock()>=Stock.STOCK_MAX){ 
+				this.stock.addStock((int)-prod);
+				prod = prod/2;
+				this.stock.addStock((int)prod);
+				if(this.stock.getStock()>=Stock.STOCK_MAX){ 
+					this.stock.addStock((int)-prod);
+					prod = prod/2; 
+					this.stock.addStock((int)prod);
+				}
+			}
 		}
 		this.production=(int)prod; // ajout dans la liste de production
+		this.tresorerie.addBenef(- prod*Stock.COUT_STOCK);	
 		this.productionIndicateur.setValeur(this, (int)prod);
 		this.journal.ajouter("Valeur de Production: "+this.production+" à l'étape du Monde: "+Monde.LE_MONDE.getStep());
 	}
@@ -148,7 +165,9 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 
 	public void notificationVente(double quantite, double coursActuel) {	// grace a la notification de vente on met a jour // 
 		this.vente.setValeur(this,quantite);
+		//System.out.println(this.stock.getStock()+"  avant retrait des ventes");
 		this.stock.addStock(-quantite);
+		//System.out.println(this.stock.getStock()+"  après retrait des ventes");
 		this.tresorerie.addBenef(quantite*coursActuel - this.stock.getStock()*Treso.COUTS);
 		this.tresoIndicateur.setValeur(this,this.tresorerie.getCa());
 	}
@@ -157,19 +176,20 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	
 	public void next() {
 		this.variationProduction(Monde.LE_MONDE.getStep());
-		this.stockIndicateur.setValeur(this,this.stock.getStock());
+		this.stock.perissabiliteStock();
+		//this.stockIndicateur.setValeur(this,this.stock.getStock());
 	}
 
 	// GESTION des Contrats et Devis
 	
 	
-	public void envoieDevis(List<Devis> l) {
-		this.devisprod=l;
+	public void envoieDevis(Devis d) {
+		this.devisprod.add(d);
 	}
 
 	public void qttLivrablePrix() {
 		for (int i=0; i<this.devisprod.size();i++){
-			this.devisprod.get(i).setQttLivrable(10);
+			this.devisprod.get(i).setQttLivrable(10); 
 			this.devisprod.get(i).setPrix(3000);
 		}
 	}

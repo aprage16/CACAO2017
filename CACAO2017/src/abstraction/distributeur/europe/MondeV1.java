@@ -5,7 +5,6 @@ import abstraction.producteur.ameriquelatine.*;
 import abstraction.producteur.cotedivoire.*;
 import abstraction.transformateur.europe.Transformateur;
 import abstraction.transformateur.usa.*;
-import abstraction.transformateur.usa.interfacemarche.*;
 import abstraction.distributeur.amerique.*;
 import java.util.ArrayList;
 import abstraction.fourni.Monde;
@@ -55,6 +54,11 @@ public class MondeV1 extends Monde {
 		MarcheDT.getTransfo().add(t1);
 		MarcheDT.getTransfo().add(t2);
 		this.ajouterActeur(MarcheDT);
+		
+		MarcheClients MarcheClients = new MarcheClients();
+		MarcheClients.addDistributeur(d1);
+		MarcheClients.addDistributeur(d2);
+		this.ajouterActeur(MarcheClients);
 	}
 	
 
