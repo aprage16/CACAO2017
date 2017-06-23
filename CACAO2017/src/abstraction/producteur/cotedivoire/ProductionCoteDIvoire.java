@@ -15,7 +15,7 @@ import abstraction.producteur.ameriquelatine.IProducteur;
 // by fcadre, comments by antoineroson
 
 public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
-	public static final int  PRODUCTIONMOYENNE = 1650000/26; //+ 42673; // Production moyenne de la cote d'ivoire en tonne + le reste du monde
+	public static final int  PRODUCTIONMOYENNE = 1650000/26; //+ 42673 Production moyenne de la cote d'ivoire en tonne + le reste du monde
 	public static final double VARIATIONALEATOIREPRODUCTION = 0.05; 
 	
 	private int  production; //Liste des productions par périodes
