@@ -180,7 +180,10 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	//NEXT "Centre du programme -> Passage à la période suivante" 
 	
 	public void next() {
-		this.tresorerie.addBenef(- this.stock.getStock()*Treso.COUTS-Treso.COUTS_SALARIAUX);
+		this.tresorerie.addBenef(- this.stock.getStock()*Treso.COUTS_FIXES-Treso.COUTS_SALARIAUX);
+		if(Monde.LE_MONDE.getStep()%26==1){ 
+			this.tresorerie.addBenef(- Treso.COUTS_MAINTENANCE);
+		}
 		this.variationProduction(Monde.LE_MONDE.getStep());
 		this.stock.perissabiliteStock();
 		livraisonDesContrats();

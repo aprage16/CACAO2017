@@ -11,9 +11,10 @@ public class Treso {
 	private ArrayList<Integer> benefmensuel;
 	private Indicateur ca; // Chiffre d'affaire sur la période d'un next
 	private double benefice;  
-	public static final int COUTS = 474; //coûts de logistique par tonne de cacao produite 
+	public static final int COUTS_FIXES = 474; //coûts de logistique par tonne de cacao produite 
 	private Acteur a;
 	public static final int COUTS_SALARIAUX = 66900000;
+	public static final int COUTS_MAINTENANCE = 1000000; 
 	//On initialise la tréso de notre acteur à 0
 	public Treso(Acteur a){
 		this.ca = new Indicateur ("6_PROD_COT_tresorerie",a,0.0);
