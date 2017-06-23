@@ -51,7 +51,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	public static final double PRIX_MIN=0.004; // Prix minimum de vente du chocolat sur le marché
 	public static final double PRIX_MAX=0.008;
 	public static final int COUT_ANNEXE=10000000; //couts annexes comportant les salaires et tout les couts potentiels autre que le cacao
-	//public static double[] CACAO_NECESSAIREL_PREVISION = prevision(abstraction.distributeur.amerique.DistributeurUS.CONSO_PREVUE);
+	public static double[] CACAO_NECESSAIRE_PREVISION ={32,32,32,48,32,32,32,72,32,32,32,32,32,32,32,32,32,32,32,32,32,60,32,32,32,104};
 	public static final double RATIO_CONTRAT_PRODUCTEUR= 0.75; // Proportion de la quantité prévisionnelle minimum sur un an que l'on demande pour le contrat avec les producteurs
 	
 	private Journal journal;
@@ -144,7 +144,8 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 			if (stockCacao>=CACAO_NECESSAIRE){ // On vérifie si le cacao nécessaire pour atteindre notre objectif de chocolat est présent ou non, s'il l'est on achète rien
 				quantiteSouhaitee=0;
 			}else{
-				quantiteSouhaitee=CACAO_NECESSAIRE-stockCacao; // On achète ce qui est suffisant pour produire CHOCOLAT_NECESSAIRE tonnes de chocolat
+			 // On achète ce qui est suffisant pour produire CHOCOLAT_NECESSAIRE tonnes de chocolat
+				quantiteSouhaitee=CACAO_NECESSAIRE_PREVISION[step%26]*1000-getmin_tab(CACAO_NECESSAIRE_PREVISION);
 			}
 		}else{
 			return quantiteSouhaitee=0; // On achète rien si on a trop de chocolat par rapport à ce que l'on vend
@@ -291,6 +292,14 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		}
 		return res;
 	}
+	
+	public double getmoyenne_tab(int[] tab){
+		double res = 0;
+		for (int i=0;i<tab.length;i++){
+				res+=tab[i];
+			}
+		return res/tab.length;
+	}
 
 	@Override
 	public void finContrat() {
@@ -352,11 +361,31 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	 * @param arg
 	 * @return un tableau de 26 valeurs correspondant à la quantité previsionnelle de cacao qu'on doit demander tout les next aux producteurs (sans tenir compte des stocks)
 	 */
-	public double[] prevision(int[] arg){
+	public double[] prevision_naif(int[] arg){
 		int taille = arg.length;
 		double [] res = new double[taille];
 		for (int i=0; i<taille; i++){
 			res[i]=arg[i]*RATIO_CACAO_CHOCO*PART_MARCHE;
+		}
+		return res;
+	}
+	
+	/**
+	 * @objectif Faire une prevision du cacao à demander aux producteurs en tenant compte des pics
+	 * @param arg
+	 * @return un tableau de 26 valeurs correspondant à la quantité previsionnelle de cacao qu'on doit demander tout les next aux producteurs en tenant compte des stocks
+	 */
+	public double[] prevision_pics(int[] arg){
+		int taille = arg.length;
+		double [] res = prevision_naif(arg);
+		double moyenne_tab = getmoyenne_tab(arg);
+		for (int i=0; i<taille; i++){
+			if (res[(26+i)%26]>=1.5*moyenne_tab){
+				res[(26+i)%26]=0.45*arg[i]*RATIO_CACAO_CHOCO*PART_MARCHE;
+				res[(26+i-1)%26]+=0.25*arg[i]*RATIO_CACAO_CHOCO*PART_MARCHE;
+				res[(26+i-2)%26]+=0.15*arg[i]*RATIO_CACAO_CHOCO*PART_MARCHE;
+				res[(26+i-3)%26]+=0.15*arg[i]*RATIO_CACAO_CHOCO*PART_MARCHE;
+			}
 		}
 		return res;
 	}
