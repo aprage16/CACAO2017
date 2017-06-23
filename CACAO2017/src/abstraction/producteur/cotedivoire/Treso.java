@@ -14,7 +14,7 @@ public class Treso {
 	public static final int COUTS_FIXES = 474; //coûts de logistique par tonne de cacao produite 
 	private Acteur a;
 	public static final int COUTS_SALARIAUX = 66900000;
-	public static final int COUTS_MAINTENANCE = 1000000; 
+	public static final int COUTS_MAINTENANCE = 2100000000; 
 	//On initialise la tréso de notre acteur à 0
 	public Treso(Acteur a){
 		this.ca = new Indicateur ("6_PROD_COT_tresorerie",a,0.0);

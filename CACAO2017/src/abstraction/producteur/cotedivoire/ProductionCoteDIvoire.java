@@ -181,7 +181,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	
 	public void next() {
 		this.tresorerie.addBenef(- this.stock.getStock()*Treso.COUTS_FIXES-Treso.COUTS_SALARIAUX);
-		if(Monde.LE_MONDE.getStep()%26==1){ 
+		if(Monde.LE_MONDE.getStep()%26==1 && Monde.LE_MONDE.getStep()>1){ 
 			this.tresorerie.addBenef(- Treso.COUTS_MAINTENANCE);
 		}
 		this.variationProduction(Monde.LE_MONDE.getStep());
