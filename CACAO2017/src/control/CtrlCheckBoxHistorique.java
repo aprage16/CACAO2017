@@ -27,8 +27,10 @@ public class CtrlCheckBoxHistorique  extends WindowAdapter implements ActionList
 	}
 
 	public void update(Observable o, Object arg) {
-		Historique h = (Historique)o;
-		this.fenetreHistorique.setLabel(h.toHtml());
+		if (this.fenetreHistorique.isVisible()) {
+			Historique h = (Historique)o;
+			this.fenetreHistorique.setLabel(h.toHtml());
+		}
 	}
 
 	public void windowClosing(WindowEvent arg0) {

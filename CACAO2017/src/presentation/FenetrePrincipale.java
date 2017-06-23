@@ -1,18 +1,25 @@
 package presentation;
-
+import abstraction.distributeur.europe.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSplitPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import control.CtrlBtnNext;
 import control.CtrlCheckBoxHistorique;
@@ -39,7 +46,7 @@ public class FenetrePrincipale extends JFrame {
 		super("Prime CACAO");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		Monde.LE_MONDE = new MondeV0(); 
+		Monde.LE_MONDE = new MondeV1(); 
 		Monde.LE_MONDE.peupler();
 		this.setLayout(new BorderLayout());
 
@@ -53,21 +60,49 @@ public class FenetrePrincipale extends JFrame {
 		pGauche.setLayout(new BoxLayout(pGauche, BoxLayout.Y_AXIS));
 		pGauche.add(Box.createVerticalGlue());
 		ArrayList<Indicateur> indicateurs = Monde.LE_MONDE.getIndicateurs();
+		
+		JPanel hIndic = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 
-		JPanel pLab = new JPanel();
-		pLab.setLayout(new BoxLayout(pLab, BoxLayout.Y_AXIS));
-		pLab.add(Box.createRigidArea(new Dimension(10,9)));
+		JLabel iChart = new JLabel(new ImageIcon("chart.png",
+                "Graphique"));
+		iChart.setBorder(new EmptyBorder(0, 1, 0, 1));
+		hIndic.add(iChart);
+
+		JLabel iHistory = new JLabel( new ImageIcon("history.png",
+                "Historique"));
+		iHistory.setBorder(new EmptyBorder(0, 1, 0, 1));
+		hIndic.add(iHistory);
+
+		pGauche.add(hIndic);
+
 		for (Indicateur i : indicateurs){
 			JPanel pIndic = new JPanel();
+			pIndic.setLayout(new BorderLayout());
+			JPanel pReste = new JPanel();
+			
 			// Nom de l'indicateur
 			JLabel lIndic = new JLabel( i.getNom());
-			pIndic.setLayout(new BorderLayout());
 			lIndic.setAlignmentX(RIGHT_ALIGNMENT);
-			pLab.add(lIndic);
-			pLab.add(Box.createVerticalGlue());
-			JPanel pReste = new JPanel();
+			pReste.add(lIndic);
+			
+			// Champ de saisie permettant de modifier la valeur de l'indicateur
+			JTextField tIndic = new JTextField(12);
+			tIndic.setHorizontalAlignment(SwingConstants.RIGHT);
+			NumberFormat dc = NumberFormat.getInstance(Locale.FRANCE);
+			dc.setMaximumFractionDigits(2);
+			dc.setMinimumFractionDigits(2);
+			String formattedText = dc.format(i.getValeur());
+			tIndic.setText(formattedText);
+			CtrlJTextField controlJTextField = new CtrlJTextField(tIndic, i);
+			tIndic.addActionListener(controlJTextField);
+			i.addObserver(controlJTextField);
+			tIndic.setMinimumSize(new Dimension(400,tIndic.getSize().height));
+			tIndic.setAlignmentX(RIGHT_ALIGNMENT);
+			pReste.add(tIndic);
+			pIndic.add(pReste, BorderLayout.EAST);
+			
 			// Case a cocher "Graphique" permettant d'afficher/cacher le graphique de l'indicateur
-			JCheckBox cGraphiqueIndic = new JCheckBox("Graphique"); 
+			JCheckBox cGraphiqueIndic = new JCheckBox(); 
 			FenetreGraphique graphique = new FenetreGraphique(i.getNom(), 800, 600);
             graphique.ajouter(i.getCourbe());
 			// Controleur permettant quand on clique sur la fermeture 
@@ -78,28 +113,21 @@ public class FenetrePrincipale extends JFrame {
 			cGraphiqueIndic.addActionListener(ctg);
 			graphique.addWindowListener(ctg);
 			cGraphiqueIndic.setAlignmentX(RIGHT_ALIGNMENT);
+			cGraphiqueIndic.setBorder(BorderFactory.createEmptyBorder());
+
 			pReste.add(cGraphiqueIndic);
 			
 			// Case a cocher "Historique" permettant d'afficher/cacher l'historique de l'indicateur
-			JCheckBox cHistorique = new JCheckBox("Historique");
+			JCheckBox cHistorique = new JCheckBox();
 			FenetreHistorique fenetreHistorique = new FenetreHistorique(i);
 			CtrlCheckBoxHistorique cth = new CtrlCheckBoxHistorique(cHistorique, fenetreHistorique);
 			fenetreHistorique.addWindowListener(cth);
 			i.getHistorique().addObserver(cth);
 			cHistorique.addActionListener(cth);
 			cHistorique.setAlignmentX(RIGHT_ALIGNMENT);
+			cHistorique.setBorder(BorderFactory.createEmptyBorder());
+
 			pReste.add(cHistorique);
-			
-			// Champ de saisie permettant de modifier la valeur de l'indicateur
-			JTextField tIndic = new JTextField(20);
-			tIndic.setText(i.getValeur()+"");
-			CtrlJTextField controlJTextField = new CtrlJTextField(tIndic, i);
-			tIndic.addActionListener(controlJTextField);
-			i.addObserver(controlJTextField);
-			tIndic.setMinimumSize(new Dimension(400,tIndic.getSize().height));
-			tIndic.setAlignmentX(RIGHT_ALIGNMENT);
-			pReste.add(tIndic);
-			pIndic.add(pReste, BorderLayout.EAST);
 
 			pGauche.add(Box.createVerticalGlue());
 			pGauche.add(pIndic);
@@ -108,21 +136,19 @@ public class FenetrePrincipale extends JFrame {
 		pIndicateurs.setBorder(BorderFactory.createTitledBorder("Indicateurs"));
 
 		pIndicateurs.setLayout(new BorderLayout());
-		pIndicateurs.add(pLab, BorderLayout.WEST);
 		pIndicateurs.add(pGauche, BorderLayout.CENTER);
-		this.add(pIndicateurs, BorderLayout.CENTER);
-
 		
 		JPanel pDroit = new JPanel();
 		pDroit.setLayout(new BoxLayout(pDroit, BoxLayout.Y_AXIS));
 		pDroit.setBorder(BorderFactory.createTitledBorder("Journaux"));
 		for (Journal j : Monde.LE_MONDE.getJournaux()) {
 			JPanel pJournal = new JPanel();
-			JLabel lJournal = new JLabel( j.getNom());
+			pJournal.setBorder(new EmptyBorder(0, 0, 0, 10));
+			JLabel lJournal = new JLabel(j.getNom());
 			lJournal.setAlignmentX(RIGHT_ALIGNMENT);
 			pJournal.setLayout(new BorderLayout());
 			pJournal.add(lJournal, BorderLayout.CENTER);
-			JCheckBox cJournal = new JCheckBox("visible"); 
+			JCheckBox cJournal = new JCheckBox(); 
 			FenetreJournal fenetreJournal = new FenetreJournal(j);
 			fenetreJournal.setCheckBox(cJournal);
 			CtrlCheckBoxJournal controlJournal = new CtrlCheckBoxJournal(cJournal, fenetreJournal);
@@ -130,11 +156,18 @@ public class FenetrePrincipale extends JFrame {
 			cJournal.addActionListener(controlJournal);
 
 			cJournal.setAlignmentX(RIGHT_ALIGNMENT);
-			pJournal.add(cJournal, BorderLayout.EAST);
+			pJournal.add(cJournal, BorderLayout.WEST);
 			pDroit.add(Box.createVerticalGlue());
 			pDroit.add(pJournal);
 		}
-		this.add(pDroit, BorderLayout.EAST);
+		
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
+				pIndicateurs, pDroit);
+		splitPane.setResizeWeight(0.5);
+		Dimension minimumSize = new Dimension(100, 100);
+		pIndicateurs.setMinimumSize(minimumSize);
+		pDroit.setMinimumSize(minimumSize);
+		this.add(splitPane, BorderLayout.CENTER);
 
 		JButton btnNext = new JButton("Next");
 		btnNext.addActionListener(new CtrlBtnNext(Monde.LE_MONDE));

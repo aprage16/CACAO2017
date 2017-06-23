@@ -25,9 +25,10 @@ public class CtrlCheckBoxJournal  implements ActionListener, Observer {
 	}
 
 	public void update(Observable arg0, Object arg1) {
-		Journal j = (Journal) arg0;
-		this.fJournal.setLabel(j.toHtml());
-		
+		if (this.fJournal.isVisible()) {
+			Journal j = (Journal) arg0;
+			this.fJournal.setLabel(j.toHtml());
+		}
 	}
 
 }
