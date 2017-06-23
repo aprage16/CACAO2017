@@ -46,10 +46,17 @@ public class Tresorerie {
 		}
 	}
 	
-/*	public void licenciement(){
+	public void licenciement(){
 		double solde=this.getTresorerie();
-		if (solde<800000){
-			this.coutSalarie=this.coutSalarie-
+		if ((solde<800000)&&(this.coutSalarie>=30000)){
+			this.coutSalarie=this.coutSalarie-500;
 		}
-	}*/
+	}
+	
+	public void recrutement(){
+		double solde=this.getTresorerie();
+		if ((solde>1000000000)&&(this.coutSalarie<=55000)){
+			this.coutSalarie=this.coutSalarie+500;
+		}
+	}
 }
