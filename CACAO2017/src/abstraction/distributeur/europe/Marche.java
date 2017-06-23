@@ -86,6 +86,16 @@ public class Marche implements Acteur{
 			}
 			this.journal.ajouter("Le distributeur a remporte le marche : " + prioD.getNom());
 			prioT=this.transformateurActif.get(this.indiceMinimum());
+			//System.out.println(prioD.getPrixMax());
+			//System.out.println(prioT.getprixMin());
+			if (prioD.getPrixMax()>=prioT.getprixMin()){
+				prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
+				for (int i=0; i<transformateur.size();i++){
+					transformateur.get(i).notif(prixMoyen, 0);
+				}
+				//System.out.println("prix moyen = " + prixMoyen);
+				prioD.notif(new Vente(prixMoyen,UNITE));
+				prioT.notif(prixMoyen,UNITE);	
 			this.journal.ajouter("Le transformateur a remporte le marche : " + prioT.getprixMin());
 			if (prioD.getPrixMax()>=prioT.getprixMin()){
 				prixMoyen=(prioD.getPrixMax()+prioT.getprixMin())/2;
@@ -96,7 +106,7 @@ public class Marche implements Acteur{
 			else{
 				onEchange=false;
 			}
-			
+			}
 		}
 
 	}
