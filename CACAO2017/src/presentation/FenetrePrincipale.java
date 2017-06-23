@@ -3,6 +3,7 @@ import abstraction.distributeur.europe.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Locale;
@@ -169,9 +170,19 @@ public class FenetrePrincipale extends JFrame {
 		pDroit.setMinimumSize(minimumSize);
 		this.add(splitPane, BorderLayout.CENTER);
 
+		JPanel pSouth = new JPanel();
+		pSouth.setLayout(new GridLayout(1,3));
 		JButton btnNext = new JButton("Next");
-		btnNext.addActionListener(new CtrlBtnNext(Monde.LE_MONDE));
-		this.add(btnNext, BorderLayout.SOUTH);
+		btnNext.addActionListener(new CtrlBtnNext(Monde.LE_MONDE, 1));
+		pSouth.add(btnNext);
+		JButton btnNext10 = new JButton("10 Nexts");
+		btnNext10.addActionListener(new CtrlBtnNext(Monde.LE_MONDE, 10));
+		pSouth.add(btnNext10);
+		JButton btnNext100 = new JButton("100 Nexts");
+		btnNext100.addActionListener(new CtrlBtnNext(Monde.LE_MONDE,100));
+		pSouth.add(btnNext100);
+		
+		this.add(pSouth, BorderLayout.SOUTH);
 		this.pack();
 	}
 
