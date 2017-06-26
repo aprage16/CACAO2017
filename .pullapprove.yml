@@ -1,5 +1,10 @@
 version: 2
 
+group_defaults:
+  approve_by_comment:
+    enabled: true
+    approve_regex: '(^Approved|OK|Ok|ok)'
+
 groups:
   code-review:
     approve_by_comment:
