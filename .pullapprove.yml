@@ -1,0 +1,50 @@
+version: 2
+
+groups:
+  distributeur-amerique:
+    conditions:
+      files:
+        - CACAO2017/src/abstraction/distributeur/amerique/*
+    required: -1
+    teams: 
+      - distributeur-amerique
+
+  distributeur-europe:
+    conditions:
+      files:
+        - CACAO2017/src/abstraction/distributeur/europe/*
+    required: -1
+    teams: 
+      - distributeur-europe
+
+  producteur-ameriquelatine:
+    conditions:
+      files:
+        - CACAO2017/src/abstraction/producteur/ameriquelatine/*
+    required: -1
+    teams: 
+      - producteur-ameriquelatine
+
+  producteur-cotedivoire:
+    conditions:
+      files:
+        - CACAO2017/src/abstraction/producteur/cotedivoire/*
+    required: -1
+    teams: 
+      - producteur-cotedivoire
+
+  transformateur-europe:
+    conditions:
+      files:
+        - CACAO2017/src/abstraction/transformateur/europe/*
+    required: -1
+    teams: 
+      - transformateur-europe
+
+  transformateur-usa:
+    conditions:
+      files:
+        - CACAO2017/src/abstraction/transformateur/usa/*
+    required: -1
+    teams: 
+      - transformateur-usa
