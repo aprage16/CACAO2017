@@ -6,7 +6,13 @@ group_defaults:
     approve_regex: '(^Approved|OK|Ok|ok)'
 
 groups:
-  code-review:
+  general:
+    conditions:
+      files:
+        exclude:
+          - CACAO2017/src/abstraction/distributeur/*
+          - CACAO2017/src/abstraction/producteur/*
+          - CACAO2017/src/abstraction/transformateur/*
     required: 1
     reset_on_push:
       enabled: false
