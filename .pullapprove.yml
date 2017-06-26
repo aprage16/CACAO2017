@@ -16,46 +16,46 @@ groups:
     conditions:
       files:
         - CACAO2017/src/abstraction/distributeur/amerique/*
-    required: -1
-    teams: 
-      - distributeur-amerique
+    required: 1
+    users: 
+      - danjud
 
   distributeur-europe:
     conditions:
       files:
         - CACAO2017/src/abstraction/distributeur/europe/*
-    required: -1
-    teams: 
-      - distributeur-europe
+    required: 1
+    users: 
+      - wowalid
 
   producteur-ameriquelatine:
     conditions:
       files:
         - CACAO2017/src/abstraction/producteur/ameriquelatine/*
-    required: -1
-    teams: 
-      - producteur-ameriquelatine
+    required: 1
+    users: 
+      - AnaisBel
 
   producteur-cotedivoire:
     conditions:
       files:
         - CACAO2017/src/abstraction/producteur/cotedivoire/*
-    required: -1
-    teams: 
-      - producteur-cotedivoire
+    required: 1
+    users: 
+      - antoineroson
 
   transformateur-europe:
     conditions:
       files:
         - CACAO2017/src/abstraction/transformateur/europe/*
     required: -1
-    teams: 
-      - transformateur-europe
+    users: 
+      - theostourm
 
   transformateur-usa:
     conditions:
       files:
         - CACAO2017/src/abstraction/transformateur/usa/*
     required: -1
-    teams: 
-      - transformateur-usa
+    users: 
+      - aprage16
