@@ -11,6 +11,8 @@ groups:
       enabled: false
     users:
     - massimotisi
+    - romucsp
+    - fredericoalvares
 
   distributeur-amerique:
     conditions:
@@ -48,7 +50,7 @@ groups:
     conditions:
       files:
         - CACAO2017/src/abstraction/transformateur/europe/*
-    required: -1
+    required: 1
     users: 
       - theostourm
 
@@ -56,6 +58,7 @@ groups:
     conditions:
       files:
         - CACAO2017/src/abstraction/transformateur/usa/*
-    required: -1
+    required: 1
     users: 
       - aprage16
+
