@@ -7,10 +7,6 @@ group_defaults:
 
 groups:
   code-review:
-    approve_by_comment:
-      approve_regex: ^Approved
-      enabled: true
-      reject_regex: ^Rejected
     required: 1
     reset_on_push:
       enabled: false
