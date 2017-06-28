@@ -1,6 +1,7 @@
 package abstraction.producteur.cotedivoire;
 import abstraction.producteur.cotedivoire.contrats.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import abstraction.fourni.Acteur;
@@ -14,7 +15,7 @@ import abstraction.producteur.ameriquelatine.IProducteur;
 // by fcadre, comments by antoineroson
 
 public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
-	public static final int  PRODUCTIONMOYENNE = 1650000/26; //+ 42673; // Production moyenne de la cote d'ivoire en tonne + le reste du monde
+	public static final int  PRODUCTIONMOYENNE = 1650000/26; //+ 42673 Production moyenne de la cote d'ivoire en tonne + le reste du monde
 	public static final double VARIATIONALEATOIREPRODUCTION = 0.05; 
 	
 	private int  production; //Liste des productions par périodes
@@ -22,11 +23,12 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	private Treso tresorerie;     // Représente notre trésorerie
 	private Indicateur productionIndicateur;	
 	//private Indicateur stockIndicateur;
-	private Indicateur tresoIndicateur;
+	//private Indicateur tresoIndicateur;
 	private Indicateur vente;	
 	private Journal journal;	//Introduction du Journal pour avoir une visibilité sur 
 								//l'évolution des différents paramètres.
 	private List<Devis> devisprod;
+	public double coursactuel;
 	
 	//Cf marché
 	public int hashCode() {
@@ -43,17 +45,14 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	public ProductionCoteDIvoire() {
 		this.production = 0;
 		this.stock= new Stock(this);
-		this.tresorerie= new Treso();
+		this.tresorerie= new Treso(this);
 		this.productionIndicateur=new Indicateur("6_PROD_COT_production",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur( this.productionIndicateur );
-		//this.stockIndicateur = new Indicateur("6_PROD_COT_stock",this,0.0);
-		//Monde.LE_MONDE.ajouterIndicateur(this.stockIndicateur);
-		this.tresoIndicateur = new Indicateur("6_PROD_COT_treso",this,0.0);
-		Monde.LE_MONDE.ajouterIndicateur(this.tresoIndicateur);
 		this.vente= new Indicateur("6_PROD_COT_vente",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur(this.vente);
 		this.journal = new Journal("Journal de "+getNom());
 		Monde.LE_MONDE.ajouterJournal(this.journal);
+		this.devisprod= new ArrayList<Devis>();
 		
 	}
 
@@ -159,7 +158,12 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	}
 
 	public double quantiteMiseEnvente() {   // correspond a la quantité mise en vente//
-		return this.stock.getStock(); 
+		int s =0; 
+		for (Devis d : this.devisprod){
+			if (Monde.LE_MONDE.getStep()-d.getDebut()<26)
+				s+=d.getQttFinale();
+		}
+		return this.stock.getStock()-s; 
 	}
 
 
@@ -168,16 +172,21 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 		//System.out.println(this.stock.getStock()+"  avant retrait des ventes");
 		this.stock.addStock(-quantite);
 		//System.out.println(this.stock.getStock()+"  après retrait des ventes");
-		this.tresorerie.addBenef(quantite*coursActuel - this.stock.getStock()*Treso.COUTS);
-		this.tresoIndicateur.setValeur(this,this.tresorerie.getCa());
+		this.tresorerie.addBenef(quantite*coursActuel);
+		this.coursactuel=coursActuel;
+		
 	}
 	
 	//NEXT "Centre du programme -> Passage à la période suivante" 
 	
 	public void next() {
+		this.tresorerie.addBenef(- this.stock.getStock()*Treso.COUTS_FIXES-Treso.COUTS_SALARIAUX);
+		if(Monde.LE_MONDE.getStep()%26==1 && Monde.LE_MONDE.getStep()>1){ 
+			this.tresorerie.addBenef(- Treso.COUTS_MAINTENANCE);
+		}
 		this.variationProduction(Monde.LE_MONDE.getStep());
 		this.stock.perissabiliteStock();
-		//this.stockIndicateur.setValeur(this,this.stock.getStock());
+		livraisonDesContrats();
 	}
 
 	// GESTION des Contrats et Devis
@@ -188,12 +197,37 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	}
 
 	public void qttLivrablePrix() {
+		int s =0;
 		for (int i=0; i<this.devisprod.size();i++){
-			this.devisprod.get(i).setQttLivrable(10); 
-			this.devisprod.get(i).setPrix(3000);
+			if (Monde.LE_MONDE.getStep()-this.devisprod.get(i).getDebut()<26){
+				this.devisprod.get(i).setPrix(0.9*this.coursactuel);
+				s+=this.devisprod.get(i).getQttFinale();
+				if(s>0.7*this.getQuantiteProd()){
+					this.devisprod.get(i).setQttLivrable(0);
+				}
+				else {
+					if (s+this.devisprod.get(i).getQttVoulue()<0.7*PRODUCTIONMOYENNE){
+						this.devisprod.get(i).setQttLivrable(this.devisprod.get(i).getQttVoulue());
+					}
+					else {
+						this.devisprod.get(i).setQttLivrable(0.7*PRODUCTIONMOYENNE-s);
+					}
+				}
+			}
+			
+			
 		}
 	}
 
 	public void notifContrat() {
+	}
+	
+	public void livraisonDesContrats () {
+		for (Devis d : this.devisprod){
+			if (Monde.LE_MONDE.getStep()-d.getDebut()<26){
+				this.tresorerie.addBenef(d.getPrix()*d.getQttFinale());
+				this.stock.addStock(-d.getQttFinale());
+			}
+		}
 	}
 }

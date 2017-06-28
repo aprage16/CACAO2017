@@ -61,7 +61,6 @@ public class AgentContrat implements Acteur{
 			}
 		}
 		for (IContratTrans t : this.getDemandeurs()){  // Création et envoie de la list des devis dans lesquels t est impliqué.
-			List<Devis> lt = new ArrayList<Devis>();
 			for (Devis d : l){
 				if (d.getTrans()==t){
 					t.envoieDevis(d);
@@ -69,7 +68,6 @@ public class AgentContrat implements Acteur{
 			}
 		}
 		for (IContratProd p : this.getProducteurs()){  // Création et envoie de la list des devis dans lesquels p est impliqué.
-			List<Devis> lp = new ArrayList<Devis>();
 			for (Devis d : l){
 				if (d.getProd()==p){
 					p.envoieDevis(d);
