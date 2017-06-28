@@ -23,6 +23,8 @@ public class MondeV1 extends Monde {
 		Producteur pAmeriqueLatine = new Producteur();
 		ProductionCoteDIvoire p2 = new ProductionCoteDIvoire();
 		
+		//
+		
 		this.ajouterActeur(pAmeriqueLatine);
 		this.ajouterActeur(p2);
 		
