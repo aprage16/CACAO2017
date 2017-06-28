@@ -162,21 +162,18 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 
 	@Override
 	public double getPrixClient() {
-		// TODO Auto-generated method stub
 		return 10;
 	}
 
 
 	@Override
 	public double getMisEnVente() {
-		// TODO Auto-generated method stub
 		return this.getGestion().sumStock();
 	}
 
 
 	@Override
 	public void notifVente(Vente vente) {
-		// TODO Auto-generated method stub
 		this.getGestion().vendreStock(vente.getQuantite());
 		this.stock.setValeur(this, this.stock.getValeur()-vente.getQuantite());
 		this.setFonds(this.getFonds()+vente.getPrix()*vente.getQuantite());

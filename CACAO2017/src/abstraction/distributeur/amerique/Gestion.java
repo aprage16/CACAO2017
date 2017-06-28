@@ -53,15 +53,15 @@ class Gestion {
 	}
 	
 	public void vendreStock(double commande){
-		/*if (commande>this.sumStock()){
+		if (commande>this.sumStock()){
 			this.stock=new ArrayList<Double>();
-		}*/
+		}
 		while (commande>this.stock.get(0)){
 			commande-=this.stock.get(0);
 			this.stock.remove(0);
 		}
 		this.stock.set(0,this.stock.get(0)-commande);
-		if (this.stock.get(0)==0){
+		if (this.stock.get(0)<=0){
 			this.stock.remove(0);
 		}
 		
