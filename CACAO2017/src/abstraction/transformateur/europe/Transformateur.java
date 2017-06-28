@@ -32,7 +32,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	private Tresorerie compte;
 	private double prixmin;
 	private Date date= new Date();
-	
+	//gitobe
 	
 	private double quantiteVendue=0; // Pour le journal
 	private double quantiteAchetee=0;// Pour le journal
