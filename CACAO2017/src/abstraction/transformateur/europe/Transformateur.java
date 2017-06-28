@@ -26,7 +26,7 @@ import abstraction.producteur.cotedivoire.contrats.*;
 import abstraction.transformateur.usa.*;
 
 
-public class Transformateur implements ITransformateurMarcheDistrib, Acteur,IContratTrans  {
+public class Transformateur implements ITransformateurMarcheDistrib, Acteur,IContratTrans, ITransfoContrat  {
 
 	private Stock s;
 	private Tresorerie compte;
@@ -264,11 +264,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	
 	private List<Devis> l;
 	
-<<<<<<< HEAD
-
-=======
-	@Override
->>>>>>> CACAO2017/master
 	public void envoieDevis(Devis d) { //récupère la liste des différents devis
 		this.l.add(d);
 	}
@@ -392,6 +387,34 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 			}
 		}
 		return res;
+	}
+
+
+	@Override
+	public void propositionInitiale(abstraction.transformateur.europe.Devis devis) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void quantiteFournie() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void acceptationInitiale() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void notification() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	
