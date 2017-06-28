@@ -7,14 +7,14 @@ import abstraction.fourni.Acteur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
 
-public class AgentContrat implements Acteur{
+public class AgentContratPT implements Acteur{
 	private List<IContratProd> producteurs; 
 	private List<IContratTrans> transformateurs;
 	public List<IContratTrans> demandeurs;
 	public Journal journal;
 	
 	
-	public AgentContrat () {
+	public AgentContratPT () {
 		this.producteurs= new ArrayList<IContratProd>(); 
 		this.transformateurs= new ArrayList<IContratTrans>(); 
 		this.demandeurs= new ArrayList<IContratTrans>();
