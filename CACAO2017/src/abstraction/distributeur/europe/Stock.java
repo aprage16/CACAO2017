@@ -89,9 +89,9 @@ public class Stock{
 		double[] var = this.stock;
 		double[] var2=this.prix;
 		
-		for (int i=1;i<6;i++){
-			this.stock[i]=var[i-1];
-			this.prix[i]=var2[i-1];
+		for (int i=0;i<5;i++){
+			this.stock[i]=var[i+1];
+			this.prix[i]=var2[i+1];
 		}
 		
 		this.stock[0]=0;
