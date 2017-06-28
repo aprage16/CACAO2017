@@ -160,17 +160,21 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	 *  appellée à chaque next
 	 */
 	public void transformation(){ 
-		if (this.s.getStockChocolat()<CHOCOLAT_NECESSAIRE){// On vérifie que stock actuel <= stock max	
+		if ((this.s.getStockChocolat()+this.s.getStockCacao()/RATIO_CACAO_CHOCO)<CHOCOLAT_NECESSAIRE){// On vérifie que stock actuel <= stock max	
 			this.s.ajoutChocolat(this.s.getStockCacao()/RATIO_CACAO_CHOCO); // On remplit notre stock tout le temps de sorte à avoir 44000
 			this.s.setStockCacao(0); // Retrait du cacao nécessaire à la transformation
 			}
+		else{
+			this.s.setStockCacao(2*CHOCOLAT_NECESSAIRE); // On remplit notre stock tout le temps de sorte à avoir 44000
+			this.s.setStockCacao(0);
+		}
 		}
 	
 	
 	public void CoutStock(){
 		double cout=0;
 		if (this.stockChocolat.getValeur()>=CHOCOLAT_NECESSAIRE){
-			cout=(this.s.getStockChocolat()-CHOCOLAT_NECESSAIRE)*5000;
+			cout=(this.s.getStockChocolat()-CHOCOLAT_NECESSAIRE)*10000;
 			//System.out.println(cout+"est le cout des stock");
 		}
 		this.compte.debit(cout);
@@ -188,6 +192,8 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	public void notificationAchat(double quantite, double prix){
 		this.s.ajoutCacao(quantite);
 		double achat = prix*quantite;
+		System.out.println("le prix de vente du cacao est de : "+ prix);
+		System.out.println("la quantite vendue de cacao est de : "+ quantite);
 		this.compte.debit(achat); 
 		this.s.ajoutCacao(quantite);
 		prixMoyendAchat+=prix;
