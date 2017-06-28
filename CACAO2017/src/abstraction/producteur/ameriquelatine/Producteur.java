@@ -31,8 +31,8 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	
 	public Producteur(){
 		this.nom="Producteur AmeriqueLatine" ;
-		this.recolte=new Recolte(0.8, this) ;
 		this.stock=new Stock(this);
+		this.recolte=new Recolte(0.8, this, stock) ;
 		this.prod_moy = 20000 ;
 		this.treso=new Tresorerie(stock, recolte, this);
 		this.quantiteVendue=new Indicateur("4_PROD_AMER_quantiteVendue", this,qtevendue);
