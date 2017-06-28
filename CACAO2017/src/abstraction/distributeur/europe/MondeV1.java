@@ -62,15 +62,8 @@ public class MondeV1 extends Monde {
 		MarcheClients.addDistributeur(d1);
 		MarcheClients.addDistributeur(d2);
 		this.ajouterActeur(MarcheClients);
-		
-		AgentContrat Agent = new AgentContrat();
-		Agent.addProd(pAmeriqueLatine);
-		Agent.addProd(p2);
-		Agent.addTrans(t1);
-		Agent.addTrans(t2);
-		
-		this.ajouterActeur(Agent);
 	}
 	
+		
 
 }
