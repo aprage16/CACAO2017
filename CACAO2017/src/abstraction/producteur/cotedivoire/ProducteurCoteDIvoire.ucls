@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="abstraction.producteur.cotedivoire.MarcheProd" project="CACAO2017" 
     file="/CACAO2017/src/abstraction/producteur/cotedivoire/MarcheProd.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="176" y="199"/>    
+    <position height="-1" width="-1" x="217" y="389"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -22,7 +22,7 @@
   </class>  
   <class id="3" language="java" name="abstraction.producteur.cotedivoire.Stock" project="CACAO2017" 
     file="/CACAO2017/src/abstraction/producteur/cotedivoire/Stock.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="942" y="98"/>    
+    <position height="-1" width="-1" x="1117" y="139"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -31,7 +31,7 @@
   </class>  
   <class id="4" language="java" name="abstraction.producteur.cotedivoire.Test" project="CACAO2017" 
     file="/CACAO2017/src/abstraction/producteur/cotedivoire/Test.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="85" y="459"/>    
+    <position height="-1" width="-1" x="180" y="740"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -40,7 +40,7 @@
   </class>  
   <class id="5" language="java" name="abstraction.producteur.cotedivoire.Treso" project="CACAO2017" 
     file="/CACAO2017/src/abstraction/producteur/cotedivoire/Treso.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="968" y="436"/>    
+    <position height="-1" width="-1" x="1135" y="593"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -49,11 +49,19 @@
   </class>  
   <association id="6">    
     <end type="SOURCE" refId="2" navigable="false">      
+<<<<<<< HEAD
       <attribute id="7" name="tresorerie">        
         <position height="0" width="0" x="162" y="-135"/>      
       </attribute>      
       <multiplicity id="8" minimum="0" maximum="1">        
         <position height="0" width="0" x="162" y="-135"/>      
+=======
+      <attribute id="7" name="stock">        
+        <position height="0" width="0" x="195" y="-13"/>      
+      </attribute>      
+      <multiplicity id="8" minimum="0" maximum="1">        
+        <position height="0" width="0" x="195" y="-13"/>      
+>>>>>>> CACAO2017/master
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="5" navigable="true"/>    
@@ -61,11 +69,19 @@
   </association>  
   <association id="9">    
     <end type="SOURCE" refId="2" navigable="false">      
+<<<<<<< HEAD
       <attribute id="10" name="stock">        
         <position height="0" width="0" x="20" y="-54"/>      
       </attribute>      
       <multiplicity id="11" minimum="0" maximum="1">        
         <position height="0" width="0" x="20" y="-54"/>      
+=======
+      <attribute id="10" name="tresorerie">        
+        <position height="0" width="0" x="329" y="22"/>      
+      </attribute>      
+      <multiplicity id="11" minimum="0" maximum="1">        
+        <position height="0" width="0" x="329" y="22"/>      
+>>>>>>> CACAO2017/master
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    

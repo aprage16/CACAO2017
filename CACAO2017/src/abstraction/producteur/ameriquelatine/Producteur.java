@@ -9,6 +9,7 @@ import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
+import abstraction.fourni.v0.Marche;
 import abstraction.producteur.cotedivoire.contrats.Devis;
 import abstraction.producteur.cotedivoire.contrats.IContratProd;
 
@@ -26,10 +27,14 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	private Journal journal;
 	public ArrayList<Devis> ldevis ;
 	private double prod_moy ;
+<<<<<<< HEAD
+=======
+	private Indicateur surface;
+>>>>>>> CACAO2017/master
 	
 	public Producteur(){
 		this.nom="Producteur AmeriqueLatine" ;
-		this.recolte=new Recolte(0.8) ;
+		this.recolte=new Recolte(0.8, this) ;
 		this.stock=new Stock(this);
 		this.prod_moy = 20000 ;
 		this.treso=new Tresorerie(stock, recolte, this);
@@ -42,7 +47,13 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		MondeV1.LE_MONDE.ajouterIndicateur(this.production);
 		MondeV1.LE_MONDE.ajouterJournal(this.journal);
 		this.ldevis = new ArrayList<Devis>() ;
+<<<<<<< HEAD
+=======
+		this.surface=  new Indicateur( "4_PROD_AMER_surfaceCultivable", this ,this.recolte.getSurfaceCultivable());
+		MondeV1.LE_MONDE.ajouterIndicateur(this.surface);
+>>>>>>> CACAO2017/master
 	}
+	
 	public String getNom(){
 		return this.nom;
 	}
@@ -63,7 +74,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		this.journal.ajouter("--- notif vente ---");
 		this.stock.retrait((int)quantite);
 		this.treso.encaissement(coursActuel*quantite);
-	
+		this.surface.setValeur(this, recolte.getSurfaceCultivable());
 		this.journal.ajouter(" retrait de Stock  =  "+(int)quantite+" --> "+this.stock.getStock());//<font color=\"maroon\">"+stock+"</font> tonnes de fèves au <b>step</b> "+Monde.LE_MONDE.getStep());
 		this.quantiteVendue.setValeur(this, quantite);
 		this.production.setValeur(this, this.recolte.getQterecoltee());
@@ -76,13 +87,14 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 			this.journal.ajouter(" valeur de la quantite vendue  =  <font color=\"maroon\">"+quantite+"</font> tonnes de fèves au <b>step</b> au prix de "+this.getCoursActuel()+"$ par tonne"+Monde.LE_MONDE.getStep());
 			}
 		this.journal.ajouter("--- fin notif vente---");
+		recolte.setSurfaceCultivable(qtemiseenvente.getValeur());
 	}
 	public double quantiteMiseEnvente() {
 		this.journal.ajouter("mis en vente :"+(int)(0.8*this.stock.getStock()));
 		this.qtemiseenvente.setValeur(this,(int)(0.8*this.stock.getStock()));
 		return (int)(0.8*this.stock.getStock());
 	}
-	
+
 	public void next() {
 		if(Monde.LE_MONDE.getStep()%26==0){
 			treso.investissement();
@@ -100,6 +112,11 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		}
 		journal.ajouter("ajout recolte :"+this.recolte.getQterecoltee()+"--> "+this.stock.getStock());
 		this.treso.decaissement(treso.cout());
+<<<<<<< HEAD
+=======
+		this.treso.licenciement();
+		this.treso.recrutement();
+>>>>>>> CACAO2017/master
 		
 		
 //		for (int i=0; i<this.ldevis.size(); i++){
