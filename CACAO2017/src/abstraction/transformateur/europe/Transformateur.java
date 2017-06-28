@@ -311,19 +311,30 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		p[1]=l.get(1).getPrix();
 		
 		//distribution des 90 points restants
-		if (p[0]<p[1] && q[0]>=qttVoulue*0.95){ //prix de zero inf a prix de un et qte de zero suffisante
+		if (p[0]<p[1] && q[0]>=qttVoulue*0.95 && q[1]>=qttVoulue*0.05){ //prix de zero inf a prix de un et qte de zero suffisante
 			l.get(0).setQttFinale(0.95*qttVoulue);
 			l.get(1).setQttFinale(0.05*qttVoulue);
-		} else if (p[0]<p[1] && q[0]<=qttVoulue*0.95) { //prix de zero inf a prix de un et qte de zero insuffisante
+		} else if (p[0]<p[1] && q[0]>=qttVoulue*0.95 && q[1]<qttVoulue*0.05){ //prix de zero inf a prix de un et qte de zero suffisante
+			l.get(0).setQttFinale(0.95*qttVoulue);
+			l.get(1).setQttFinale(q[1]);
+		} else if (p[0]<p[1] && q[0]<=qttVoulue*0.95 && q[1]>=qttVoulue*0.05) { //prix de zero inf a prix de un et qte de zero insuffisante
 			l.get(0).setQttFinale(q[0]);
 			l.get(1).setQttFinale(0.05*qttVoulue);
-		} else if (p[1]<p[0] && q[1]>=qttVoulue*0.95){ //prix de un inf a prix de zero et qte un suffisante
-			
+		} else if (p[0]<p[1] && q[0]<=qttVoulue*0.95 && q[1]<qttVoulue*0.05) { //prix de zero inf a prix de un et qte de zero insuffisante
+			l.get(0).setQttFinale(q[0]);
+			l.get(1).setQttFinale(q[1]);
+		} else if (p[1]<p[0] && q[1]>=qttVoulue*0.95 && q[0]>=0.05*qttVoulue){ //prix de un inf a prix de zero et qte un suffisante
 			l.get(0).setQttFinale(0.05*qttVoulue);
 			l.get(1).setQttFinale(0.95*qttVoulue);
-		} else if (p[1]<p[0] && q[1]<=qttVoulue*0.95) { //prix de un inf a prix de zero et qte un insuffisante
+		} else if (p[1]<p[0] && q[1]>=qttVoulue*0.95 && q[0]<0.05*qttVoulue){ //prix de un inf a prix de zero et qte un suffisante
+			l.get(0).setQttFinale(q[0]);
+			l.get(1).setQttFinale(0.95*qttVoulue);
+		} else if (p[1]<p[0] && q[1]<=qttVoulue*0.95 && q[0]>=0.05*qttVoulue) { //prix de un inf a prix de zero et qte un insuffisante
 			l.get(1).setQttFinale(q[1]);
 			l.get(0).setQttFinale(0.05*qttVoulue);
+		} else if (p[1]<p[0] && q[1]<=qttVoulue*0.95 && q[0]<0.05*qttVoulue) { //prix de un inf a prix de zero et qte un insuffisante
+			l.get(1).setQttFinale(q[1]);
+			l.get(0).setQttFinale(q[0]);
 		} else if (p[1]==p[0] && q[1]>=qttVoulue*0.50 && q[0]>=qttVoulue*0.50) { //prix égal et qtes suffisantes
 			l.get(0).setQttFinale(0.5*qttVoulue);
 			l.get(1).setQttFinale(0.5*qttVoulue);
