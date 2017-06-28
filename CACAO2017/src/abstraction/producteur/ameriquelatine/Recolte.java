@@ -38,3 +38,18 @@ public class Recolte {
 	
 }
 
+
+		return (int) (Math.random()*52);
+	}
+	
+	public void miseAJourIndice() {
+	//* une année = 26 next
+		if(intemperie()==50){
+			this.indiceRecolte=0;
+		}else{
+			int periode = MondeV1.LE_MONDE.getStep();
+			double[] indice = {0.6,0.6,0.6,0.6,0.5,0.7,0.7,0.6,0.5,0.5,0.4,0.4,0.3,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0.9,0.8,0.8,0.7,0.6,0.6};
+			this.indiceRecolte= indice[(periode)%26]+Math.random()*0.1;
+		}
+	}
+}

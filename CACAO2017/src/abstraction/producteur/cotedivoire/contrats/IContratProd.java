@@ -1,6 +1,5 @@
 package abstraction.producteur.cotedivoire.contrats;
 
-import java.util.List;
 
 public interface IContratProd {
 	// Enregistre les devis où le prod est impliqué. 

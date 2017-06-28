@@ -1,0 +1,72 @@
+version: 2
+
+group_defaults:
+  author_approval:
+      auto: true
+  approve_by_comment:
+    enabled: true
+    approve_regex: '(^Approved|OK|Ok|ok)'
+
+groups:
+  general:
+    conditions:
+      files:
+        exclude:
+          - CACAO2017/src/abstraction/distributeur/*
+          - CACAO2017/src/abstraction/producteur/*
+          - CACAO2017/src/abstraction/transformateur/*
+    required: 1
+    reset_on_push:
+      enabled: false
+    users:
+    - massimotisi
+    - fredericoalvares
+
+  distributeur-amerique:
+    conditions:
+      files:
+        - CACAO2017/src/abstraction/distributeur/amerique/*
+    required: 1
+    users: 
+      - danjud
+
+  distributeur-europe:
+    conditions:
+      files:
+        - CACAO2017/src/abstraction/distributeur/europe/*
+    required: 1
+    users: 
+      - wowalid
+
+  producteur-ameriquelatine:
+    conditions:
+      files:
+        - CACAO2017/src/abstraction/producteur/ameriquelatine/*
+    required: 1
+    users: 
+      - AnaisBel
+
+  producteur-cotedivoire:
+    conditions:
+      files:
+        - CACAO2017/src/abstraction/producteur/cotedivoire/*
+    required: 1
+    users: 
+      - antoineroson
+
+  transformateur-europe:
+    conditions:
+      files:
+        - CACAO2017/src/abstraction/transformateur/europe/*
+    required: 1
+    users: 
+      - theostourm
+
+  transformateur-usa:
+    conditions:
+      files:
+        - CACAO2017/src/abstraction/transformateur/usa/*
+    required: 1
+    users: 
+      - aprage16
+

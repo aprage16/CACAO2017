@@ -7,6 +7,7 @@ package abstraction.producteur.ameriquelatine;
 import abstraction.distributeur.europe.MondeV1;
 import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
+import abstraction.fourni.Monde;
 
 public class Tresorerie {
 	private Acteur act;
@@ -37,3 +38,15 @@ public class Tresorerie {
 		this.tresorerie.setValeur(act, this.tresorerie.getValeur()-a);
 	}
 }
+
+	private Acteur act;
+	public final static int CHARGESPROD=5000000;// ($) charges fixes (hors coût de stock)
+	public final static double COUTSTOCK=500; // (plutôt 500~1000 dans la réalité)
+	private double coutSalarie=47400 ; //  prix d'un salarie (recolte) par tonne de cacao récolté et par an
+	private Indicateur tresorerie; // argent en banque
+	private Stock stock; 
+	private Recolte recolte;
+	
+
+	public Tresorerie(Stock stock, Recolte recolte, Acteur a){
+		this.stock = stock ;
