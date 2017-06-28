@@ -84,9 +84,16 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		recolte.setSurfaceCultivable(qtemiseenvente.getValeur());
 	}
 	public double quantiteMiseEnvente() {
-		this.journal.ajouter("mis en vente :"+(int)(0.8*this.stock.getStock()));
-		this.qtemiseenvente.setValeur(this,(int)(0.8*this.stock.getStock()));
-		return (int)(0.8*this.stock.getStock());
+		int qte=0;
+		if (this.stock.getStock()>=8000){
+			qte=(int)(this.stock.getStock());
+		}
+		else {
+			qte=(int)(0.8*this.stock.getStock());
+		}
+		this.journal.ajouter("mis en vente :"+qte);
+		this.qtemiseenvente.setValeur(this,qte);
+		return qte;
 	}
 
 	public void next() {
