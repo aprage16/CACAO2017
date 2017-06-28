@@ -1,6 +1,5 @@
 package abstraction.producteur.cotedivoire.contrats;
 
-import java.util.List;
 
 public interface IContratTrans {
 	// Enregistre les devis dans lesquels le transformateur est impliqué. 
