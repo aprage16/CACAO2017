@@ -1,5 +1,8 @@
 package abstraction.distributeur.amerique;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import abstraction.distributeur.europe.IDistributeur;
 import abstraction.distributeur.europe.Vente;
 import abstraction.fourni.Indicateur;
@@ -9,11 +12,13 @@ import abstraction.fourni.Monde;
 public class DistributeurUS implements IDistributeur, DistribClient{
 	public static String  nomIndicateurStock = "1_DISTR_US_stock";
 	public static String nomIndicateurFonds = "1_DISTR_US_fonds";
-	public static double fondsIni = 500000.0;
+	public static double fondsIni = 50000.0;
 	public static double stockIni = 6.25;
 	public static double prixKg=10*Math.pow(10,-6);
-	public static double uniteChoc=10000;
+	public static double uniteChoc=1000;
 	public static double coefAleatoire=0.9+Math.random()*0.2;;
+	public static final double[] CONSO_PREVUE={80,80,80,120,80,80,80,180,80,80,80,80,80,80,80,80,80,80,80,80,80,150,80,80,80,260};
+	public static int tempsPerim=6;
 	
 	private Gestion gestion;
 	private Demande demande;
@@ -37,7 +42,7 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	public DistributeurUS(){
 
 
-		this.gestion= new Gestion(fondsIni,stockIni);
+		this.gestion= new Gestion(new ArrayList<Double>(tempsPerim), fondsIni);
 		this.demande=new Demande(Demande.commandeIni);
 		this.nom="distributeurUS";
 		
@@ -51,14 +56,23 @@ public class DistributeurUS implements IDistributeur, DistribClient{
     	Monde.LE_MONDE.ajouterJournal(this.getJournal());
     	
     	
-
+    	this.getGestion().addStock(stockIni);
 	}
 	
 	
 	public void next(){
+		for (int k=0;k<this.getGestion().getStock().size()-1;k++){
+			this.getGestion().setStock(k, this.getGestion().getStock().get(k+1));
+		}
+			
+		this.getGestion().getStock().set(this.getGestion().getStock().size()-1,0.0);
+		 
+		
 		//System.out.println(Monde.LE_MONDE.getStep()+" "+this.getGestion().getDemande().demandeStep());
 		//DemandeMonde.vendusUS=this.getDemande().getCommande();
-		if (this.getGestion().getStock()>=this.getDemande().getCommande()){
+		
+		//On n'a plus besoin de tout ça vu que le marche client s'en occupe maintenat
+		/*if (this.getGestion().getStock()>=this.getDemande().getCommande()){
 		
 			this.setStock(this.getGestion().getStock()-this.getDemande().getCommande());
 			this.setFonds(this.getGestion().getFonds()+this.getDemande().getCommande()*prixKg*uniteChoc);
@@ -70,19 +84,19 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 		}
 		
 		this.getDemande().setCommande(this.getDemande().demandeStep());
-		coefAleatoire=0.9+Math.random()*0.2;
+		coefAleatoire=0.9+Math.random()*0.2;*/
 	}
 
 	
 	
-	public double getStock() {
+	public List<Double> getStock() {
 		return this.getGestion().getStock();
 	}
 
-	public void setStock(double stock) {
+	/*public void setStock(double stock) {
 		this.getGestion().setStock(stock);
 		this.stock.setValeur(this, stock);
-	}
+	}*/
 
 	public double getFonds() {
 		return this.getGestion().getFonds();
@@ -106,7 +120,8 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	}
 	
 	public void notif(Vente vente){
-		this.getGestion().setStock(this.getGestion().getStock()+vente.getQuantite());
+		double stockCourant=this.getGestion().getStock().get(this.getGestion().getStock().size()-1);
+		this.getGestion().setStock(this.getGestion().getStock().size()-1, stockCourant+vente.getQuantite());
 		this.getGestion().setFonds(this.getGestion().getFonds()-vente.getPrix());
 		this.getJournal().ajouter("quantitee achetee : "+vente.getQuantite());
 		this.getJournal().ajouter("prix obtenu : "+vente.getPrix());
@@ -153,23 +168,22 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 
 	@Override
 	public double getPrixClient() {
-		// TODO Auto-generated method stub
 		return 10;
 	}
 
 
 	@Override
 	public double getMisEnVente() {
-		// TODO Auto-generated method stub
-		return this.getStock();
+		return this.getGestion().sumStock();
 	}
 
 
 	@Override
 	public void notifVente(Vente vente) {
-		// TODO Auto-generated method stub
-		this.setStock(this.getStock()-vente.getQuantite());
+		this.getGestion().vendreStock(vente.getQuantite());
+		this.stock.setValeur(this, this.stock.getValeur()-vente.getQuantite());
 		this.setFonds(this.getFonds()+vente.getPrix()*vente.getQuantite());
+		this.fonds.setValeur(this, this.fonds.getValeur()+vente.getQuantite()*vente.getPrix());
 	}
 
 
