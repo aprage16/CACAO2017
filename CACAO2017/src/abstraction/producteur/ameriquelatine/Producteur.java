@@ -27,10 +27,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	private Journal journal;
 	public ArrayList<Devis> ldevis ;
 	private double prod_moy ;
-<<<<<<< HEAD
-=======
 	private Indicateur surface;
->>>>>>> CACAO2017/master
 	
 	public Producteur(){
 		this.nom="Producteur AmeriqueLatine" ;
@@ -47,11 +44,8 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		MondeV1.LE_MONDE.ajouterIndicateur(this.production);
 		MondeV1.LE_MONDE.ajouterJournal(this.journal);
 		this.ldevis = new ArrayList<Devis>() ;
-<<<<<<< HEAD
-=======
 		this.surface=  new Indicateur( "4_PROD_AMER_surfaceCultivable", this ,this.recolte.getSurfaceCultivable());
 		MondeV1.LE_MONDE.ajouterIndicateur(this.surface);
->>>>>>> CACAO2017/master
 	}
 	
 	public String getNom(){
@@ -112,11 +106,8 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		}
 		journal.ajouter("ajout recolte :"+this.recolte.getQterecoltee()+"--> "+this.stock.getStock());
 		this.treso.decaissement(treso.cout());
-<<<<<<< HEAD
-=======
 		this.treso.licenciement();
 		this.treso.recrutement();
->>>>>>> CACAO2017/master
 		
 		
 //		for (int i=0; i<this.ldevis.size(); i++){

@@ -263,7 +263,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	 */
 	
 	private List<Devis> l;
-	
+
 	public void envoieDevis(Devis d) { //récupère la liste des différents devis
 		this.l.add(d);
 	}

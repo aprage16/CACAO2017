@@ -1,4 +1,3 @@
-
 package abstraction.producteur.ameriquelatine;
 
 import abstraction.distributeur.europe.MondeV1;
@@ -9,15 +8,10 @@ import abstraction.fourni.Monde;
 
 
 
-<<<<<<< HEAD
-public class Recolte {
-	public final static int SURFACE_CULTIVABLE=35000; //(realite 30000) Constante : surface cultivable max en hectare
-=======
 public class Recolte {
 	
 	public Producteur prod;
 	public double surfaceCultivable; //(realite 30000) Constante : surface cultivable max en hectare
->>>>>>> CACAO2017/master
 	private double indiceRecolte; // Indicateur variant entre 0 et 1 : pourcentage pour fixer nb de fèves totales
 	
 	public Recolte(double indiceRecolte, Producteur prod){// indice initial
@@ -58,4 +52,3 @@ public class Recolte {
 		}
 	}
 }
-

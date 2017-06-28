@@ -23,11 +23,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	private Treso tresorerie;     // Représente notre trésorerie
 	private Indicateur productionIndicateur;	
 	//private Indicateur stockIndicateur;
-<<<<<<< HEAD
-	private Indicateur tresoIndicateur;
-=======
 	//private Indicateur tresoIndicateur;
->>>>>>> CACAO2017/master
 	private Indicateur vente;	
 	private Journal journal;	//Introduction du Journal pour avoir une visibilité sur 
 								//l'évolution des différents paramètres.
@@ -49,19 +45,9 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	public ProductionCoteDIvoire() {
 		this.production = 0;
 		this.stock= new Stock(this);
-<<<<<<< HEAD
-		this.tresorerie= new Treso();
-		this.productionIndicateur=new Indicateur("6_PROD_COT_production",this,0.0);
-		Monde.LE_MONDE.ajouterIndicateur( this.productionIndicateur );
-		//this.stockIndicateur = new Indicateur("6_PROD_COT_stock",this,0.0);
-		//Monde.LE_MONDE.ajouterIndicateur(this.stockIndicateur);
-		this.tresoIndicateur = new Indicateur("6_PROD_COT_treso",this,0.0);
-		Monde.LE_MONDE.ajouterIndicateur(this.tresoIndicateur);
-=======
 		this.tresorerie= new Treso(this);
 		this.productionIndicateur=new Indicateur("6_PROD_COT_production",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur( this.productionIndicateur );
->>>>>>> CACAO2017/master
 		this.vente= new Indicateur("6_PROD_COT_vente",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur(this.vente);
 		this.journal = new Journal("Journal de "+getNom());
@@ -186,14 +172,9 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 		//System.out.println(this.stock.getStock()+"  avant retrait des ventes");
 		this.stock.addStock(-quantite);
 		//System.out.println(this.stock.getStock()+"  après retrait des ventes");
-<<<<<<< HEAD
-		this.tresorerie.addBenef(quantite*coursActuel - this.stock.getStock()*Treso.COUTS);
-		this.tresoIndicateur.setValeur(this,this.tresorerie.getCa());
-=======
 		this.tresorerie.addBenef(quantite*coursActuel);
 		this.coursactuel=coursActuel;
 		
->>>>>>> CACAO2017/master
 	}
 	
 	//NEXT "Centre du programme -> Passage à la période suivante" 
@@ -205,11 +186,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 		}
 		this.variationProduction(Monde.LE_MONDE.getStep());
 		this.stock.perissabiliteStock();
-<<<<<<< HEAD
-		//this.stockIndicateur.setValeur(this,this.stock.getStock());
-=======
 		livraisonDesContrats();
->>>>>>> CACAO2017/master
 	}
 
 	// GESTION des Contrats et Devis
@@ -222,10 +199,6 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 	public void qttLivrablePrix() {
 		int s =0;
 		for (int i=0; i<this.devisprod.size();i++){
-<<<<<<< HEAD
-			this.devisprod.get(i).setQttLivrable(10); 
-			this.devisprod.get(i).setPrix(3000);
-=======
 			if (Monde.LE_MONDE.getStep()-this.devisprod.get(i).getDebut()<26){
 				this.devisprod.get(i).setPrix(0.9*this.coursactuel);
 				s+=this.devisprod.get(i).getQttFinale();
@@ -243,7 +216,6 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 			}
 			
 			
->>>>>>> CACAO2017/master
 		}
 	}
 
