@@ -12,7 +12,7 @@ import abstraction.fourni.Monde;
 public class Tresorerie {
 	private Acteur act;
 	public final static int CHARGESPROD=5000000;// ($) charges fixes (hors coût de stock)
-	public final static double COUTSTOCK=500; // (plutôt 500~1000 dans la réalité)
+	public final static double COUTSTOCK=500; 
 	private double coutSalarie=47400 ; //  prix d'un salarie (recolte) par tonne de cacao récolté et par an
 	private Indicateur tresorerie; // argent en banque
 	private Stock stock; 
@@ -20,6 +20,7 @@ public class Tresorerie {
 	
 
 	public Tresorerie(Stock stock, Recolte recolte, Acteur a){
+		this.act=a;
 		this.stock = stock ;
 		this.tresorerie = new Indicateur("4_PROD_AMER_solde", a,10000000);
 		MondeV1.LE_MONDE.ajouterIndicateur(this.tresorerie);
