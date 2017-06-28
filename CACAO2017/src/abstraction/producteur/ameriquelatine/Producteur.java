@@ -127,7 +127,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 
 	public void qttLivrablePrix() {
 		for (int i=0; i<this.ldevis.size(); i++){
-			if (prod_moy/this.ldevis.size() > this.ldevis.get(i).getQttVoulue()){
+			if (prod_moy/2*this.ldevis.size() > this.ldevis.get(i).getQttVoulue()){
 				this.ldevis.get(i).setQttLivrable(this.ldevis.get(i).getQttVoulue());
 			}
 			else{
