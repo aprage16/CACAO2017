@@ -18,7 +18,7 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	public static double uniteChoc=1000;
 	public static double coefAleatoire=0.9+Math.random()*0.2;;
 	public static final double[] CONSO_PREVUE={80,80,80,120,80,80,80,180,80,80,80,80,80,80,80,80,80,80,80,80,80,150,80,80,80,260};
-	public static double newStockTot=0;
+	public static int tempsPerim=6;
 	
 	private Gestion gestion;
 	private Demande demande;
@@ -42,7 +42,7 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	public DistributeurUS(){
 
 
-		this.gestion= new Gestion(new ArrayList<Double>(), fondsIni);
+		this.gestion= new Gestion(new ArrayList<Double>(tempsPerim), fondsIni);
 		this.demande=new Demande(Demande.commandeIni);
 		this.nom="distributeurUS";
 		
@@ -61,8 +61,13 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	
 	
 	public void next(){
-		newStockTot=0;
-		this.getGestion().addStock(newStockTot);
+		for (int k=0;k<this.getGestion().getStock().size()-1;k++){
+			this.getGestion().setStock(k, this.getGestion().getStock().get(k+1));
+		}
+			
+		this.getGestion().getStock().set(this.getGestion().getStock().size()-1,0.0);
+		 
+		
 		//System.out.println(Monde.LE_MONDE.getStep()+" "+this.getGestion().getDemande().demandeStep());
 		//DemandeMonde.vendusUS=this.getDemande().getCommande();
 		
@@ -115,7 +120,8 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	}
 	
 	public void notif(Vente vente){
-		newStockTot+=vente.getQuantite();
+		double stockCourant=this.getGestion().getStock().get(this.getGestion().getStock().size()-1);
+		this.getGestion().setStock(this.getGestion().getStock().size()-1, stockCourant+vente.getQuantite());
 		this.getGestion().setFonds(this.getGestion().getFonds()-vente.getPrix());
 		this.getJournal().ajouter("quantitee achetee : "+vente.getQuantite());
 		this.getJournal().ajouter("prix obtenu : "+vente.getPrix());
