@@ -1,12 +1,13 @@
 package abstraction.distributeur.amerique;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class Gestion {
 	private double fonds;
-	private /*List<Double>*/ double stock;
+	private List<Double> stock;
 	
-	public Gestion(/*List<Double> stock*/ double stock, double fonds){
+	public Gestion(List<Double> stock, double fonds){// la liste de stock est de 6 éléments
 		this.fonds=fonds;
 		this.stock=stock;
 	}
@@ -19,8 +20,12 @@ class Gestion {
 
 
 
-	public /*List<Double>*/ double getStock() {
+	public List<Double> getStock() {
 		return stock;
+	}
+	
+	public void setStock(int index, double newStock){
+		this.stock.set(index, newStock);
 	}
 
 
@@ -30,12 +35,9 @@ class Gestion {
 		this.fonds=fonds;
 	}
 	
-	public void setStock(double stock){
-		this.stock=stock;
-	}
-
-	/*public void addStock(double newStock){
-		if (this.getStock().size()<6){
+	
+	public void addStock(double newStock){
+		if (this.getStock().size()<DistributeurUS.tempsPerim){
 			this.stock.add(newStock);
 		}
 		else{
@@ -44,7 +46,25 @@ class Gestion {
 				this.stock.set(this.getStock().size()-1, newStock);
 			}
 		}
-	}*/
+	}
+	
+	public double sumStock(){
+		double sum=0;
+		for (int k=0;k<this.stock.size();k++){
+			sum+=this.stock.get(k);
+		}
+		return sum;
+	}
+	
+	public void vendreStock(double commande){
+		for (int k=0;k<DistributeurUS.tempsPerim;k++){
+			if (commande>0){
+				double courant=Math.min(commande, this.getStock().get(k));
+				this.setStock(k, this.getStock().get(k)-courant);
+				commande-=courant;
+			}
+		}
+	}
 	
 
 	
