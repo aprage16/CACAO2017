@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import abstraction.fourni.*;
 
-public class AgentContrat implements Acteur{
+public class AgentContratTD implements Acteur{
 
 	private List<Devis> l;
 	private List<ITransfoContrat> transformateurs;
 	private List<IDistriContrat> distributeurs;
 	
-	public AgentContrat(){
+	public AgentContratTD(){
 		List<Devis> l = new ArrayList<Devis>();
 		this.transformateurs= new ArrayList<ITransfoContrat>(); 
 		this.distributeurs= new ArrayList<IDistriContrat>(); 
