@@ -24,6 +24,7 @@ public class MarcheClients implements Acteur{
 	public static double commandesStepFixe=(commandesAnneeTotales-commandesAnneeTotales*(augStVal+augPaques+augHalloween+augNoel))/nbStepAnnees;
 	public static double pourcentageFixeTotal=0.8;
 	public static double pourcentageFluctuantTotal=0.2;
+	public static double demandeUS;
 
 	private HashMap<DistribClient, Double> satisfactions;//Hashmap met en relation deux objets ici le distributeur et la satisfaction
 	
@@ -173,6 +174,8 @@ public class MarcheClients implements Acteur{
 		//Calcul de la demande de chaque distrib:
 		double somPrix=this.somPrix();
 		double somSatisfactions=this.somSatisfactions();
+		demandeUS=this.calculDemandesIni(somPrix, prixVente, somSatisfactions).get(this.getDistributeurs().get(0));
+		
 		HashMap<DistribClient, Double> demandes=this.calculDemandesIni(somPrix, prixVente, somSatisfactions);
 		
 		// On demande les quantités mises en vente :

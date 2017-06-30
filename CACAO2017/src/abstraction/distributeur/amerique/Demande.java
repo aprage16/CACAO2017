@@ -1,4 +1,4 @@
-package abstraction.distributeur.amerique;
+/*package abstraction.distributeur.amerique;
 
 import abstraction.fourni.Monde;
 
@@ -37,7 +37,7 @@ public class Demande {
 	}*/
 	
 	/*Prend en compte les fêtes*/
-	public double demandeStep(){
+	/*public double demandeStep(){
 		double augSaisonniere=0;
 		int date=Monde.LE_MONDE.getStep();
 		double coefaleatoire=0.9+Math.random()*0.2; //coefficient aléatoire permettant de faire varier la demande "linéaire" périodique
@@ -59,4 +59,4 @@ public class Demande {
 		return (demandeMoisBase+augSaisonniere*demandeTAnnee)*coefaleatoire;
 	}
 	
-}
+}*/
