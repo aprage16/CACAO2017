@@ -278,9 +278,11 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		this.journal.ajouter(" ");
 		this.journal.ajouter(" la quantitee demandee aux producteurs est de : <b>"+this.qtedemandee+"</b>");
 		this.journal.ajouter(" ");
-		this.journal.ajouter(" ");
 		this.journal.ajouter("La quantité recue par contrat avec le producteur 0 est de : "+this.qttContrat[0]+" au prix de : "+this.prixContrat[0]);
 		this.journal.ajouter("La quantité recue par contrat avec le producteur 1 est de : "+this.qttContrat[1]+" au prix de : "+this.prixContrat[1]);
+		this.journal.ajouter(" ");
+		this.journal.ajouter("---------------------------------------------------------------------------------------------------------------------------------------------");
+		this.journal.ajouter(" ");
 	}
 
 	
