@@ -102,7 +102,12 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 		
 		this.getDemande().setCommande(this.getDemande().demandeStep());
 		coefAleatoire=0.9+Math.random()*0.2;*/
-	
+		if (this.getGestion().sumStock()<=0){
+			for(int k=0;k<this.getGestion().getStock().size();k++){
+				this.getGestion().getStock().set(k, 0.0);
+			}
+			this.stock.setValeur(this, 0);
+		}
 	}
 
 	
@@ -141,6 +146,7 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 		double stockCourant=this.getGestion().getStock().get(this.getGestion().getStock().size()-1);
 		this.getGestion().setStock(this.getGestion().getStock().size()-1, stockCourant+vente.getQuantite());
 		this.getGestion().setFonds(this.getGestion().getFonds()-vente.getPrix());
+		this.stock.setValeur(this, this.stock.getValeur()+vente.getQuantite());
 		this.quantitee_Achetee.setValeur(this, this.quantitee_Achetee.getValeur()+vente.getQuantite());
 	}
 
