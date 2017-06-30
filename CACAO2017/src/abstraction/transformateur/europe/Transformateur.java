@@ -32,6 +32,8 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	private Tresorerie compte;
 	private double prixmin;
 	private Date date= new Date();
+	private List<Devis> l;
+	private List<abstraction.transformateur.europe.Devis> devisDistributeur;
 	
 	private double quantiteVendue=0; // Pour le journal
 	private double quantiteAchetee=0;// Pour le journal
@@ -45,7 +47,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	private double[] prixContrat = new double[2];
 	private double[] qttContrat = new double[2];
 
-	private List<abstraction.transformateur.europe.Devis> devisDistributeur;
 
 	
 	public static final int CACAO_NECESSAIRE = 30800; // Stock nécessaire par mois pour avoir 44000 chocolats
@@ -93,6 +94,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	 */
 	public Transformateur(){
 		this(new Stock(),new Tresorerie());
+		this.l=new ArrayList<Devis>();
 	}
 
 	
@@ -279,7 +281,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	 * @objectif: Implémenter les contrats avec les producteurs
 	 */
 	
-	private List<Devis> l;
+	
 
 	public void envoieDevis(Devis d) { //récupère la liste des différents devis
 		this.l.add(d);
@@ -381,7 +383,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		peremp.RetraitVente(quantiteVendue);
 		peremp.MiseAJourNext(this);
 		if (this.step%12==0){
-			//AgentContratPT.demandeDeContrat(this);
+			AgentContratPT.demandeDeContrat(this);
 		}
 		Journal();
 		transformation();
