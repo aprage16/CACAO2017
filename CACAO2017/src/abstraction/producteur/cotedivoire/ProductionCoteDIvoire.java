@@ -214,8 +214,6 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 					}
 				}
 			}
-			
-			
 		}
 	}
 
