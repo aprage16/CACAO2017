@@ -495,7 +495,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		this.compte.credit(PD1+PD2);
 		peremp.RetraitVente(quantiteVendue);
 		peremp.MiseAJourNext(this);
-		if (this.step%12==0){
+		if (this.step%26==0){
 			AgentContratPT.demandeDeContrat(this);
 		}
 		Journal();
