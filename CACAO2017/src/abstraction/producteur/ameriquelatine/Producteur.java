@@ -27,7 +27,6 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	private Journal journal;
 	public ArrayList<Devis> ldevis ;
 	private final static int PROD_MOY=20000 ;
-	private Indicateur surface;
 	
 	public Producteur(){
 		this.nom="Producteur AmeriqueLatine" ;
@@ -36,15 +35,13 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		this.treso=new Tresorerie(stock, recolte, this);
 		this.quantiteVendue=new Indicateur("4_PROD_AMER_quantiteVendue", this,qtevendue);
 		MondeV1.LE_MONDE.ajouterIndicateur(this.quantiteVendue) ;
-		this.journal=new Journal("Journal de Prod Amerique Latine");
+		this.journal=new Journal("Producteur Amerique Latine");
 		this.qtemiseenvente=new Indicateur("4_PROD_AMER_qtemiseenvente", this,0);//this.quantiteMiseEnvente()) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.qtemiseenvente);
 		this.production=new Indicateur("4_PROD_AMER_production", this,this.recolte.getQterecoltee()) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.production);
 		MondeV1.LE_MONDE.ajouterJournal(this.journal);
 		this.ldevis = new ArrayList<Devis>() ;
-		this.surface=  new Indicateur( "4_PROD_AMER_surfaceCultivable", this ,this.recolte.getSurfaceCultivable());
-		MondeV1.LE_MONDE.ajouterIndicateur(this.surface);
 	}
 	
 	public String getNom(){
@@ -67,7 +64,6 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		this.journal.ajouter("--- notif vente ---");
 		this.stock.retrait((int)quantite);
 		this.treso.encaissement(coursActuel*quantite);
-		this.surface.setValeur(this, recolte.getSurfaceCultivable());
 		this.journal.ajouter(" retrait de Stock  =  "+(int)quantite+" --> "+this.stock.getStock());//<font color=\"maroon\">"+stock+"</font> tonnes de fèves au <b>step</b> "+Monde.LE_MONDE.getStep());
 		this.quantiteVendue.setValeur(this, quantite);
 		this.production.setValeur(this, this.recolte.getQterecoltee());
