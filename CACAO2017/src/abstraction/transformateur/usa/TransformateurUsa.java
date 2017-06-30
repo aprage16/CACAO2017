@@ -82,6 +82,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		Monde.LE_MONDE.ajouterIndicateur(this.achatsCacao);	
 		Monde.LE_MONDE.ajouterJournal(LE_JOURNAL_USA);
 		this.priseDecisions=new Decision();
+		this.devis=new ArrayList<Devis>();
 
 	}
 
