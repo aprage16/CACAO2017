@@ -7,7 +7,7 @@ class Gestion {
 	private double fonds;
 	private List<Double> stock;
 	
-	public Gestion(List<Double> stock, double fonds){
+	public Gestion(List<Double> stock, double fonds){// la liste de stock est de 6 éléments
 		this.fonds=fonds;
 		this.stock=stock;
 	}
@@ -23,6 +23,10 @@ class Gestion {
 	public List<Double> getStock() {
 		return stock;
 	}
+	
+	public void setStock(int index, double newStock){
+		this.stock.set(index, newStock);
+	}
 
 
 
@@ -31,9 +35,9 @@ class Gestion {
 		this.fonds=fonds;
 	}
 	
-
+	
 	public void addStock(double newStock){
-		if (this.getStock().size()<6){
+		if (this.getStock().size()<DistributeurUS.tempsPerim){
 			this.stock.add(newStock);
 		}
 		else{
@@ -53,18 +57,13 @@ class Gestion {
 	}
 	
 	public void vendreStock(double commande){
-		if (commande>this.sumStock()){
-			this.stock=new ArrayList<Double>();
+		for (int k=0;k<DistributeurUS.tempsPerim;k++){
+			if (commande>0){
+				double courant=Math.min(commande, this.getStock().get(k));
+				this.setStock(k, this.getStock().get(k)-courant);
+				commande-=courant;
+			}
 		}
-		while (commande>this.stock.get(0)){
-			commande-=this.stock.get(0);
-			this.stock.remove(0);
-		}
-		this.stock.set(0,this.stock.get(0)-commande);
-		if (this.stock.get(0)<=0){
-			this.stock.remove(0);
-		}
-		
 	}
 	
 

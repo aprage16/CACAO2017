@@ -15,10 +15,10 @@ public class MarcheClients implements Acteur{
 	
 	public static double satisfactionIni=0.0;
 	public static double prixVenteIni;
-	public static double augStVal; //3%
-	public static double augPaques;// 4% des ventes de chocolat au total
-	public static double augHalloween; //10%
-	public static double augNoel; // 8% des ventes de chocolat au total
+	public static double augStVal=0.015; //3%
+	public static double augPaques=0.040;// 4% des ventes de chocolat au total
+	public static double augHalloween=0.03; //10%
+	public static double augNoel=0.074; // 8% des ventes de chocolat au total
 	public static double nbStepAnnees=26;
 	public static double commandesAnneeTotales=6000;
 	public static double commandesStepFixe=(commandesAnneeTotales-commandesAnneeTotales*(augStVal+augPaques+augHalloween+augNoel))/nbStepAnnees;
