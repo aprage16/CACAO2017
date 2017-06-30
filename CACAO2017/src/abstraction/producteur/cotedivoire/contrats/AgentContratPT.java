@@ -18,7 +18,7 @@ public class AgentContratPT implements Acteur{
 		this.producteurs= new ArrayList<IContratProd>(); 
 		this.transformateurs= new ArrayList<IContratTrans>(); 
 		this.demandeurs= new ArrayList<IContratTrans>();
-		this.journal= new Journal ("Journal de "+this.getNom());
+		this.journal= new Journal (""+this.getNom());
 		Monde.LE_MONDE.ajouterJournal(this.journal);
 	}
 	
@@ -48,7 +48,7 @@ public class AgentContratPT implements Acteur{
 
 	@Override
 	public String getNom() {
-		return "Agent contrat";
+		return "Agent contrat Producteur Transformateurs";
 	}
 
 	@Override
@@ -90,6 +90,7 @@ public class AgentContratPT implements Acteur{
 		for(IContratProd p : this.getProducteurs()){   // Indique aux prod que les nego sont finis, ils peuvent donc récupérer l'info de la qttFinale
 			p.notifContrat();
 		}
+		this.demandeurs=new ArrayList<IContratTrans>();
 	}
 		
 
