@@ -3,6 +3,7 @@
 package abstraction.distributeur.europe;
 import abstraction.producteur.ameriquelatine.*;
 import abstraction.producteur.cotedivoire.*;
+import abstraction.producteur.cotedivoire.contrats.*;
 import abstraction.transformateur.europe.Transformateur;
 import abstraction.transformateur.usa.*;
 import abstraction.distributeur.amerique.*;
@@ -60,9 +61,14 @@ public class MondeV1 extends Monde {
 		MarcheClients.addDistributeur(d1);
 		MarcheClients.addDistributeur(d2);
 		this.ajouterActeur(MarcheClients);
+
+		AgentContratPT AgentPT = new AgentContratPT();
+		AgentPT.addProd(pAmeriqueLatine);
+		AgentPT.addProd(p2);
+		AgentPT.addTrans(t1);
+		AgentPT.addTrans(t2);
 		
-		
-	
+		this.ajouterActeur(AgentPT);
 	}
 	
 
