@@ -1,12 +1,13 @@
 package abstraction.distributeur.amerique;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class Gestion {
 	private double fonds;
-	private /*List<Double>*/ double stock;
+	private List<Double> stock;
 	
-	public Gestion(/*List<Double> stock*/ double stock, double fonds){
+	public Gestion(List<Double> stock, double fonds){
 		this.fonds=fonds;
 		this.stock=stock;
 	}
@@ -19,7 +20,7 @@ class Gestion {
 
 
 
-	public /*List<Double>*/ double getStock() {
+	public List<Double> getStock() {
 		return stock;
 	}
 
@@ -30,11 +31,8 @@ class Gestion {
 		this.fonds=fonds;
 	}
 	
-	public void setStock(double stock){
-		this.stock=stock;
-	}
 
-	/*public void addStock(double newStock){
+	public void addStock(double newStock){
 		if (this.getStock().size()<6){
 			this.stock.add(newStock);
 		}
@@ -44,7 +42,30 @@ class Gestion {
 				this.stock.set(this.getStock().size()-1, newStock);
 			}
 		}
-	}*/
+	}
+	
+	public double sumStock(){
+		double sum=0;
+		for (int k=0;k<this.stock.size();k++){
+			sum+=this.stock.get(k);
+		}
+		return sum;
+	}
+	
+	public void vendreStock(double commande){
+		if (commande>this.sumStock()){
+			this.stock=new ArrayList<Double>();
+		}
+		while (commande>this.stock.get(0)){
+			commande-=this.stock.get(0);
+			this.stock.remove(0);
+		}
+		this.stock.set(0,this.stock.get(0)-commande);
+		if (this.stock.get(0)<=0){
+			this.stock.remove(0);
+		}
+		
+	}
 	
 
 	
