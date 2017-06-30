@@ -363,6 +363,9 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	public void next(){
 		peremp.RetraitVente(quantiteVendue);
 		peremp.MiseAJourNext(this);
+		if (this.step%12==0){
+			// AgentContratPT.demandeDeContrat(this);
+		}
 		Journal();
 		transformation();
 		CoutStock();
