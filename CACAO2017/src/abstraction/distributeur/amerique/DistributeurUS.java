@@ -75,7 +75,8 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	}
 	
 	public double calculPrixMax(){
-		return Math.max(0,Math.min(8, ((this.getFonds()-fondsMini)/(MarcheClients.demandeUS-this.getGestion().sumStock()))));
+		//return Math.max(0,Math.min(8, ((this.getFonds()-fondsMini)/(MarcheClients.demandeUS-this.getGestion().sumStock()))));
+		return 8;
 	}
 	
 	public void next(){
