@@ -90,6 +90,7 @@ public class AgentContratPT implements Acteur{
 		for(IContratProd p : this.getProducteurs()){   // Indique aux prod que les nego sont finis, ils peuvent donc récupérer l'info de la qttFinale
 			p.notifContrat();
 		}
+		this.demandeurs=new ArrayList<IContratTrans>();
 	}
 		
 
