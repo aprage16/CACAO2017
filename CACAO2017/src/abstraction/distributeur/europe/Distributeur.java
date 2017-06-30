@@ -19,7 +19,10 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient, IDistri
 	private double prixMoyen;
 	private double limiteAchat = 48000;
 	private double sommeAchat;
-
+	
+	
+	
+	
 	
 	public Distributeur(Vente vente, Stock stock, double qteDemandee, Tresorerie fonds){ // penser à redocoder en enlevant les arguments du constructeur
 		this.derniereVente = vente;
@@ -131,7 +134,7 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient, IDistri
 	}
 	
 	public double getMisEnVente(){//A Compléter
-		return 1000;
+		return (this.stock.totalStock());
 	}
 
 	@Override
@@ -170,5 +173,5 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient, IDistri
 
 	
 
-
+    
 }
