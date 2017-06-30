@@ -50,7 +50,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 		Monde.LE_MONDE.ajouterIndicateur( this.productionIndicateur );
 		this.vente= new Indicateur("6_PROD_COT_vente",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur(this.vente);
-		this.journal = new Journal("Journal de "+getNom());
+		this.journal = new Journal(""+getNom());
 		Monde.LE_MONDE.ajouterJournal(this.journal);
 		this.devisprod= new ArrayList<Devis>();
 		
