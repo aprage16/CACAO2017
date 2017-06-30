@@ -36,9 +36,9 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 	private Indicateur quantitee_Achetee;
 	private Indicateur quantitee_Vendue;
 	
-	private Journal journalTest;
+
 	
-	public DistributeurUS(Gestion gestion, Demande demande, String nom, List<Devis> devis, Indicateur fonds, Indicateur stock, Indicateur achat, Indicateur vente, Journal journal){
+	public DistributeurUS(Gestion gestion, Demande demande, String nom, List<Devis> devis, Indicateur fonds, Indicateur stock, Indicateur achat, Indicateur vente){
 		this.gestion=gestion;
 		this.demande=demande;
 		this.nom=nom;
@@ -47,7 +47,6 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 		this.stock=stock;
 		this.quantitee_Achetee=achat;
 		this.quantitee_Vendue=vente;
-		this.journalTest=journal;
 	}
 	
 	
@@ -64,13 +63,12 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 		this.quantitee_Achetee=new Indicateur(nomIndicateurAchat,this,0);
 		this.quantitee_Vendue=new Indicateur(nomIndicateurVente,this,0);
 		
-		this.journalTest=new Journal("journalTest");
 		
     	Monde.LE_MONDE.ajouterIndicateur( this.stock );
     	Monde.LE_MONDE.ajouterIndicateur( this.fonds );
     	Monde.LE_MONDE.ajouterIndicateur(this.quantitee_Achetee);
     	Monde.LE_MONDE.ajouterIndicateur(this.quantitee_Vendue);
-    	Monde.LE_MONDE.ajouterJournal(this.getJournal());
+    	
     	
     	
     	this.getGestion().addStock(stockIni);
@@ -142,8 +140,6 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 		double stockCourant=this.getGestion().getStock().get(this.getGestion().getStock().size()-1);
 		this.getGestion().setStock(this.getGestion().getStock().size()-1, stockCourant+vente.getQuantite());
 		this.getGestion().setFonds(this.getGestion().getFonds()-vente.getPrix());
-		this.getJournal().ajouter("quantitee achetee : "+vente.getQuantite());
-		this.getJournal().ajouter("prix obtenu : "+vente.getPrix());
 	}
 
 	public String getNom() {
@@ -176,10 +172,6 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 	
 	public int hashCode() {//donne un critère d'ordre qui permet de l'utiliser en clé de hashMap
 		return this.getNom().hashCode();
-	}
-	public Journal getJournal(){
-		
-		return this.journalTest;
 	}
 
 
