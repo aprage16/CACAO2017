@@ -42,6 +42,8 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	private double compteurVente=0;// Pour le journal 
 	private Peremption peremp= new Peremption();
 	private int step=0;
+	private double[] prixContrat = new double[2];
+	private double[] qttContrat = new double[2];
 	
 	public static final int CACAO_NECESSAIRE = 30800; // Stock nécessaire par mois pour avoir 44000 chocolats
 	public static final int CHOCOLAT_NECESSAIRE = 44000; // Stock nécessaire par mois à vendre (calculé selon la demande européenne)
@@ -163,12 +165,15 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		if ((this.s.getStockChocolat()+this.s.getStockCacao()/RATIO_CACAO_CHOCO)<CHOCOLAT_NECESSAIRE){// On vérifie que stock actuel <= stock max	
 			this.s.ajoutChocolat(this.s.getStockCacao()/RATIO_CACAO_CHOCO); // On remplit notre stock tout le temps de sorte à avoir 44000
 			this.s.setStockCacao(0); // Retrait du cacao nécessaire à la transformation
-			}
-		else{
+		} else {
 			this.s.setStockCacao(2*CHOCOLAT_NECESSAIRE); // On remplit notre stock tout le temps de sorte à avoir 44000
 			this.s.setStockCacao(0);
 		}
-		}
+		this.s.ajoutCacao(this.qttContrat[0]);
+		this.s.ajoutCacao(this.qttContrat[1]);
+		this.compte.debit(this.prixContrat[0]);
+		this.compte.debit(this.prixContrat[1]);
+	}
 	
 	
 	public void CoutStock(){
@@ -261,7 +266,10 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		this.journal.ajouter(" la quantitee demandee aux producteurs est de : <b>"+this.qtedemandee+"</b>");
 		this.journal.ajouter(" ");
 		this.journal.ajouter(" ");
+		this.journal.ajouter("La quantité recue par contrat avec le producteur 0 est de : "+this.qttContrat[0]+" au prix de : "+this.prixContrat[0]);
+		this.journal.ajouter("La quantité recue par contrat avec le producteur 1 est de : "+this.qttContrat[1]+" au prix de : "+this.prixContrat[1]);
 	}
+
 	
 	/**
 	 * @objectif: Implémenter les contrats avec les producteurs
@@ -315,6 +323,8 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		q[1]=l.get(1).getQttLivrable();
 		p[0]=l.get(0).getPrix();
 		p[1]=l.get(1).getPrix();
+		this.prixContrat[0]=p[0];
+		this.prixContrat[1]=p[1];
 		
 		//choix des contrats en pourcentage de la quantité voulue
 		if (p[0]<p[1] && q[0]>=qttVoulue*0.95 && q[1]>=qttVoulue*0.05){ //prix de zero inf a prix de un et qte de zero suffisante
@@ -348,6 +358,9 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 			l.get(0).setQttFinale(q[0]);
 			l.get(1).setQttFinale(q[1]);
 		} 
+		
+		this.qttContrat[0]=l.get(0).getQttFinale();
+		this.qttContrat[1]=l.get(1).getQttFinale();
 	}
 	
 	
@@ -364,7 +377,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		peremp.RetraitVente(quantiteVendue);
 		peremp.MiseAJourNext(this);
 		if (this.step%12==0){
-			// AgentContratPT.demandeDeContrat(this);
+			//AgentContratPT.demandeDeContrat(this);
 		}
 		Journal();
 		transformation();
