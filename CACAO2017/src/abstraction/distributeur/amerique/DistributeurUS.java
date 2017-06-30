@@ -8,8 +8,11 @@ import abstraction.distributeur.europe.Vente;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
+import abstraction.fourni.v0.Transformateur;
+import abstraction.transformateur.europe.Devis;
+import abstraction.transformateur.europe.IDistriContrat;
 
-public class DistributeurUS implements IDistributeur, DistribClient{
+public class DistributeurUS implements IDistributeur, DistribClient, IDistriContrat{
 	public static String  nomIndicateurStock = "1_DISTR_US_stock";
 	public static String nomIndicateurFonds = "1_DISTR_US_fonds";
 	public static double fondsIni = 50000.0;
@@ -19,20 +22,23 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 	public static double coefAleatoire=0.9+Math.random()*0.2;;
 	public static final double[] CONSO_PREVUE={80,80,80,120,80,80,80,180,80,80,80,80,80,80,80,80,80,80,80,80,80,150,80,80,80,260};
 	public static int tempsPerim=6;
+	public static double fondsMin=500000;
 	
 	private Gestion gestion;
 	private Demande demande;
 	private String nom;
+	private List<Devis> devis;
 	
 	private Indicateur fonds;
 	private Indicateur stock;
 	
 	private Journal journalTest;
 	
-	public DistributeurUS(Gestion gestion, Demande demande, String nom, Indicateur fonds, Indicateur stock, Journal journal){
+	public DistributeurUS(Gestion gestion, Demande demande, String nom, Indicateur fonds, List<Devis> devis, Indicateur stock, Journal journal){
 		this.gestion=gestion;
 		this.demande=demande;
 		this.nom=nom;
+		this.devis=devis;
 		this.fonds=fonds;
 		this.stock=stock;
 		this.journalTest=journal;
@@ -45,6 +51,7 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 		this.gestion= new Gestion(new ArrayList<Double>(tempsPerim), fondsIni);
 		this.demande=new Demande(Demande.commandeIni);
 		this.nom="distributeurUS";
+		this.devis=new ArrayList<Devis>(2);
 		
 		this.stock = new Indicateur(nomIndicateurStock, this, stockIni);
 		this.fonds = new Indicateur(nomIndicateurFonds, this, fondsIni);
@@ -149,12 +156,10 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 		this.demande=demande;
 	}
 	
-	public double prixMax(){//Premier test, avec ça on utilise tous nos fonds le premier mois
-	/*	double aacheter=this.getDemande().demandeStep()-this.getGestion().getStock();
-		double prixmax=this.getGestion().getFonds()/aacheter;*/
+	public double prixMax(){
 		double prixmax=Math.random()*0.08;
-		//journalTest.ajouter("prixmax="+prixmax)
 		return prixmax;
+		//return Math.max(0, Math.min(8, this.getFonds()-fondsMin)/MarcheClients.commandesStepFixe*0.5);
 	}
 	
 	public int hashCode() {//donne un critère d'ordre qui permet de l'utiliser en clé de hashMap
@@ -184,6 +189,53 @@ public class DistributeurUS implements IDistributeur, DistribClient{
 		this.stock.setValeur(this, this.stock.getValeur()-vente.getQuantite());
 		this.setFonds(this.getFonds()+vente.getPrix()*vente.getQuantite());
 		this.fonds.setValeur(this, this.fonds.getValeur()+vente.getQuantite()*vente.getPrix());
+	}
+
+
+	@Override
+	public void receptionDevis(Devis devis) {
+		// TODO Auto-generated method stub
+		if (devis.getTransfo() instanceof Transformateur){
+			this.devis.add(0,devis);
+		}
+		else{
+			this.devis.add(1,devis);
+		}
+	}
+
+
+	@Override
+	public void demandeQuantite() {
+		// TODO Auto-generated method stub
+		this.devis.get(0).setQ2(Math.min(926250*(0.3+0.9*this.devis.get(0).getP1()/(this.devis.get(0).getP1()+this.devis.get(1).getP1())), this.devis.get(0).getQ1()));
+		this.devis.get(1).setQ2(Math.min(0.9*926250-this.devis.get(0).getQ2(), this.devis.get(1).getQ1()));
+	}
+
+
+	@Override
+	public void contreProposition() {
+		// TODO Auto-generated method stub
+		if (this.devis.get(0).getQ2()<=this.devis.get(0).getQ1()){
+			this.devis.get(0).setP2(this.devis.get(0).getP1()*0.5);
+		} else{
+			this.devis.get(0).setP2(this.devis.get(0).getP1()*0.9);
+		}
+		if (this.devis.get(1).getQ2()<=this.devis.get(1).getQ1()){
+			this.devis.get(1).setP2(this.devis.get(1).getP1()*0.5);
+		}else{
+			this.devis.get(1).setP2(this.devis.get(1).getP1()*0.9);
+		}
+		
+		
+	}
+
+
+	@Override
+	public void acceptationFinale() {
+		// TODO Auto-generated method stub
+		this.devis.get(0).setChoixD(true);
+		this.devis.get(1).setChoixD(true);
+		
 	}
 
 
