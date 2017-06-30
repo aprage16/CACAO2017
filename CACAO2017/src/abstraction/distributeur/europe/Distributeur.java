@@ -16,12 +16,16 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient{
 	private Journal journal;
 	private int increment;
 	private double prixMoyen;
+	private double limiteAchat = 48000;
+	private double sommeAchat;
 
 	
 	public Distributeur(Vente vente, Stock stock, double qteDemandee, Tresorerie fonds){ // penser à redocoder en enlevant les arguments du constructeur
 		this.derniereVente = vente;
 		this.stock = stock;
+		this.sommeAchat=0;
 		this.fonds=fonds;
+
 	}
 	
 	public Distributeur(){
@@ -69,6 +73,14 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient{
 
 	public Journal getJournal(){
 		return this.journal;
+	}
+
+	public void setSommeAchat(double d){
+		this.sommeAchat=d;
+	}
+	
+	public double getSommeAchat(){
+		return this.sommeAchat;
 	}
 	
 	public double getPrixMax(){
