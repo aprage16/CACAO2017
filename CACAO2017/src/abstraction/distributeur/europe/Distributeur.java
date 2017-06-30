@@ -20,6 +20,7 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient, IDistri
 	private double limiteAchat = 48000;
 	private double sommeAchat;
 	
+	public static final double DEMANDECACAO = 2470;
 	
 	private ArrayList<Devis> devisTransfo;
 	
@@ -108,7 +109,7 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient, IDistri
 		this.stock.ajoutStock(1000);
 		this.prixMoyen = this.prixMoyen + vente.getPrix();
 		this.getFonds().paiement(vente.getPrix()*vente.getQuantite());
-		this.fondsI.setValeur(this, this.fonds.getTreso()-vente.getPrix()*vente.getQuantite());
+		this.fondsI.setValeur(this, this.fonds.getTreso());
 		this.stockI.setValeur(this, this.stock.totalStock());
 		
 		journal.ajouter("Opération Réalisée "+vente.toString());
@@ -150,40 +151,44 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient, IDistri
 	@Override
 
 	public void receptionDevis(Devis devis) {
-		// TODO Auto-generated method stub
-	}
-	public void propositionInitiale(abstraction.transformateur.europe.Devis d) {
-		if ( // le transfo est le transformateur europe){
-				{
+		if(devis.getTransfo() instanceof abstraction.transformateur.europe.Transformateur){
 			
-			
-			devisTransfo.add(0,d);
+			devisTransfo.add(0,devis);
 		}
 		else{
-			devisTransfo.add(1, d);
+			devisTransfo.add(1, devis);
 		}
-		double moyenne=getmoyenne_tab(CACAO_NECESSAIRE_PREVISION);
-		double quantiteTotale=moyenne*PART_CONTRAT_TD;
-		d.setQ1(quantiteTotale);
-		d.setP1(prixMoyendeVente);
 	}
+
 
 	@Override
 	public void demandeQuantite() {
-		// TODO Auto-generated method stub
-		
+		if (this.devisTransfo.get(0).getP1()<this.devisTransfo.get(1).getP1()){
+			this.devisTransfo.get(0).setQ2(this.devisTransfo.get(0).getQ1()*0.95);
+			this.devisTransfo.get(1).setQ2(this.devisTransfo.get(1).getQ1()*0.05);	
+		}
+		else{
+			this.devisTransfo.get(1).setQ2(this.devisTransfo.get(1).getQ1()*0.95);
+			this.devisTransfo.get(0).setQ2(this.devisTransfo.get(0).getQ1()*0.05);	
+		}
 	}
 
 	@Override
 	public void contreProposition() {
-		// TODO Auto-generated method stub
-		
+		this.devisTransfo.get(0).setP2(this.devisTransfo.get(0).getP1());
+		this.devisTransfo.get(1).setP2(this.devisTransfo.get(1).getP1());
 	}
 
 	@Override
 	public void acceptationFinale() {
-		// TODO Auto-generated method stub
-		
+		if (this.devisTransfo.get(0).getP2()<this.devisTransfo.get(1).getP2()){
+			this.devisTransfo.get(0).setChoixD(true);
+			this.devisTransfo.get(1).setChoixD(false);
+		}
+		else{
+			this.devisTransfo.get(1).setChoixD(true);
+			this.devisTransfo.get(0).setChoixD(false);		
+		}
 	}
 
 	
