@@ -2,11 +2,12 @@
  */
 package abstraction.distributeur.europe;
 import abstraction.fourni.v0.*;
+import abstraction.transformateur.europe.*;
 import abstraction.distributeur.amerique.DistribClient;
 import abstraction.fourni.*;
 import java.util.ArrayList;
 import java.util.List;
-public class Distributeur implements Acteur,IDistributeur,DistribClient{
+public class Distributeur implements Acteur,IDistributeur,DistribClient, IDistriContrat{
 	private Vente derniereVente; // derniere vente effectuee sur le marche
 	private Stock stock;
 	private Indicateur stockI;
@@ -18,7 +19,11 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient{
 	private double prixMoyen;
 	private double limiteAchat = 48000;
 	private double sommeAchat;
-
+	
+	public static final double DEMANDECACAO = 2470;
+	
+	private ArrayList<Devis> devisTransfo;
+	
 	
 	public Distributeur(Vente vente, Stock stock, double qteDemandee, Tresorerie fonds){ // penser à redocoder en enlevant les arguments du constructeur
 		this.derniereVente = vente;
@@ -104,7 +109,7 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient{
 		this.stock.ajoutStock(1000);
 		this.prixMoyen = this.prixMoyen + vente.getPrix();
 		this.getFonds().paiement(vente.getPrix()*vente.getQuantite());
-		this.fondsI.setValeur(this, this.fonds.getTreso()-vente.getPrix()*vente.getQuantite());
+		this.fondsI.setValeur(this, this.fonds.getTreso());
 		this.stockI.setValeur(this, this.stock.totalStock());
 		
 		journal.ajouter("Opération Réalisée "+vente.toString());
@@ -130,7 +135,7 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient{
 	}
 	
 	public double getMisEnVente(){//A Compléter
-		return 1000;
+		return (this.stock.totalStock());
 	}
 
 	@Override
@@ -143,7 +148,50 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient{
 		
 	}
 
+	@Override
+
+	public void receptionDevis(Devis devis) {
+		if(devis.getTransfo() instanceof abstraction.transformateur.europe.Transformateur){
+			
+			devisTransfo.add(0,devis);
+		}
+		else{
+			devisTransfo.add(1, devis);
+		}
+	}
+
+
+	@Override
+	public void demandeQuantite() {
+		if (this.devisTransfo.get(0).getP1()<this.devisTransfo.get(1).getP1()){
+			this.devisTransfo.get(0).setQ2(this.devisTransfo.get(0).getQ1()*0.95);
+			this.devisTransfo.get(1).setQ2(this.devisTransfo.get(1).getQ1()*0.05);	
+		}
+		else{
+			this.devisTransfo.get(1).setQ2(this.devisTransfo.get(1).getQ1()*0.95);
+			this.devisTransfo.get(0).setQ2(this.devisTransfo.get(0).getQ1()*0.05);	
+		}
+	}
+
+	@Override
+	public void contreProposition() {
+		this.devisTransfo.get(0).setP2(this.devisTransfo.get(0).getP1());
+		this.devisTransfo.get(1).setP2(this.devisTransfo.get(1).getP1());
+	}
+
+	@Override
+	public void acceptationFinale() {
+		if (this.devisTransfo.get(0).getP2()<this.devisTransfo.get(1).getP2()){
+			this.devisTransfo.get(0).setChoixD(true);
+			this.devisTransfo.get(1).setChoixD(false);
+		}
+		else{
+			this.devisTransfo.get(1).setChoixD(true);
+			this.devisTransfo.get(0).setChoixD(false);		
+		}
+	}
+
 	
 
-
+    
 }

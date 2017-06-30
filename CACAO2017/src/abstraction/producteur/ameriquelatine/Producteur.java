@@ -26,26 +26,22 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	private Indicateur production;
 	private Journal journal;
 	public ArrayList<Devis> ldevis ;
-	private double prod_moy ;
-	private Indicateur surface;
+	private final static int PROD_MOY=20000 ;
 	
 	public Producteur(){
 		this.nom="Producteur AmeriqueLatine" ;
 		this.stock=new Stock(this);
 		this.recolte=new Recolte(0.8, this, stock) ;
-		this.prod_moy = 20000 ;
 		this.treso=new Tresorerie(stock, recolte, this);
 		this.quantiteVendue=new Indicateur("4_PROD_AMER_quantiteVendue", this,qtevendue);
 		MondeV1.LE_MONDE.ajouterIndicateur(this.quantiteVendue) ;
-		this.journal=new Journal("Journal de Prod Amerique Latine");
+		this.journal=new Journal("Producteur Amerique Latine");
 		this.qtemiseenvente=new Indicateur("4_PROD_AMER_qtemiseenvente", this,0);//this.quantiteMiseEnvente()) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.qtemiseenvente);
 		this.production=new Indicateur("4_PROD_AMER_production", this,this.recolte.getQterecoltee()) ;
 		MondeV1.LE_MONDE.ajouterIndicateur(this.production);
 		MondeV1.LE_MONDE.ajouterJournal(this.journal);
 		this.ldevis = new ArrayList<Devis>() ;
-		this.surface=  new Indicateur( "4_PROD_AMER_surfaceCultivable", this ,this.recolte.getSurfaceCultivable());
-		MondeV1.LE_MONDE.ajouterIndicateur(this.surface);
 	}
 	
 	public String getNom(){
@@ -68,7 +64,6 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		this.journal.ajouter("--- notif vente ---");
 		this.stock.retrait((int)quantite);
 		this.treso.encaissement(coursActuel*quantite);
-		this.surface.setValeur(this, recolte.getSurfaceCultivable());
 		this.journal.ajouter(" retrait de Stock  =  "+(int)quantite+" --> "+this.stock.getStock());//<font color=\"maroon\">"+stock+"</font> tonnes de fèves au <b>step</b> "+Monde.LE_MONDE.getStep());
 		this.quantiteVendue.setValeur(this, quantite);
 		this.production.setValeur(this, this.recolte.getQterecoltee());
@@ -115,10 +110,8 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		this.treso.decaissement(treso.cout());
 		this.treso.licenciement();
 		this.treso.recrutement();
-		
-		
 		for (int i=0; i<this.ldevis.size(); i++){
-			if(this.ldevis.get(i).getDebut() <= this.ldevis.get(i).getDebut()+26 ){
+			if(this.ldevis.get(i).getDebut() >= Monde.LE_MONDE.getStep()-26 ){
 				this.stock.retrait(this.ldevis.get(i).getQttFinale());
 				this.treso.encaissement(this.ldevis.get(i).getQttFinale()*this.ldevis.get(i).getPrix()) ;
 				}
@@ -133,16 +126,23 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	}
 
 	public void qttLivrablePrix() {
+		int somme=0;
 		for (int i=0; i<this.ldevis.size(); i++){
-			if (prod_moy/2*this.ldevis.size() > this.ldevis.get(i).getQttVoulue()){
-				this.ldevis.get(i).setQttLivrable(this.ldevis.get(i).getQttVoulue());
+			if(this.ldevis.get(i).getDebut() >= Monde.LE_MONDE.getStep()-26 ){
+				somme+=this.ldevis.get(i).getQttLivrable();
 			}
-			else{
-				this.ldevis.get(i).setQttLivrable(0.7*prod_moy);
-			}
-			this.ldevis.get(i).setPrix(0.9*this.coursActuel);
 		}
-		
+		for (int i=0; i<this.ldevis.size(); i++){
+			if(this.ldevis.get(i).getDebut() == Monde.LE_MONDE.getStep()){
+				if (PROD_MOY/(2*this.ldevis.size())-somme > this.ldevis.get(i).getQttVoulue()){
+					this.ldevis.get(i).setQttLivrable(this.ldevis.get(i).getQttVoulue());
+			}
+				else{
+					this.ldevis.get(i).setQttLivrable(0);
+			}
+				this.ldevis.get(i).setPrix(0.9*this.coursActuel);
+			}
+		}	
 	}
 
 	public void notifContrat() {
