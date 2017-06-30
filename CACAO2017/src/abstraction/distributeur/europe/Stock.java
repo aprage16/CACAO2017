@@ -86,12 +86,12 @@ public class Stock{
 	}
 	
 	public void vieillirStock(){
-		double[] var = this.stock;
-		double[] var2=this.prix;
-		
-		for (int i=0;i<5;i++){
-			this.stock[i]=var[i+1];
-			this.prix[i]=var2[i+1];
+
+			
+		for (int i=5;i>0;i--){
+			this.stock[i]=this.stock[i-1];
+			this.prix[i]=this.prix[i-1];
+
 		}
 		
 		this.stock[0]=0;
@@ -103,22 +103,19 @@ public class Stock{
 	}
 	public void retraitStock(double demande){
 		
-		double var = demande;
-		int i=0;
+		int i=5;
 		
-		while (i<6 && var>0){
+		while (i>=0 && demande>0){
 			
-			if (stock[i]-var>=0){
+			if (stock[i]-demande>=0){
 				stock[i]=stock[i]-demande;
-				var=0;
+				demande=0;
 			}
 			else{
-				double var2=var;
-				var2=var-stock[i];
-				stock[i]=stock[i]-var;
-				var2=var;
+				demande=demande-stock[i];
+				stock[i]=0;
 			}
-			i++;
+			i--;
 		}
 	}
 	public String afficherStock(){
