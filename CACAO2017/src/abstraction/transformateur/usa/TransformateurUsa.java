@@ -6,11 +6,13 @@ import abstraction.fourni.Acteur;
 import abstraction.fourni.Indicateur;
 import abstraction.fourni.Journal;
 import abstraction.fourni.Monde;
+import abstraction.producteur.cotedivoire.contrats.AgentContratPT;
 import abstraction.producteur.cotedivoire.contrats.Devis;
 import abstraction.producteur.cotedivoire.contrats.IContratTrans;
+import abstraction.transformateur.europe.ITransfoContrat;
 
 //Souchu
-public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransformateurMarcheProducteur,Acteur, IContratTrans{
+public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransformateurMarcheProducteur,Acteur, IContratTrans, ITransfoContrat{
 //public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransformateurMarcheProducteur,Acteur, IContratTrans{
 	private StockProduitsFinis stockChocolat;
 	private StockMatPremiere stockMatierePremiere;
@@ -102,6 +104,9 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		if ((Monde.LE_MONDE.getStep()%12)==0 && Monde.LE_MONDE.getStep()!=0){
 			this.StockdesireChocolat=this.priseDecisions.getStockDesire();
 			System.out.println(this.priseDecisions.getStockDesire());
+		}
+		if (step==13 || step==26){
+			AgentContratPT.demandeDeContrat(this);
 		}
 	}
 	//souchu
@@ -248,6 +253,30 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 				devis.get(Math.abs(meilleurPartenaire-1)).setQttFinale(devis.get(Math.abs(meilleurPartenaire-1)).getQttLivrable());//Sinon, on prend tout ce qu'il lui reste
 			}
 		}
+	}
+
+	@Override
+	public void propositionInitiale(abstraction.transformateur.europe.Devis devis) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void quantiteFournie() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void acceptationInitiale() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void notification() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
