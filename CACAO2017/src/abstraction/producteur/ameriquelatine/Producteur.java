@@ -31,8 +31,8 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 	
 	public Producteur(){
 		this.nom="Producteur AmeriqueLatine" ;
-		this.recolte=new Recolte(0.8, this);
 		this.stock=new Stock(this);
+		this.recolte=new Recolte(0.8, this, stock) ;
 		this.prod_moy = 20000 ;
 		this.treso=new Tresorerie(stock, recolte, this);
 		this.quantiteVendue=new Indicateur("4_PROD_AMER_quantiteVendue", this,qtevendue);
@@ -84,9 +84,16 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		recolte.setSurfaceCultivable(qtemiseenvente.getValeur());
 	}
 	public double quantiteMiseEnvente() {
-		this.journal.ajouter("mis en vente :"+(int)(0.8*this.stock.getStock()));
-		this.qtemiseenvente.setValeur(this,(int)(0.8*this.stock.getStock()));
-		return (int)(0.8*this.stock.getStock());
+		int qte=0;
+		if (this.stock.getStock()>=8000){
+			qte=(int)(this.stock.getStock());
+		}
+		else {
+			qte=(int)(0.8*this.stock.getStock());
+		}
+		this.journal.ajouter("mis en vente :"+qte);
+		this.qtemiseenvente.setValeur(this,qte);
+		return qte;
 	}
 
 	public void next() {
@@ -110,12 +117,12 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 		this.treso.recrutement();
 		
 		
-//		for (int i=0; i<this.ldevis.size(); i++){
-//			if(this.ldevis.get(i).getDebut() <= this.ldevis.get(i).getDebut()+26 ){
-//				this.stock.retrait(this.ldevis.get(i).getQttFinale());
-//				this.treso.encaissement(this.ldevis.get(i).getQttFinale()*this.ldevis.get(i).getPrix()) ;
-//				}
-//		}	
+		for (int i=0; i<this.ldevis.size(); i++){
+			if(this.ldevis.get(i).getDebut() <= this.ldevis.get(i).getDebut()+26 ){
+				this.stock.retrait(this.ldevis.get(i).getQttFinale());
+				this.treso.encaissement(this.ldevis.get(i).getQttFinale()*this.ldevis.get(i).getPrix()) ;
+				}
+		}	
 		}
 		
 	
@@ -127,7 +134,7 @@ public class Producteur implements IProducteur, Acteur, IContratProd  {
 
 	public void qttLivrablePrix() {
 		for (int i=0; i<this.ldevis.size(); i++){
-			if (prod_moy/this.ldevis.size() > this.ldevis.get(i).getQttVoulue()){
+			if (prod_moy/2*this.ldevis.size() > this.ldevis.get(i).getQttVoulue()){
 				this.ldevis.get(i).setQttLivrable(this.ldevis.get(i).getQttVoulue());
 			}
 			else{

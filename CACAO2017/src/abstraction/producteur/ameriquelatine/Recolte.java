@@ -3,18 +3,22 @@ package abstraction.producteur.ameriquelatine;
 
 import abstraction.distributeur.europe.MondeV1;
 
-
+import abstraction.fourni.Monde;
 //MOdifié par Lolotteisyoung et AnaisBel
 //26/04 Adrien
+
+
 
 public class Recolte {
 	
 	public Producteur prod;
+	public Stock stock;
 	public double surfaceCultivable; //(realite 30000) Constante : surface cultivable max en hectare
 	private double indiceRecolte; // Indicateur variant entre 0 et 1 : pourcentage pour fixer nb de fèves totales
 	
-	public Recolte(double indiceRecolte, Producteur prod){// indice initial
+	public Recolte(double indiceRecolte, Producteur prod, Stock stock){// indice initial
 		this.indiceRecolte=indiceRecolte;
+		this.stock=stock;
 		this.surfaceCultivable=30000;
 		this.prod=prod;
 	}
@@ -31,7 +35,7 @@ public class Recolte {
 		if(prod.getQteVendue()/quantite>=0.9 && this.getSurfaceCultivable()<50000){
 			this.surfaceCultivable+=1000;
 		}
-		if(prod.getQteVendue()/quantite<0.5 && this.getSurfaceCultivable()>20000){
+		if(prod.getQteVendue()/quantite<0.5 && this.getSurfaceCultivable()>20000 && stock.getStock()>6000 ){
 			this.surfaceCultivable-=1000;
 		}
 		
@@ -50,4 +54,5 @@ public class Recolte {
 			this.indiceRecolte= indice[(periode)%26]+Math.random()*0.1;
 		}
 	}
-}
+}
+

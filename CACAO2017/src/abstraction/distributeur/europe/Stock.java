@@ -86,10 +86,12 @@ public class Stock{
 	}
 	
 	public void vieillirStock(){
+
 			
 		for (int i=5;i>0;i--){
 			this.stock[i]=this.stock[i-1];
 			this.prix[i]=this.prix[i-1];
+
 		}
 		
 		this.stock[0]=0;
