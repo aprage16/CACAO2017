@@ -18,7 +18,7 @@ public class AgentContratPT implements Acteur{
 		this.producteurs= new ArrayList<IContratProd>(); 
 		this.transformateurs= new ArrayList<IContratTrans>(); 
 		this.demandeurs= new ArrayList<IContratTrans>();
-		this.journal= new Journal ("Journal de "+this.getNom());
+		this.journal= new Journal (""+this.getNom());
 		Monde.LE_MONDE.ajouterJournal(this.journal);
 	}
 	
@@ -48,7 +48,7 @@ public class AgentContratPT implements Acteur{
 
 	@Override
 	public String getNom() {
-		return "Agent contrat";
+		return "Agent contrat Producteur Transformateurs";
 	}
 
 	@Override
@@ -77,19 +77,29 @@ public class AgentContratPT implements Acteur{
 
 		for (IContratTrans t : this.getDemandeurs()){  // Les transfo vont modifiés la qttVoulue de chaque devis
 			t.qttVoulue();
+			for (Devis d : l){
+				this.journal.ajouter("Le transformateur veut "+d.getQttVoulue()+" avec "+d.getProd());
+			}
 		}
 		for(IContratProd p : this.getProducteurs()){  // Les prod vont modifiés prix et qttLivrable en fct de qttVoulue et de leur possibilité
 			p.qttLivrablePrix();
+			for (Devis d : l){
+				this.journal.ajouter("Le producteur "+d.getProd()+" veut "+d.getQttLivrable());
+			}
+		}
+		for (IContratTrans t : this.getDemandeurs()){     // Transfo modifient la qttFinale qui sera la valeur recu chaque next pdt 1an.
+			t.finContrat();
+			for (Devis d : l){
+				this.journal.ajouter("Le devis final est "+d.getQttFinale()+ " entre " + d.getProd() +" et "+d.getTrans()+" au prix de "+d.getPrix());
+			}
 		}
 		for (Devis d : l){								// On bloque les setters des variables. 
 			d.setVerrouillage();
 		}
-		for (IContratTrans t : this.getDemandeurs()){     // Transfo modifient la qttFinale qui sera la valeur recu chaque next pdt 1an.
-			t.finContrat();
-		}
 		for(IContratProd p : this.getProducteurs()){   // Indique aux prod que les nego sont finis, ils peuvent donc récupérer l'info de la qttFinale
 			p.notifContrat();
 		}
+		this.demandeurs=new ArrayList<IContratTrans>();
 	}
 		
 
