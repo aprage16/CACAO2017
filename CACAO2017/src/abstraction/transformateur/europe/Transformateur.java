@@ -44,6 +44,9 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	private int step=0;
 	private double[] prixContrat = new double[2];
 	private double[] qttContrat = new double[2];
+
+	private List<abstraction.transformateur.europe.Devis> devisDistributeur;
+
 	
 	public static final int CACAO_NECESSAIRE = 30800; // Stock nécessaire par mois pour avoir 44000 chocolats
 	public static final int CHOCOLAT_NECESSAIRE = 44000; // Stock nécessaire par mois à vendre (calculé selon la demande européenne)
@@ -54,6 +57,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	public static final int COUT_ANNEXE=10000000; //couts annexes comportant les salaires et tout les couts potentiels autre que le cacao
 	public static double[] CACAO_NECESSAIRE_PREVISION ={32,32,32,48,32,32,32,72,32,32,32,32,32,32,32,32,32,32,32,32,32,60,32,32,32,104};
 	public static final double RATIO_CONTRAT_PRODUCTEUR= 0.75; // Proportion de la quantité prévisionnelle minimum sur un an que l'on demande pour le contrat avec les producteurs
+	public static final double PART_CONTRAT_TD=0.7;
 	
 	private Journal journal;
 	private Indicateur stockChocolat;
@@ -422,16 +426,28 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	}
 
 
-	@Override
-	public void propositionInitiale(abstraction.transformateur.europe.Devis devis) {
-		// TODO Auto-generated method stub
-		
+	public void propositionInitiale(abstraction.transformateur.europe.Devis d) {
+		if (d.getDistri().equals(abstraction.distributeur.europe.Distributeur.class.getName())){
+			devisDistributeur.add(0, d);
+		}
+		else{
+			devisDistributeur.add(1, d);
+		}
+		double moyenne=0;
+		for (double elt : CACAO_NECESSAIRE_PREVISION){
+			moyenne+=elt;
+		}
+		moyenne=moyenne/CACAO_NECESSAIRE_PREVISION.length;
+		double quantiteTotale=moyenne*PART_CONTRAT_TD;
+		d.setQ1(quantiteTotale);
+		d.setP1(prixMoyendeVente);
 	}
 
 
 	@Override
 	public void quantiteFournie() {
-		// TODO Auto-generated method stub
+		double Qdemandee0=devisDistributeur.get(0).getQ2();
+		double Qdemandee1=devisDistributeur.get(1).getQ2();
 		
 	}
 
