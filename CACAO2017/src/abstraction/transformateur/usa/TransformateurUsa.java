@@ -37,6 +37,10 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 	private double step;
 	private List<Devis> devis;
 	private Decision priseDecisions;
+	public static double[] CACAO_NECESSAIRE_PREVISION ={48,48, 48, 72, 48, 48, 48, 108, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 48, 90,48, 48, 48, 156};
+	public static final double PART_CONTRAT_TD=0.6;
+	private List<abstraction.transformateur.europe.Devis> devisDistributeur;
+	public static final double prixMoyendeVente=900000;
 
 	/* Nos indicateurs sont :
 	 * -Compte courant de la Trésorie
@@ -59,7 +63,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		StockdesireMatierePremiere=400*Uniteventechocolat;
 		StockdesireChocolat=400*Uniteventechocolat;
 		step=0;
-		LE_JOURNAL_USA=new Journal("Journal de Transformateur USA");
+		LE_JOURNAL_USA=new Journal("Transformateur USA");
 		this.tresorerie=new Tresorerie(100000);
 		prixmatprem = new ArrayList<Double>();
 		prixmatprem.add(0.000350);//Prix matière première à la tonne en euros.
@@ -106,7 +110,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 			this.StockdesireChocolat=this.priseDecisions.getStockDesire();
 			System.out.println(this.priseDecisions.getStockDesire());
 		}
-		if (step==13 || step==26){
+		if (step%13==0){
 			AgentContratPT.demandeDeContrat(this);
 		}
 	}
@@ -204,16 +208,16 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		return "Nom = "+this.getNom()+"tresorerie ="+this.tresorerie.getCompteCourant()+" StockChoco "+this.stockChocolat.getStockChocolat();
 	}
 
-	public void test(){
+	/*public void test(){
 		this.notificationAchat(100*Uniteventechocolat, 200);
 		System.out.println(this.toString());
 		this.notif(6000, 100*Uniteventechocolat);	
-	}
+	}*/
 
-	public void testPrixMin(){
+	/*public void testPrixMin(){
 		System.out.println("Prixmin= "+this.getprixMin());
 		this.notif(10000, Uniteventechocolat);
-	}
+	}*/
 
 	@Override
 	public void envoieDevis(Devis d) {
@@ -257,11 +261,24 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 	}
 
 	@Override
-	public void propositionInitiale(abstraction.transformateur.europe.Devis devis) {
-		// TODO Auto-generated method stub
+	public void propositionInitiale(abstraction.transformateur.europe.Devis d) {
+		if (d.getDistri().equals(abstraction.distributeur.europe.Distributeur.class.getName())){
+			devisDistributeur.add(0, d);
+		}
+		else{
+			devisDistributeur.add(1, d);
+		}
+		double moyenne=0;
+		for (double elt : CACAO_NECESSAIRE_PREVISION){
+			moyenne+=elt;
+		}
+		moyenne=moyenne/CACAO_NECESSAIRE_PREVISION.length;
+		double quantiteTotale=moyenne*PART_CONTRAT_TD;
+		d.setQ1(quantiteTotale);
+		d.setP1(prixMoyendeVente);
 		
 	}
-
+	
 	@Override
 	public void quantiteFournie() {
 		// TODO Auto-generated method stub
