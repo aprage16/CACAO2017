@@ -2,11 +2,12 @@
  */
 package abstraction.distributeur.europe;
 import abstraction.fourni.v0.*;
+import abstraction.transformateur.europe.*;
 import abstraction.distributeur.amerique.DistribClient;
 import abstraction.fourni.*;
 import java.util.ArrayList;
 import java.util.List;
-public class Distributeur implements Acteur,IDistributeur,DistribClient{
+public class Distributeur implements Acteur,IDistributeur,DistribClient, IDistriContrat{
 	private Vente derniereVente; // derniere vente effectuee sur le marche
 	private Stock stock;
 	private Indicateur stockI;
@@ -140,6 +141,30 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient{
 		this.stockI.setValeur(this, this.stockI.getValeur()+vente.getQuantite());
 		this.getFonds().encaissement(vente.getPrix()*vente.getQuantite());
 		this.fondsI.setValeur(this, this.fondsI.getValeur()+vente.getPrix()*vente.getQuantite());
+		
+	}
+
+	@Override
+	public void receptionDevis(Devis devis) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void demandeQuantite() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void contreProposition() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void acceptationFinale() {
+		// TODO Auto-generated method stub
 		
 	}
 
