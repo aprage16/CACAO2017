@@ -101,6 +101,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	 */
 	public Transformateur(){
 		this(new Stock(),new Tresorerie());
+		this.l=new ArrayList<Devis>();
 	}
 
 	
@@ -209,8 +210,8 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	public void notificationAchat(double quantite, double prix){
 		this.s.ajoutCacao(quantite);
 		double achat = prix*quantite;
-		System.out.println("le prix de vente du cacao est de : "+ prix);
-		System.out.println("la quantite vendue de cacao est de : "+ quantite);
+		//System.out.println("le prix de vente du cacao est de : "+ prix);
+		//System.out.println("la quantite vendue de cacao est de : "+ quantite);
 		this.compte.debit(achat); 
 		this.s.ajoutCacao(quantite);
 		prixMoyendAchat+=prix;
@@ -493,7 +494,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		peremp.RetraitVente(quantiteVendue);
 		peremp.MiseAJourNext(this);
 		if (this.step%12==0){
-			// AgentContratPT.demandeDeContrat(this);
+			AgentContratPT.demandeDeContrat(this);
 		}
 		Journal();
 		transformation();
