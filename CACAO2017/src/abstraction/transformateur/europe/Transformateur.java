@@ -277,7 +277,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	@Override
 	public void qttVoulue() { //quantité demandée aux producteurs
 		for (Devis d : l){
-			d.setQttVoulue(1);
+			d.setQttVoulue(CACAO_NECESSAIRE/2);
 	//		d.setQttVoulue(getmin_tab(CACAO_NECESSAIRE_PREVISION)*RATIO_CONTRAT_PRODUCTEUR);
 		}
 	}
@@ -316,7 +316,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		p[0]=l.get(0).getPrix();
 		p[1]=l.get(1).getPrix();
 		
-		//distribution des 90 points restants
+		//choix des contrats en pourcentage de la quantité voulue
 		if (p[0]<p[1] && q[0]>=qttVoulue*0.95 && q[1]>=qttVoulue*0.05){ //prix de zero inf a prix de un et qte de zero suffisante
 			l.get(0).setQttFinale(0.95*qttVoulue);
 			l.get(1).setQttFinale(0.05*qttVoulue);
