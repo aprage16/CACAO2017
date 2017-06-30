@@ -21,7 +21,7 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient, IDistri
 	private double sommeAchat;
 	
 	
-	
+	private ArrayList<Devis> devisTransfo;
 	
 	
 	public Distributeur(Vente vente, Stock stock, double qteDemandee, Tresorerie fonds){ // penser à redocoder en enlevant les arguments du constructeur
@@ -148,9 +148,24 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient, IDistri
 	}
 
 	@Override
+
 	public void receptionDevis(Devis devis) {
 		// TODO Auto-generated method stub
-		
+	}
+	public void propositionInitiale(abstraction.transformateur.europe.Devis d) {
+		if ( // le transfo est le transformateur europe){
+				{
+			
+			
+			devisTransfo.add(0,d);
+		}
+		else{
+			devisTransfo.add(1, d);
+		}
+		double moyenne=getmoyenne_tab(CACAO_NECESSAIRE_PREVISION);
+		double quantiteTotale=moyenne*PART_CONTRAT_TD;
+		d.setQ1(quantiteTotale);
+		d.setP1(prixMoyendeVente);
 	}
 
 	@Override
