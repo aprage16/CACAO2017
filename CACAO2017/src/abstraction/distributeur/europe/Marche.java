@@ -22,7 +22,7 @@ public class Marche implements Acteur{
 	public static final double UNITE=1000;
 
 	public Marche(){
-		this.journal = new Journal("Journal du marche");
+		this.journal = new Journal("Journal du marche Distributeur/Transformateur");
 		this.distributeur= new ArrayList<IDistributeur>();
 		this.transformateur= new ArrayList<ITransformateurMarcheDistrib>();
 		Monde.LE_MONDE.ajouterJournal(this.journal);
