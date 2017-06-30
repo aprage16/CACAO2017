@@ -15,6 +15,8 @@ import abstraction.transformateur.europe.IDistriContrat;
 public class DistributeurUS implements IDistributeur, DistribClient, IDistriContrat{
 	public static String  nomIndicateurStock = "1_DISTR_US_stock";
 	public static String nomIndicateurFonds = "1_DISTR_US_fonds";
+	public static String nomIndicateurAchat = "1_DISTR_US_quantitee_Achetee";
+	public static String nomIndicateurVente = "1_DISTR_US_quantitee_Vendue";
 	public static double fondsIni = 50000.0;
 	public static double stockIni = 6.25;
 	public static double prixKg=10*Math.pow(10,-6);
@@ -31,16 +33,20 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 	
 	private Indicateur fonds;
 	private Indicateur stock;
+	private Indicateur quantitee_Achetee;
+	private Indicateur quantitee_Vendue;
 	
 	private Journal journalTest;
 	
-	public DistributeurUS(Gestion gestion, Demande demande, String nom, Indicateur fonds, List<Devis> devis, Indicateur stock, Journal journal){
+	public DistributeurUS(Gestion gestion, Demande demande, String nom, List<Devis> devis, Indicateur fonds, Indicateur stock, Indicateur achat, Indicateur vente, Journal journal){
 		this.gestion=gestion;
 		this.demande=demande;
 		this.nom=nom;
 		this.devis=devis;
 		this.fonds=fonds;
 		this.stock=stock;
+		this.quantitee_Achetee=achat;
+		this.quantitee_Vendue=vente;
 		this.journalTest=journal;
 	}
 	
@@ -55,11 +61,15 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 		
 		this.stock = new Indicateur(nomIndicateurStock, this, stockIni);
 		this.fonds = new Indicateur(nomIndicateurFonds, this, fondsIni);
+		this.quantitee_Achetee=new Indicateur(nomIndicateurAchat,this,0);
+		this.quantitee_Vendue=new Indicateur(nomIndicateurVente,this,0);
 		
 		this.journalTest=new Journal("journalTest");
 		
     	Monde.LE_MONDE.ajouterIndicateur( this.stock );
     	Monde.LE_MONDE.ajouterIndicateur( this.fonds );
+    	Monde.LE_MONDE.ajouterIndicateur(this.quantitee_Achetee);
+    	Monde.LE_MONDE.ajouterIndicateur(this.quantitee_Vendue);
     	Monde.LE_MONDE.ajouterJournal(this.getJournal());
     	
     	
@@ -68,6 +78,8 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 	
 	
 	public void next(){
+		this.quantitee_Achetee.setValeur(this, 0);
+		this.quantitee_Vendue.setValeur(this, 0);
 		for (int k=0;k<this.getGestion().getStock().size()-1;k++){
 			this.getGestion().setStock(k, this.getGestion().getStock().get(k+1));
 		}
