@@ -43,7 +43,7 @@ public class Stock {
 		else {
 			this.prod.set(i, this.prod.get(i)-a);
 		}
-		while (this.prod.get(i)==0){
+		while (this.prod.get(i)==0 && i<18){
 			if (this.prod.get(i+1)<=b){
 				i++;
 				//Integer element = this.prod.get(i);
