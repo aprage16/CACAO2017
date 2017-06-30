@@ -18,7 +18,8 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient{
 	private double prixMoyen;
 	private double limiteAchat = 48000;
 	private double sommeAchat;
-
+	
+	
 	
 	public Distributeur(Vente vente, Stock stock, double qteDemandee, Tresorerie fonds){ // penser à redocoder en enlevant les arguments du constructeur
 		this.derniereVente = vente;
@@ -130,7 +131,7 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient{
 	}
 	
 	public double getMisEnVente(){//A Compléter
-		return 1000;
+		return (this.stock.totalStock());
 	}
 
 	@Override
@@ -142,8 +143,7 @@ public class Distributeur implements Acteur,IDistributeur,DistribClient{
 		this.fondsI.setValeur(this, this.fondsI.getValeur()+vente.getPrix()*vente.getQuantite());
 		
 	}
-
 	
 
-
+    
 }
