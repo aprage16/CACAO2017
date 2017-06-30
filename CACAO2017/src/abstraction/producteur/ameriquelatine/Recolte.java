@@ -3,9 +3,11 @@ package abstraction.producteur.ameriquelatine;
 
 import abstraction.distributeur.europe.MondeV1;
 
-
+import abstraction.fourni.Monde;
 //MOdifié par Lolotteisyoung et AnaisBel
 //26/04 Adrien
+
+
 
 public class Recolte {
 	
@@ -50,4 +52,5 @@ public class Recolte {
 			this.indiceRecolte= indice[(periode)%26]+Math.random()*0.1;
 		}
 	}
-}
+}
+
