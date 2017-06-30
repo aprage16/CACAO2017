@@ -102,6 +102,7 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 		
 		this.getDemande().setCommande(this.getDemande().demandeStep());
 		coefAleatoire=0.9+Math.random()*0.2;*/
+	
 	}
 
 	
@@ -140,6 +141,7 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 		double stockCourant=this.getGestion().getStock().get(this.getGestion().getStock().size()-1);
 		this.getGestion().setStock(this.getGestion().getStock().size()-1, stockCourant+vente.getQuantite());
 		this.getGestion().setFonds(this.getGestion().getFonds()-vente.getPrix());
+		this.quantitee_Achetee.setValeur(this, this.quantitee_Achetee.getValeur()+vente.getQuantite());
 	}
 
 	public String getNom() {
@@ -167,7 +169,6 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 	public double prixMax(){
 		double prixmax=Math.random()*0.08;
 		return prixmax;
-		//return Math.max(0, Math.min(8, this.getFonds()-fondsMin)/MarcheClients.commandesStepFixe*0.5);
 	}
 	
 	public int hashCode() {//donne un critère d'ordre qui permet de l'utiliser en clé de hashMap
@@ -193,6 +194,7 @@ public class DistributeurUS implements IDistributeur, DistribClient, IDistriCont
 		this.stock.setValeur(this, this.stock.getValeur()-vente.getQuantite());
 		this.setFonds(this.getFonds()+vente.getPrix()*vente.getQuantite());
 		this.fonds.setValeur(this, this.fonds.getValeur()+vente.getQuantite()*vente.getPrix());
+		this.quantitee_Vendue.setValeur(this, this.quantitee_Vendue.getValeur()+vente.getQuantite());
 	}
 
 
