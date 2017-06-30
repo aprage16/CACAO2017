@@ -47,7 +47,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 
 	private List<abstraction.transformateur.europe.Devis> devisDistributeur;
 
-	
 	public static final int CACAO_NECESSAIRE = 30800; // Stock nécessaire par mois pour avoir 44000 chocolats
 	public static final int CHOCOLAT_NECESSAIRE = 90000; // Stock nécessaire par mois à vendre (calculé selon la demande européenne)
 	public static final double RATIO_CACAO_CHOCO=0.7; // Ratio de transformation entre le cacao et le chocolat
@@ -113,8 +112,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		double stockChocolat=this.s.getStockChocolat();
 		if (stockChocolat<Stock.STOCK_MIN || prixmin<0.004){ // On se fixe un stock minimum de "secours" et si on le dépasse on renvoie une valeur qui doit couper la boucle du marché.
 			return 1000000000;
-		}
-		else{
+		} else {
 			this.prixmin=PRIX_MAX-PRIX_MAX*Stock.STOCK_MIN/this.stockChocolat.getValeur(); //calcul le nouveau prix minimum auquel on souhaite vendre
 			//System.out.println("prix min de transfo eu : "+prixmin);				  // en tenant compte du stock de chocolat que l'on a.
 			return this.prixmin;
@@ -157,11 +155,11 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		if (stockChocolat < Stock.STOCK_MAX_CHOCOLAT){ // On vérifie si notre stock de chocolat est inférieur a la quantité qu'on vend par mois
 			if (stockCacao>=CACAO_NECESSAIRE){ // On vérifie si le cacao nécessaire pour atteindre notre objectif de chocolat est présent ou non, s'il l'est on achète rien
 				quantiteSouhaitee=0;
-			}else{
+			} else {
 			 // On achète ce qui est suffisant pour produire CHOCOLAT_NECESSAIRE tonnes de chocolat
 				quantiteSouhaitee=CACAO_NECESSAIRE_PREVISION[step%26]*1000-getmin_tab(CACAO_NECESSAIRE_PREVISION);
 			}
-		}else{
+		} else {
 			return quantiteSouhaitee=0; // On achète rien si on a trop de chocolat par rapport à ce que l'on vend
 		}
 		this.commande.setValeur(this, quantiteSouhaitee); // L'indicateur donne la quantité commandée au producteurs pendant le next
@@ -330,7 +328,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 
 	@Override
 	public void finContrat() {
-
 		double q[]=new double[l.size()];
 		double p[]=new double[l.size()];
 		double qttVoulue=l.get(0).getQttVoulue();
@@ -340,7 +337,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		p[1]=l.get(1).getPrix();
 		this.prixContrat[0]=p[0];
 		this.prixContrat[1]=p[1];
-		
 		//choix des contrats en pourcentage de la quantité voulue
 		if (p[0]<p[1] && q[0]>=qttVoulue*0.95 && q[1]>=qttVoulue*0.05){ //prix de zero inf a prix de un et qte de zero suffisante
 			l.get(0).setQttFinale(0.95*qttVoulue);
@@ -373,7 +369,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 			l.get(0).setQttFinale(q[0]);
 			l.get(1).setQttFinale(q[1]);
 		} 
-		
 		this.qttContrat[0]=l.get(0).getQttFinale();
 		this.qttContrat[1]=l.get(1).getQttFinale();
 	}
@@ -423,8 +418,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	public void propositionInitiale(abstraction.transformateur.europe.Devis d) {
 		if (d.getDistri().equals(abstraction.distributeur.europe.Distributeur.class.getName())){
 			devisDistributeur.add(0, d);
-		}
-		else{
+		} else {
 			devisDistributeur.add(1, d);
 		}
 		double moyenne=getmoyenne_tab(CACAO_NECESSAIRE_PREVISION);
@@ -451,14 +445,12 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		double contreprix1=devisDistributeur.get(1).getP2();
 		if (Math.abs(devisDistributeur.get(0).getP1()-contreprix0)<=devisDistributeur.get(0).getP1()*TAUX_ACCEPTATION_CONTRAT){
 			devisDistributeur.get(0).setChoixT(false);
-		}
-		else{
+		} else {
 			devisDistributeur.get(0).setChoixT(true);
 		}
 		if (Math.abs(devisDistributeur.get(1).getP1()-contreprix1)<=devisDistributeur.get(1).getP1()*TAUX_ACCEPTATION_CONTRAT){
 			devisDistributeur.get(1).setChoixT(false);
-		}
-		else{
+		} else {
 			devisDistributeur.get(1).setChoixT(true);
 		}
 	}
@@ -471,14 +463,12 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 			QD2=this.devisDistributeur.get(1).getQ3();
 			PD1=this.devisDistributeur.get(0).getP2();
 			PD2=this.devisDistributeur.get(1).getP2();
-		}
-		else if (this.devisDistributeur.get(0).getChoixD() && !this.devisDistributeur.get(0).getChoixT()){
+		} else if (this.devisDistributeur.get(0).getChoixD() && !this.devisDistributeur.get(0).getChoixT()){
 			QD1=this.devisDistributeur.get(0).getQ3();
 			QD2=this.devisDistributeur.get(1).getQ3();
 			PD1=this.devisDistributeur.get(0).getP1();
 			PD2=this.devisDistributeur.get(1).getP1();
-		}
-		else{
+		} else{
 			QD1=0;
 			QD2=0;
 			PD1=0;
