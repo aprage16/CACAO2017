@@ -31,7 +31,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	private Stock s;
 	private Tresorerie compte;
 	private double prixmin;
-	private Date date= new Date();
+	private Date date = new Date();
 	
 	private double quantiteVendue=0; // Pour le journal
 	private double quantiteAchetee=0;// Pour le journal
@@ -65,13 +65,11 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	public static double PD1=0;
 	public static double PD2=0;
 	
-	
 	private Journal journal;
 	private Indicateur stockChocolat;
 	private Indicateur tresorerie;
 	private Indicateur commande;
 	private Indicateur prixdevente;
-
 	
 	/** 
 	 * @objectif: Constructeur de la classe.
@@ -93,7 +91,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		Monde.LE_MONDE.ajouterIndicateur(this.prixdevente);
 		Monde.LE_MONDE.ajouterJournal(this.journal);
 	}
-
 	
 	/**
 	 * @objectif: Constructeur par chainage
@@ -102,7 +99,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		this(new Stock(),new Tresorerie());
 		this.l=new ArrayList<Devis>();
 	}
-
 	
 	/** 
 	 * @return: Le prix minimum de vente sur le marché 
@@ -167,7 +163,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		this.qtedemandee=quantiteSouhaitee;
 		return quantiteSouhaitee;
 	}
-
 	
 	/**
 	 * @objectif: Processus de transformation du cacao en chocolat,
@@ -187,7 +182,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		this.compte.debit(this.prixContrat[1]);
 	}
 	
-	
 	public void CoutStock(){
 		double cout=0;
 		if (this.stockChocolat.getValeur()>=CHOCOLAT_NECESSAIRE){
@@ -196,8 +190,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		}
 		this.compte.debit(cout);
 	}
-	
-
 	
 	/**
 	 * @objectif: Fonction utilisée dans le marché, elle nous indique 
@@ -234,8 +226,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		compteurVente+=1;
 	}
 
-
-
 	/**
 	 * @objectif: Remet toutes nos variables à 0
 	 */
@@ -255,7 +245,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 			step=0;
 		}
 	}
-
 	
 	/**
 	 * @objectif: Fonction permetant de remplir les différents élements de notre journal
@@ -283,7 +272,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		this.journal.ajouter("---------------------------------------------------------------------------------------------------------------------------------------------");
 		this.journal.ajouter(" ");
 	}
-
 	
 	/**
 	 * @objectif: Implémenter les contrats avec les producteurs
@@ -374,7 +362,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		this.qttContrat[1]=l.get(1).getQttFinale();
 	}
 	
-	
 	public void coutAnnexe(){
 		if (this.step%2==0){
 			this.compte.debit(COUT_ANNEXE);
@@ -419,7 +406,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		return res;
 	}
 
-
 	public void propositionInitiale(abstraction.transformateur.europe.Devis d) {
 		if (d.getDistri().equals(abstraction.distributeur.europe.Distributeur.class.getName())){
 			devisDistributeur.add(0, d);
@@ -432,7 +418,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		d.setP1(prixMoyendeVente);
 	}
 
-
 	@Override
 	public void quantiteFournie() {
 		double Qdemandee0=devisDistributeur.get(0).getQ2();
@@ -442,7 +427,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		devisDistributeur.get(0).setQ2(Qfournie0);
 		devisDistributeur.get(1).setQ2(Qfournie1);
 	}
-
 
 	@Override
 	public void acceptationInitiale() {
@@ -459,7 +443,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 			devisDistributeur.get(1).setChoixT(true);
 		}
 	}
-
 
 	@Override
 	public void notification() {
@@ -480,8 +463,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 			PD2=0;
 		}
 	}
-	
-	
+		
 	/**
 	 * @objectif: Passer à l'étape suivante en mettant à jour
 	 */
@@ -502,8 +484,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		//System.out.println("notre compte est de : "+this.compte.getCompte());
 		//System.out.println(this.tresorerie.getValeur()+"est la veleur de la tresorerie en tant qu'indicateur");
 	}
-
 	
-		
 }
 
