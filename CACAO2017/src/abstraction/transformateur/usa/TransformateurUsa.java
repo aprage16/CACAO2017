@@ -108,7 +108,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		this.stockChoco.setValeur(this, stockChocolat.getStockChocolat());
 		if ((Monde.LE_MONDE.getStep()%12)==0 && Monde.LE_MONDE.getStep()!=0){
 			this.StockdesireChocolat=this.priseDecisions.getStockDesire();
-			System.out.println(this.priseDecisions.getStockDesire());
+			//System.out.println(this.priseDecisions.getStockDesire());
 		}
 		if (step%13==0){
 			AgentContratPT.demandeDeContrat(this);
