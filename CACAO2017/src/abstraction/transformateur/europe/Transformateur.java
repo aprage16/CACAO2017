@@ -383,26 +383,6 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	}
 	
 	/**
-<<<<<<< HEAD
-=======
-	 * @objectif: Passer à l'étape suivante en mettant à jour
-	 */
-	public void next(){
-		peremp.RetraitVente(quantiteVendue);
-		peremp.MiseAJourNext(this);
-		if (this.step%12==0){
-			//AgentContratPT.demandeDeContrat(this);
-		}
-		Journal();
-		transformation();
-		CoutStock();
-		Miseajour();
-		//System.out.println("notre compte est de : "+this.compte.getCompte());
-		//System.out.println(this.tresorerie.getValeur()+"est la veleur de la tresorerie en tant qu'indicateur");
-	}
-
-	/**
->>>>>>> CACAO2017/master
 	 * @objectif Faire une prevision du cacao à demander aux producteurs
 	 * @param arg
 	 * @return un tableau de 26 valeurs correspondant à la quantité previsionnelle de cacao qu'on doit demander tout les next aux producteurs (sans tenir compte des stocks)
