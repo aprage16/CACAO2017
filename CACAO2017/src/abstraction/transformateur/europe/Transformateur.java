@@ -48,15 +48,15 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	private List<abstraction.transformateur.europe.Devis> devisDistributeur;
 
 	public static final int CACAO_NECESSAIRE = 30800; // Stock nécessaire par mois pour avoir 44000 chocolats
-	public static final int CHOCOLAT_NECESSAIRE = 90000; // Stock nécessaire par mois à vendre (calculé selon la demande européenne)
+	public static final int CHOCOLAT_NECESSAIRE = 44000; // Stock nécessaire par mois à vendre (calculé selon la demande européenne)
 	public static final double RATIO_CACAO_CHOCO=0.7; // Ratio de transformation entre le cacao et le chocolat
 	public static final double PART_MARCHE=0.4; // Part du marché mondiale que nous avons (les américains ont 1-PART_MARCHE)
 	public static final double PRIX_MIN=0.004; // Prix minimum de vente du chocolat sur le marché
 	public static final double PRIX_MAX=0.008;
-	public static final int COUT_ANNEXE=10000000; //couts annexes comportant les salaires et tout les couts potentiels autre que le cacao
+	public static final int COUT_ANNEXE=1000000000; //couts annexes comportant les salaires et tout les couts potentiels autre que le cacao
 	public static double[] CACAO_NECESSAIRE_PREVISION ={32,32,32,48,32,32,32,72,32,32,32,32,32,32,32,32,32,32,32,32,32,60,32,32,32,104};
 	public static final double RATIO_CONTRAT_PRODUCTEUR= 0.75; // Proportion de la quantité prévisionnelle minimum sur un an que l'on demande pour le contrat avec les producteurs
-	public static final double PART_CONTRAT_TD=0.7;
+	public static final double PART_CONTRAT_TD=0.9;
 	public static final double TAUX_ACCEPTATION_CONTRAT=0.8;
 	
 	//ces static sont celles correspondantes aux contrats distributeurs
@@ -111,9 +111,10 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	public double getprixMin() {
 		double stockChocolat=this.s.getStockChocolat();
 		if (stockChocolat<Stock.STOCK_MIN || prixmin<0.004){ // On se fixe un stock minimum de "secours" et si on le dépasse on renvoie une valeur qui doit couper la boucle du marché.
-			return 1000000000;
-		} else {
-			this.prixmin=PRIX_MAX-PRIX_MAX*Stock.STOCK_MIN/this.stockChocolat.getValeur(); //calcul le nouveau prix minimum auquel on souhaite vendre
+			return 0;
+		}
+		else{
+			this.prixmin=PRIX_MAX-PRIX_MIN*this.stockChocolat.getValeur()/CHOCOLAT_NECESSAIRE; //calcul le nouveau prix minimum auquel on souhaite vendre
 			//System.out.println("prix min de transfo eu : "+prixmin);				  // en tenant compte du stock de chocolat que l'on a.
 			return this.prixmin;
 			}
@@ -177,7 +178,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 			this.s.ajoutChocolat(this.s.getStockCacao()/RATIO_CACAO_CHOCO); // On remplit notre stock tout le temps de sorte à avoir 44000
 			this.s.setStockCacao(0); // Retrait du cacao nécessaire à la transformation
 		} else {
-			this.s.setStockCacao(2*CHOCOLAT_NECESSAIRE); // On remplit notre stock tout le temps de sorte à avoir 44000
+			this.s.setStockCacao(CHOCOLAT_NECESSAIRE); // On remplit notre stock tout le temps de sorte à avoir 44000
 			this.s.setStockCacao(0);
 		}
 		this.s.ajoutCacao(this.qttContrat[0]);
@@ -190,7 +191,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 	public void CoutStock(){
 		double cout=0;
 		if (this.stockChocolat.getValeur()>=CHOCOLAT_NECESSAIRE){
-			cout=(this.s.getStockChocolat()-CHOCOLAT_NECESSAIRE)*1000;
+			cout=(this.s.getStockChocolat()-CHOCOLAT_NECESSAIRE)*1000000;
 			//System.out.println(cout+"est le cout des stock");
 		}
 		this.compte.debit(cout);
@@ -394,6 +395,10 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		return res;
 	}
 	
+	public void impots(){
+		this.compte.debit(0.42*this.compte.getCompte());
+	}
+	
 	/**
 	 * @objectif Faire une prevision du cacao à demander aux producteurs en tenant compte des pics
 	 * @param arg
@@ -490,6 +495,7 @@ public class Transformateur implements ITransformateurMarcheDistrib, Acteur,ICon
 		}
 		Journal();
 		transformation();
+		impots();
 		CoutStock();
 		Miseajour();
 		
