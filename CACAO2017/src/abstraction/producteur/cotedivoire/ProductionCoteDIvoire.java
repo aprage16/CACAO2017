@@ -50,7 +50,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 		Monde.LE_MONDE.ajouterIndicateur( this.productionIndicateur );
 		this.vente= new Indicateur("6_PROD_COT_vente",this,0.0);
 		Monde.LE_MONDE.ajouterIndicateur(this.vente);
-		this.journal = new Journal("Journal de "+getNom());
+		this.journal = new Journal(""+getNom());
 		Monde.LE_MONDE.ajouterJournal(this.journal);
 		this.devisprod= new ArrayList<Devis>();
 		
@@ -214,8 +214,6 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 					}
 				}
 			}
-			
-			
 		}
 	}
 
@@ -227,6 +225,7 @@ public class ProductionCoteDIvoire implements Acteur, IProducteur, IContratProd{
 			if (Monde.LE_MONDE.getStep()-d.getDebut()<26){
 				this.tresorerie.addBenef(d.getPrix()*d.getQttFinale());
 				this.stock.addStock(-d.getQttFinale());
+				this.journal.ajouter("On livre "+d.getQttFinale()+" a "+d.getTrans()+" au prix de "+d.getPrix());
 			}
 		}
 	}

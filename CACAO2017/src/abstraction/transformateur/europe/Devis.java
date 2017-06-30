@@ -27,11 +27,11 @@ public class Devis {
 	public Devis(ITransfoContrat t,IDistriContrat d){
 		this.transfo=t;
 		this.distri=d;
-		quantitedisponible=0;
-		prixinitial=0;
-		quantitevoulue=0;
-		quantitefinale=0;
-		contrepropositionprix=0;
+		quantitedisponible=0; //correspond à Q1
+		prixinitial=0; //correspond à P1
+		quantitevoulue=0;//correspond à Q2
+		quantitefinale=0;//correspond à Q3
+		contrepropositionprix=0;//correspond à P2
 		acceptationT=false;
 		acceptationD=false;
 	}
