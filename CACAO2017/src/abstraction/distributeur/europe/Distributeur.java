@@ -3,7 +3,6 @@
 package abstraction.distributeur.europe;
 import abstraction.fourni.v0.*;
 import abstraction.distributeur.amerique.DistribClient;
-import abstraction.distributeur.amerique.DistributeurUS;
 import abstraction.fourni.*;
 import java.util.ArrayList;
 import java.util.List;
