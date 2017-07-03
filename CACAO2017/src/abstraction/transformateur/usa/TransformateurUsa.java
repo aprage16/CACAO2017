@@ -221,6 +221,7 @@ public class TransformateurUsa implements ITransformateurMarcheDistrib,ITransfor
 		}
 	}
 
+	
 	@Override
 	//Souchu
 	public void finContrat() {
